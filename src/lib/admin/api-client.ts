@@ -1,0 +1,134 @@
+/**
+ * 管理後台 API Client
+ */
+
+const ADMIN_API_URL = process.env.NEXT_PUBLIC_ADMIN_API_URL || 'http://localhost:5001';
+
+class AdminAPIClient {
+  private apiKey: string;
+
+  constructor(apiKey: string) {
+    this.apiKey = apiKey;
+  }
+
+  private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+    const response = await fetch(`${ADMIN_API_URL}${endpoint}`, {
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Admin-Key': this.apiKey,
+        ...options.headers,
+      },
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'API 請求失敗');
+    }
+
+    return response.json();
+  }
+
+  // ==================== 租戶管理 ====================
+
+  async listTenants() {
+    return this.request<{ tenants: any[] }>('/admin/tenants');
+  }
+
+  async getTenant(tenantId: string) {
+    return this.request<{ tenant: any }>(`/admin/tenants/${tenantId}`);
+  }
+
+  async createTenant(data: any) {
+    return this.request<{ message: string; tenant: any }>('/admin/tenants', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async updateTenant(tenantId: string, data: any) {
+    return this.request<{ message: string; tenant: any }>(`/admin/tenants/${tenantId}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async deleteTenant(tenantId: string) {
+    return this.request<{ message: string }>(`/admin/tenants/${tenantId}`, {
+      method: 'DELETE',
+    });
+  }
+
+  // ==================== 提示詞管理 ====================
+
+  async listPrompts(tenantId: string) {
+    return this.request<{ prompts: any[] }>(`/admin/tenants/${tenantId}/prompts`);
+  }
+
+  async getPrompt(tenantId: string, serviceName: string) {
+    return this.request<{ service: string; file: string; content: string }>(
+      `/admin/tenants/${tenantId}/prompts/${serviceName}`
+    );
+  }
+
+  async updatePrompt(tenantId: string, serviceName: string, content: string) {
+    return this.request<{ message: string }>(`/admin/tenants/${tenantId}/prompts/${serviceName}`, {
+      method: 'PUT',
+      body: JSON.stringify({ content }),
+    });
+  }
+
+  async createPrompt(tenantId: string, service: string, content: string) {
+    return this.request<{ message: string; file: string }>(`/admin/tenants/${tenantId}/prompts`, {
+      method: 'POST',
+      body: JSON.stringify({ service, content }),
+    });
+  }
+
+  // ==================== 服務設定管理 ====================
+
+  async listServices(tenantId: string) {
+    return this.request<{ services: any }>(`/admin/tenants/${tenantId}/services`);
+  }
+
+  async updateService(tenantId: string, serviceName: string, data: any) {
+    return this.request<{ message: string; service: any }>(
+      `/admin/tenants/${tenantId}/services/${serviceName}`,
+      {
+        method: 'PUT',
+        body: JSON.stringify(data),
+      }
+    );
+  }
+
+  async addService(tenantId: string, data: any) {
+    return this.request<{ message: string; service: any }>(`/admin/tenants/${tenantId}/services`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async deleteService(tenantId: string, serviceName: string) {
+    return this.request<{ message: string }>(`/admin/tenants/${tenantId}/services/${serviceName}`, {
+      method: 'DELETE',
+    });
+  }
+
+  // ==================== Quick Actions 管理 ====================
+
+  async getQuickActions(tenantId: string) {
+    return this.request<{ quick_actions: any[] }>(`/admin/tenants/${tenantId}/quick-actions`);
+  }
+
+  async updateQuickActions(tenantId: string, quickActions: any[]) {
+    return this.request<{ message: string; quick_actions: any[] }>(
+      `/admin/tenants/${tenantId}/quick-actions`,
+      {
+        method: 'PUT',
+        body: JSON.stringify({ quick_actions: quickActions }),
+      }
+    );
+  }
+}
+
+export default AdminAPIClient;

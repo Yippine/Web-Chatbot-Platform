@@ -1,0 +1,283 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { Message as MessageType } from '@/types';
+import { ChatHeader } from './ChatHeader';
+import { MessageList } from './MessageList';
+import { InputBar } from './InputBar';
+import { QuickActions } from './QuickActions';
+import { LoadingMessage } from './LoadingMessage';
+import { apiClient } from '@/lib/api-client';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { languageMap, getTranslation, Language } from '@/lib/i18n';
+
+type ChatMode = 'general' | 'route' | 'recommend' | 'events' | 'floors';
+
+interface ChatContainerProps {
+    tenantId: string;
+}
+
+export function ChatContainer({ tenantId }: ChatContainerProps) {
+    const { t, setLanguage, language } = useLanguage();
+    const [messages, setMessages] = useState<MessageType[]>([]);
+    const [isProcessing, setIsProcessing] = useState(false);
+    const [loadingText, setLoadingText] = useState(t('loading.general'));
+    const [conversationHistory, setConversationHistory] = useState<string[]>([]);
+    const [currentMode, setCurrentMode] = useState<ChatMode>('general');
+    const [quickActions, setQuickActions] = useState<any[]>([]);
+
+    // 載入租戶設定
+    useEffect(() => {
+        const loadTenantConfig = async () => {
+            try {
+                const config = await apiClient.getTenantConfig(tenantId);
+                if (config.quick_actions) {
+                    setQuickActions(config.quick_actions);
+                }
+            } catch (error) {
+                console.error('載入租戶設定失敗:', error);
+            }
+        };
+        loadTenantConfig();
+    }, [tenantId]);
+
+    useEffect(() => {
+        const welcomeMessage: MessageType = {
+            id: 'welcome',
+            sender: 'bot',
+            type: 'text',
+            content: t('welcome.message'),
+            timestamp: new Date()
+        };
+        setMessages([welcomeMessage]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    // 當語言切換時,更新 welcome message
+    useEffect(() => {
+        setMessages(prev => {
+            if (prev.length > 0 && prev[0].id === 'welcome') {
+                return [{
+                    ...prev[0],
+                    content: t('welcome.message')
+                }, ...prev.slice(1)];
+            }
+            return prev;
+        });
+    }, [t]);
+
+    const handleSendMessage = async (content: string) => {
+        const userMessage: MessageType = {
+            id: `user_${Date.now()}`,
+            sender: 'user',
+            type: 'text',
+            content,
+            timestamp: new Date()
+        };
+
+        setMessages(prev => [...prev, userMessage]);
+        setConversationHistory(prev => [...prev, content]);
+
+        try {
+            // 第一步: 偵測語言 (不顯示 loading)
+            const languageResult = await apiClient.detectLanguage(content);
+            
+            // 第二步: 切換語言
+            let currentLang: Language = 'zh-tw';
+            if (languageResult.detected_language) {
+                const langCode = languageMap[languageResult.detected_language.language_name];
+                if (langCode) {
+                    currentLang = langCode;
+                    setLanguage(langCode);
+                }
+            }
+            
+            // 第三步: 顯示分析中 (已切換語言)
+            setLoadingText(getTranslation(currentLang, 'loading.analyzing'));
+            setIsProcessing(true);
+            
+            // 第四步: 呼叫意圖判斷
+            const intentResult = await apiClient.detectIntent(content);
+            const detectedIntent = intentResult.intent;
+            
+            // 第五步: 根據意圖更新等待文字
+            const loadingTexts: { [key: string]: string } = {
+                route: getTranslation(currentLang, 'loading.route'),
+                recommend: getTranslation(currentLang, 'loading.recommend'),
+                events: getTranslation(currentLang, 'loading.events'),
+                floors: getTranslation(currentLang, 'loading.floors'),
+                general: getTranslation(currentLang, 'loading.general')
+            };
+            
+            setCurrentMode(detectedIntent as ChatMode);
+            setLoadingText(loadingTexts[detectedIntent] || getTranslation(currentLang, 'loading.general'));
+            
+            const result = await apiClient.chat(content, tenantId, conversationHistory.slice(-5), detectedIntent);
+            
+            const botMessage: MessageType = {
+                id: `bot_${Date.now()}`,
+                sender: 'bot',
+                type: 'text',
+                content: result.response,
+                timestamp: new Date()
+            };
+
+            setMessages(prev => [...prev, botMessage]);
+
+            if (result.references && result.references.length > 0) {
+                const refMessage: MessageType = {
+                    id: `ref_${Date.now()}`,
+                    sender: 'bot',
+                    type: 'text',
+                    content: `${t('references')}\n${result.references.slice(0, 3).join('\n')}`,
+                    timestamp: new Date()
+                };
+                setMessages(prev => [...prev, refMessage]);
+            }
+        } catch (error) {
+            console.error('處理訊息失敗:', error);
+            const errorMessage: MessageType = {
+                id: `error_${Date.now()}`,
+                sender: 'bot',
+                type: 'text',
+                content: t('error.general'),
+                timestamp: new Date()
+            };
+            setMessages(prev => [...prev, errorMessage]);
+        } finally {
+            setIsProcessing(false);
+        }
+    };
+
+    const handleQuickAction = async (action: string) => {
+        if (action === 'events') {
+            // 切換到活動模式並立即查詢
+            setCurrentMode('events');
+            setIsProcessing(true);
+            setLoadingText(t('loading.events'));
+            
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events/latest?lang=${language}`);
+                const result = await response.json();
+                
+                const eventMessage: MessageType = {
+                    id: `event_${Date.now()}`,
+                    sender: 'bot',
+                    type: 'text',
+                    content: result.response,
+                    timestamp: new Date()
+                };
+                setMessages(prev => [...prev, eventMessage]);
+                
+                if (result.references && result.references.length > 0) {
+                    const refMessage: MessageType = {
+                        id: `ref_${Date.now()}`,
+                        sender: 'bot',
+                        type: 'text',
+                        content: `${t('references')}\n${result.references.slice(0, 3).join('\n')}`,
+                        timestamp: new Date()
+                    };
+                    setMessages(prev => [...prev, refMessage]);
+                }
+            } catch (error) {
+                console.error('查詢活動失敗:', error);
+                const errorMessage: MessageType = {
+                    id: `error_${Date.now()}`,
+                    sender: 'bot',
+                    type: 'text',
+                    content: t('error.events'),
+                    timestamp: new Date()
+                };
+                setMessages(prev => [...prev, errorMessage]);
+            } finally {
+                setIsProcessing(false);
+            }
+            
+            return;
+        }
+        
+        if (action === 'floors') {
+            setCurrentMode('floors');
+            setIsProcessing(true);
+            setLoadingText(t('loading.floors'));
+            
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/floors/all?lang=${language}`);
+                const result = await response.json();
+                
+                const floorMessage: MessageType = {
+                    id: `floor_${Date.now()}`,
+                    sender: 'bot',
+                    type: 'text',
+                    content: result.response,
+                    timestamp: new Date()
+                };
+                setMessages(prev => [...prev, floorMessage]);
+                
+                if (result.references && result.references.length > 0) {
+                    const refMessage: MessageType = {
+                        id: `ref_${Date.now()}`,
+                        sender: 'bot',
+                        type: 'text',
+                        content: `${t('references')}\n${result.references.slice(0, 3).join('\n')}`,
+                        timestamp: new Date()
+                    };
+                    setMessages(prev => [...prev, refMessage]);
+                }
+            } catch (error) {
+                console.error('查詢樓層失敗:', error);
+                const errorMessage: MessageType = {
+                    id: `error_${Date.now()}`,
+                    sender: 'bot',
+                    type: 'text',
+                    content: t('error.floors'),
+                    timestamp: new Date()
+                };
+                setMessages(prev => [...prev, errorMessage]);
+            } finally {
+                setIsProcessing(false);
+            }
+            
+            return;
+        }
+        
+        const modeMessages: { [key: string]: { mode: ChatMode; message: string } } = {
+            route: {
+                mode: 'route',
+                message: t('mode.route.prompt')
+            },
+            recommend: {
+                mode: 'recommend',
+                message: t('mode.recommend.prompt')
+            }
+        };
+
+        const actionData = modeMessages[action];
+        if (actionData) {
+            setCurrentMode(actionData.mode);
+            
+            const modeMessage: MessageType = {
+                id: `mode_${Date.now()}`,
+                sender: 'bot',
+                type: 'text',
+                content: actionData.message,
+                timestamp: new Date()
+            };
+            setMessages(prev => [...prev, modeMessage]);
+        }
+    };
+
+    return (
+        <div className="flex flex-col h-screen bg-gray-50">
+            <ChatHeader mode={currentMode} />
+            <MessageList messages={messages} isProcessing={isProcessing} loadingText={loadingText} />
+            {quickActions.length > 0 && <QuickActions actions={quickActions} onActionClick={handleQuickAction} />}
+            <InputBar 
+                onSendMessage={handleSendMessage} 
+                disabled={isProcessing}
+                mode={currentMode}
+                onModeChange={setCurrentMode}
+            />
+        </div>
+    );
+}

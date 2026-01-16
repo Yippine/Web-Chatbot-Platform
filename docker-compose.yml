@@ -1,0 +1,46 @@
+version: '3.3'
+
+services:
+  redis:
+    image: redis:latest
+    container_name: syntrend-redis
+    restart: unless-stopped
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  backend:
+    build: ./backend
+    container_name: syntrend-backend
+    restart: unless-stopped
+    ports:
+      - "5002:5000"
+    env_file:
+      - ./backend/.env
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+
+  frontend:
+    build:
+      context: .
+      args:
+        - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+    container_name: syntrend-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  redis-data:

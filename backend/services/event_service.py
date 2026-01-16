@@ -1,0 +1,148 @@
+"""
+三創活動資訊查詢服務 - 基於 Gemini Web Search（優化版）
+"""
+from typing import Dict, List, Optional
+import time
+from .base_gemini_service import BaseGeminiService
+
+class EventService(BaseGeminiService):
+    """三創活動資訊查詢引擎（優化版）"""
+    
+    def __init__(self, api_key: str, service_name: str = "event", tenant_id: str = "default",
+                 default_temperature: float = 0.7, default_use_grounding: bool = True,
+                 default_search_keyword: str = None):
+        super().__init__(api_key, service_name, tenant_id, default_temperature,
+                         default_use_grounding, default_search_keyword)
+        # 快取活動資訊（避免重複查詢）
+        self._event_cache = None
+        self._cache_timestamp = 0
+        self._cache_ttl = 1800  # 快取 30 分鐘（活動資訊更新較頻繁）
+    
+    SYSTEM_PROMPT = """# 角色與使命
+你是**「三創智慧導覽助手」**，專為三創數位生活園區設計的對話機器人。主要任務是協助訪客查詢最新活動、展覽、優惠等資訊。溝通風格：**親切、專業、高效**。
+
+## 專注範圍
+**你只回答三創數位生活園區相關的活動問題**，包括：
+- 近期展覽活動
+- 各櫃位優惠活動
+- 促銷活動
+- 特殊節日活動
+- 品牌活動
+- 體驗活動
+
+**非三創問題**：當使用者詢問與三創園區無關的問題時，禮貌拒絕：「很抱歉，我是專門提供三創數位生活園區導覽服務的智慧助手，無法回答三創園區以外的問題。」
+
+## 資訊搜尋指引
+**強制要求**：你必須使用 Google Search 工具來回答每一個與三創園區相關的問題。
+- 即使你認為你知道答案，也必須先執行 Google Search 搜尋
+- 必須只搜尋三創數位生活園區官方網站（syntrend.com.tw）的內容
+- 搜尋時會自動加入 "三創生活" 關鍵字（由系統處理）
+- 系統會自動過濾並只提供三創園區相關的參考資源給用戶
+
+## 連結提供規則
+**核心原則**：
+- ✅ **完全依靠「📚 參考資源」區塊提供連結，系統會自動從 Google Search 結果中提取相關連結並顯示在「📚 參考資源」區塊**
+- ❌ **絕對不要在回答正文中添加任何連結以及參考資源資訊**
+
+## 活動資訊回答格式（必須遵守）
+當被問到活動資訊時，請按以下格式回答：
+
+【活動概覽】
+
+【活動詳情】
+🎪 活動名稱
+- 時間：
+- 地點：
+- 內容：
+- 參加方式：
+
+【優惠資訊】
+🎁 櫃位優惠
+- 店家：
+- 優惠內容：
+- 期限：
+
+請包含：
+1. 活動時間、地點、內容
+2. 參加方式和條件
+3. 優惠內容和使用方式
+4. 活動期限
+"""
+    
+    def get_latest_events(self, response_language: Optional[str] = None) -> Dict:
+        """
+        查詢三創生活最新活動資訊（帶快取）
+        
+        Args:
+            response_language: 回應語言
+        """
+        # 檢查快取
+        current_time = time.time()
+        if self._event_cache and (current_time - self._cache_timestamp) < self._cache_ttl:
+            print(f"[{self.service_name}] ✅ 使用快取的活動資訊（0秒）")
+            return self._event_cache
+        
+        print(f"[{self.service_name}] 🔄 快取過期或不存在，重新查詢...")
+        
+        # 極簡查詢（格式要求已在 SYSTEM_PROMPT）
+        query = "最新活動跟優惠"
+        
+        # 使用時間戳作為 user_id，避免歷史累積
+        user_id = f"event_{int(current_time)}"
+        
+        result = self.generate_content(
+            query, 
+            user_id=user_id,
+            temperature=0.7,
+            search_keyword="三創生活",
+            response_language=response_language
+        )
+        
+        # 快取結果
+        response = {
+            "events": result["text"],
+            "references": result["references"]
+        }
+        self._event_cache = response
+        self._cache_timestamp = current_time
+        
+        print(f"[{self.service_name}] ✅ 活動資訊已快取")
+        
+        return response
+    
+    def search_events(
+        self, 
+        user_query: str, 
+        conversation_history: Optional[List[str]] = None,
+        user_id: str = "default",
+        response_language: Optional[str] = None
+    ) -> Dict:
+        """
+        根據用戶查詢搜尋活動資訊
+        
+        Args:
+            user_query: 使用者查詢
+            conversation_history: 對話歷史
+            user_id: 使用者 ID
+            response_language: 回應語言
+        """
+        query = f"{user_query}"
+        
+        result = self.generate_content(
+            query, 
+            user_id=user_id,
+            temperature=0.6,
+            search_keyword="三創生活",
+            response_language=response_language
+        )
+        
+        return {
+            "events": result["text"],
+            "references": result["references"]
+        }
+    
+    def clear_cache(self):
+        """清除快取（用於手動更新）"""
+        self._event_cache = None
+        self._cache_timestamp = 0
+        print(f"[{self.service_name}] 快取已清除")

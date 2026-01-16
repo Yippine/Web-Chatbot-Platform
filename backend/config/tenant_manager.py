@@ -1,0 +1,71 @@
+"""
+租戶設定管理器
+負責載入和管理多租戶設定
+"""
+import json
+import os
+from typing import Dict, Optional
+
+class TenantManager:
+    """租戶設定管理器"""
+    
+    def __init__(self, config_path: str = None):
+        if config_path is None:
+            config_path = os.path.join(os.path.dirname(__file__), 'tenants.json')
+        self.config_path = config_path
+        self.tenants = {}
+        self.load_tenants()
+    
+    def load_tenants(self):
+        """從 JSON 載入所有租戶設定"""
+        try:
+            if os.path.exists(self.config_path):
+                with open(self.config_path, 'r', encoding='utf-8') as f:
+                    self.tenants = json.load(f)
+                print(f"[TenantManager] 載入 {len(self.tenants)} 個租戶設定")
+            else:
+                print(f"[TenantManager] 設定檔不存在: {self.config_path}")
+                self.tenants = {}
+        except Exception as e:
+            print(f"[TenantManager] 載入設定失敗: {e}")
+            self.tenants = {}
+    
+    def get_tenant(self, tenant_id: str) -> Optional[Dict]:
+        """取得特定租戶設定"""
+        tenant = self.tenants.get(tenant_id)
+        if tenant is None:
+            print(f"[TenantManager] 租戶不存在: {tenant_id}")
+            return None
+        
+        if not tenant.get('enabled', True):
+            print(f"[TenantManager] 租戶未啟用: {tenant_id}")
+            return None
+        
+        return tenant
+    
+    def load_prompt(self, prompt_file: str) -> str:
+        """載入提示詞檔案"""
+        try:
+            prompt_path = os.path.join(os.path.dirname(__file__), '..', prompt_file)
+            if os.path.exists(prompt_path):
+                with open(prompt_path, 'r', encoding='utf-8') as f:
+                    return f.read()
+            else:
+                print(f"[TenantManager] 提示詞檔案不存在: {prompt_path}")
+                return ""
+        except Exception as e:
+            print(f"[TenantManager] 載入提示詞失敗: {e}")
+            return ""
+    
+    def reload(self):
+        """重新載入設定 (支援熱更新)"""
+        print("[TenantManager] 重新載入設定...")
+        self.load_tenants()
+    
+    def list_tenants(self) -> Dict:
+        """列出所有租戶"""
+        return self.tenants
+    
+    def tenant_exists(self, tenant_id: str) -> bool:
+        """檢查租戶是否存在"""
+        return tenant_id in self.tenants
