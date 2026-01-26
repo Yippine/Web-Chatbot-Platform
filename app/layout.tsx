@@ -13,18 +13,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "三創智慧導購 | Syntrend AI Assistant",
-  description: "三創生活智慧導購聊天機器人，提供品牌查詢、樓層導覽、活動資訊與餐廳推薦服務",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="zh-TW">
+      <head>
+        <title>載入中</title>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

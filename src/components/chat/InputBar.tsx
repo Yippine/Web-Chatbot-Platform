@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Send, X } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { AppearanceConfig, generateColorStyle } from '@/lib/appearance';
 
 interface InputBarProps {
     onSendMessage: (message: string) => void;
@@ -11,9 +12,17 @@ interface InputBarProps {
     mode?: string;
     onModeChange?: (mode: string) => void;
     services?: any;
+    appearance: AppearanceConfig;
 }
 
-export function InputBar({ onSendMessage, disabled, mode = 'general', onModeChange, services = {} }: InputBarProps) {
+export function InputBar({ 
+    onSendMessage, 
+    disabled, 
+    mode = 'general', 
+    onModeChange, 
+    services = {},
+    appearance
+}: InputBarProps) {
     const { t } = useLanguage();
     const [input, setInput] = useState('');
 
@@ -41,7 +50,7 @@ export function InputBar({ onSendMessage, disabled, mode = 'general', onModeChan
     const currentService = services[mode];
     const placeholder = currentService?.name 
         ? `請輸入${currentService.name}相關問題...` 
-        : t('input.placeholder');
+        : appearance.placeholder;
 
     return (
         <form onSubmit={handleSubmit} className="p-4 bg-white border-t border-gray-200">
@@ -70,14 +79,17 @@ export function InputBar({ onSendMessage, disabled, mode = 'general', onModeChan
                     disabled={disabled}
                     className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
                 />
-                <Button
+                <button
                     type="submit"
-                    size="icon"
-                    className="rounded-full"
                     disabled={disabled || !input.trim()}
+                    className="w-10 h-10 rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{
+                        ...generateColorStyle(appearance.button),
+                        color: appearance.textColor === 'black' ? '#000000' : '#ffffff'
+                    }}
                 >
                     <Send className="h-5 w-5" />
-                </Button>
+                </button>
             </div>
         </form>
     );

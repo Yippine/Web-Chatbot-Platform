@@ -2,9 +2,12 @@
 
 import { Message as MessageType } from '@/types';
 import { cn } from '@/lib/utils';
+import { ColorConfig, generateColorStyle } from '@/lib/appearance';
 
 interface MessageProps {
     message: MessageType;
+    buttonColor?: ColorConfig;
+    textColor?: 'white' | 'black';
 }
 
 function formatMessageContent(content: string): string {
@@ -14,8 +17,12 @@ function formatMessageContent(content: string): string {
         .replace(/\n/g, '<br />');
 }
 
-export function Message({ message }: MessageProps) {
+export function Message({ message, buttonColor, textColor = 'white' }: MessageProps) {
     const isBot = message.sender === 'bot';
+
+    const userMessageStyle = buttonColor 
+        ? generateColorStyle(buttonColor)
+        : { background: 'linear-gradient(to right, #f97316, #a855f7)' };
 
     return (
         <div className={cn('flex', isBot ? 'justify-start' : 'justify-end')}>
@@ -25,8 +32,9 @@ export function Message({ message }: MessageProps) {
                         'px-4 py-3 rounded-2xl whitespace-pre-wrap',
                         isBot
                             ? 'bg-gray-100 text-gray-900 rounded-tl-none'
-                            : 'bg-gradient-to-r from-orange-500 to-purple-500 text-white rounded-tr-none'
+                            : `rounded-tr-none ${textColor === 'black' ? 'text-black' : 'text-white'}`
                     )}
+                    style={isBot ? undefined : userMessageStyle}
                 >
                     {typeof message.content === 'string' && (
                         <div

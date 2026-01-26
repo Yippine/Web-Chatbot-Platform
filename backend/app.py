@@ -219,11 +219,13 @@ def get_tenant_config():
     """取得租戶前端設定"""
     try:
         tenant = request.tenant
+        
         return jsonify({
             "tenant_id": request.tenant_id,
             "name": tenant.get("name"),
             "quick_actions": tenant.get("quick_actions", []),
-            "services": tenant.get("services", {})
+            "services": tenant.get("services", {}),
+            "appearance": tenant.get("appearance", {})
         })
     except Exception as e:
         return jsonify({"error": str(e)}), 500

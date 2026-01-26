@@ -115,6 +115,42 @@ class AdminAPIClient {
   async getServiceClasses() {
     return this.request<{ classes: any[] }>('/admin/service-classes');
   }
+
+  // ==================== 外觀設定管理 ====================
+
+  async getAppearance(tenantId: string) {
+    return this.request<{ appearance: any }>(`/admin/tenants/${tenantId}/appearance`);
+  }
+
+  async updateAppearance(tenantId: string, appearance: any) {
+    return this.request<{ message: string; appearance: any }>(
+      `/admin/tenants/${tenantId}/appearance`,
+      {
+        method: 'PUT',
+        body: JSON.stringify(appearance),
+      }
+    );
+  }
+
+  async uploadChatIcon(tenantId: string, file: File) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const response = await fetch(`${ADMIN_API_URL}/admin/tenants/${tenantId}/appearance/upload-icon`, {
+      method: 'POST',
+      headers: {
+        'X-Admin-Key': this.apiKey,
+      },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || '上傳失敗');
+    }
+
+    return response.json();
+  }
 }
 
 export default AdminAPIClient;

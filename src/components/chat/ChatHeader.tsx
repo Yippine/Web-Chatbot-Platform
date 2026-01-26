@@ -2,14 +2,16 @@
 
 import { MessageSquare, Navigation, ShoppingBag, Calendar, MapPin, Maximize2, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { AppearanceConfig, generateColorStyle } from '@/lib/appearance';
 
 type ChatMode = string;
 
 interface ChatHeaderProps {
     mode?: ChatMode;
+    appearance: AppearanceConfig;
 }
 
-export function ChatHeader({ mode = 'general' }: ChatHeaderProps) {
+export function ChatHeader({ mode = 'general', appearance }: ChatHeaderProps) {
     const [isInIframe, setIsInIframe] = useState(false);
 
     const modeIcons: Record<string, any> = {
@@ -37,14 +39,28 @@ export function ChatHeader({ mode = 'general' }: ChatHeaderProps) {
     };
 
     return (
-        <div className="bg-gradient-to-r from-orange-500 via-yellow-500 to-purple-500 text-white p-4 shadow-md">
+        <div 
+            className="p-4 shadow-md"
+            style={{
+                ...generateColorStyle(appearance.header),
+                color: appearance.textColor === 'black' ? '#000000' : '#ffffff'
+            }}
+        >
             <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                    <Icon className="h-6 w-6" />
+                <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center overflow-hidden">
+                    {appearance.chatIconUrl ? (
+                        <img 
+                            src={appearance.chatIconUrl} 
+                            alt="Chat Icon" 
+                            className="w-full h-full object-cover"
+                        />
+                    ) : (
+                        <Icon className="h-6 w-6" />
+                    )}
                 </div>
                 <div className="flex-1">
-                    <h1 className="font-bold text-lg">Wi帶你逛 - 智慧導購</h1>
-                    <p className="text-xs opacity-90">Syntrend AI Assistant</p>
+                    <h1 className="font-bold text-lg">{appearance.title}</h1>
+                    <p className="text-xs opacity-90">{appearance.subtitle}</p>
                 </div>
                 {isInIframe && (
                     <div className="flex gap-2">

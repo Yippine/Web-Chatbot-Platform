@@ -112,10 +112,10 @@ export default function TenantsPage() {
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                   {tenant.services_count}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-4">
                   <button
                     onClick={() => router.push(`/admin/tenants/${tenant.id}`)}
-                    className="text-blue-600 hover:text-blue-900 mr-4"
+                    className="text-blue-600 hover:text-blue-900"
                   >
                     編輯
                   </button>
@@ -124,6 +124,12 @@ export default function TenantsPage() {
                     className="text-green-600 hover:text-green-900"
                   >
                     服務
+                  </button>
+                  <button
+                    onClick={() => router.push(`/admin/tenants/${tenant.id}/appearance`)}
+                    className="text-purple-600 hover:text-purple-900"
+                  >
+                    外觀
                   </button>
                 </td>
               </tr>

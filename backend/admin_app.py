@@ -6,6 +6,8 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import json
 import os
+from PIL import Image
+import io
 from config.tenant_manager import TenantManager
 from config.service_factory import ServiceFactory
 
@@ -93,14 +95,31 @@ def create_tenant():
         if tenant_manager.tenant_exists(tenant_id):
             return jsonify({"error": "租戶 ID 已存在"}), 409
         
-        # 建立租戶設定
+        # 建立租戶設定,包含完整的外觀設定
         new_tenant = {
             "id": tenant_id,
             "name": data.get("name", "新租戶"),
             "gemini_api_key": data.get("gemini_api_key", ""),
             "enabled": data.get("enabled", True),
             "services": data.get("services", {}),
-            "quick_actions": data.get("quick_actions", [])
+            "quick_actions": data.get("quick_actions", []),
+            "appearance": {
+                "pageTitle": "",
+                "title": "",
+                "subtitle": "",
+                "welcomeMessage": "",
+                "placeholder": "",
+                "header": {
+                    "type": "solid",
+                    "color": "#000000"
+                },
+                "button": {
+                    "type": "solid",
+                    "color": "#000000"
+                },
+                "chatIconUrl": "",
+                "textColor": "white"
+            }
         }
         
         # 更新設定檔
@@ -445,6 +464,114 @@ def update_quick_actions(tenant_id):
         tenant_manager.reload()
         
         return jsonify({"message": "固定問題更新成功", "quick_actions": quick_actions})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# ==================== 外觀設定管理 ====================
+
+@app.route("/admin/tenants/<tenant_id>/appearance", methods=["GET"])
+def get_appearance(tenant_id):
+    """取得租戶外觀設定"""
+    try:
+        tenants = tenant_manager.list_tenants()
+        
+        if tenant_id not in tenants:
+            return jsonify({"error": "租戶不存在"}), 404
+        
+        tenant = tenants[tenant_id]
+        appearance = tenant.get("appearance", {})
+        
+        return jsonify({"appearance": appearance})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/admin/tenants/<tenant_id>/appearance", methods=["PUT"])
+def update_appearance(tenant_id):
+    """更新租戶外觀設定"""
+    try:
+        tenants = tenant_manager.list_tenants()
+        
+        if tenant_id not in tenants:
+            return jsonify({"error": "租戶不存在"}), 404
+        
+        data = request.json
+        
+        # 更新外觀設定
+        tenants[tenant_id]["appearance"] = data
+        
+        # 儲存設定
+        with open(tenant_manager.config_path, 'w', encoding='utf-8') as f:
+            json.dump(tenants, f, ensure_ascii=False, indent=2)
+        
+        # 重新載入設定
+        tenant_manager.reload()
+        
+        return jsonify({"message": "外觀設定更新成功", "appearance": data})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/admin/tenants/<tenant_id>/appearance/upload-icon", methods=["POST"])
+def upload_chat_icon(tenant_id):
+    """上傳聊天圖示"""
+    try:
+        tenants = tenant_manager.list_tenants()
+        
+        if tenant_id not in tenants:
+            return jsonify({"error": "租戶不存在"}), 404
+        
+        # 檢查是否有檔案
+        if 'file' not in request.files:
+            return jsonify({"error": "未提供檔案"}), 400
+        
+        file = request.files['file']
+        
+        if file.filename == '':
+            return jsonify({"error": "未選擇檔案"}), 400
+        
+        # 檢查檔案大小 (5MB)
+        file.seek(0, os.SEEK_END)
+        file_size = file.tell()
+        file.seek(0)
+        
+        if file_size > 5 * 1024 * 1024:
+            return jsonify({"error": "檔案大小超過 5MB"}), 400
+        
+        # 檢查檔案格式
+        allowed_extensions = {'png', 'jpg', 'jpeg', 'webp'}
+        file_ext = file.filename.rsplit('.', 1)[1].lower() if '.' in file.filename else ''
+        
+        if file_ext not in allowed_extensions:
+            return jsonify({"error": "不支援的檔案格式，請使用 PNG, JPG, JPEG 或 WebP"}), 400
+        
+        # 開啟圖片
+        try:
+            img = Image.open(file.stream)
+        except Exception as e:
+            return jsonify({"error": f"無法讀取圖片: {str(e)}"}), 400
+        
+        # 轉換為 RGBA (支援透明背景)
+        if img.mode != 'RGBA':
+            img = img.convert('RGBA')
+        
+        # 壓縮到 128x128
+        img.thumbnail((128, 128), Image.Resampling.LANCZOS)
+        
+        # 建立目錄
+        base_dir = os.path.dirname(os.path.dirname(__file__))
+        tenant_dir = os.path.join(base_dir, 'public', 'images', 'tenants', tenant_id)
+        os.makedirs(tenant_dir, exist_ok=True)
+        
+        # 儲存圖片
+        output_path = os.path.join(tenant_dir, 'chat-icon.png')
+        img.save(output_path, 'PNG', optimize=True, quality=85)
+        
+        # 回傳 URL
+        icon_url = f"/images/tenants/{tenant_id}/chat-icon.png"
+        
+        return jsonify({
+            "message": "圖示上傳成功",
+            "url": icon_url
+        })
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

@@ -9,6 +9,7 @@ import { QuickActions } from './QuickActions';
 import { apiClient } from '@/lib/api-client';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { languageMap, getTranslation, Language } from '@/lib/i18n';
+import { AppearanceConfig } from '@/lib/appearance';
 
 type ChatMode = string;
 
@@ -25,6 +26,8 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
     const [currentMode, setCurrentMode] = useState<ChatMode>('general');
     const [quickActions, setQuickActions] = useState<any[]>([]);
     const [services, setServices] = useState<any>({});
+    const [appearance, setAppearance] = useState<AppearanceConfig | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     // 載入租戶設定
     useEffect(() => {
@@ -37,24 +40,36 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
                 if (config.services) {
                     setServices(config.services);
                 }
+                if (config.appearance) {
+                    setAppearance(config.appearance);
+                    // 同時設定頁面標題
+                    if (config.appearance.pageTitle) {
+                        document.title = config.appearance.pageTitle;
+                    }
+                } else {
+                    console.error('租戶缺少外觀設定');
+                }
             } catch (error) {
                 console.error('載入租戶設定失敗:', error);
+            } finally {
+                setIsLoading(false);
             }
         };
         loadTenantConfig();
     }, [tenantId]);
 
     useEffect(() => {
+        if (!appearance) return;
+        
         const welcomeMessage: MessageType = {
             id: 'welcome',
             sender: 'bot',
             type: 'text',
-            content: t('welcome.message'),
+            content: appearance.welcomeMessage,
             timestamp: new Date()
         };
         setMessages([welcomeMessage]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [appearance]);
 
     // 當語言切換時,更新 welcome message
     useEffect(() => {
@@ -212,10 +227,28 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
         }
     };
 
+    // 載入中顯示
+    if (isLoading || !appearance) {
+        return (
+            <div className="flex items-center justify-center h-screen bg-gray-50">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+            </div>
+        );
+    }
+
     return (
         <div className="flex flex-col h-screen bg-gray-50">
-            <ChatHeader mode={currentMode} />
-            <MessageList messages={messages} isProcessing={isProcessing} loadingText={loadingText} />
+            <ChatHeader 
+                mode={currentMode} 
+                appearance={appearance}
+            />
+            <MessageList 
+                messages={messages} 
+                isProcessing={isProcessing} 
+                loadingText={loadingText}
+                buttonColor={appearance.button}
+                textColor={appearance.textColor}
+            />
             {quickActions.length > 0 && <QuickActions actions={quickActions} services={services} onActionClick={handleQuickAction} />}
             <InputBar 
                 onSendMessage={handleSendMessage} 
@@ -223,6 +256,7 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
                 mode={currentMode}
                 onModeChange={setCurrentMode}
                 services={services}
+                appearance={appearance}
             />
         </div>
     );
