@@ -3,7 +3,7 @@
 import { MessageSquare, Navigation, ShoppingBag, Calendar, MapPin, Maximize2, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-type ChatMode = 'general' | 'route' | 'recommend' | 'events' | 'floors';
+type ChatMode = string;
 
 interface ChatHeaderProps {
     mode?: ChatMode;
@@ -12,15 +12,17 @@ interface ChatHeaderProps {
 export function ChatHeader({ mode = 'general' }: ChatHeaderProps) {
     const [isInIframe, setIsInIframe] = useState(false);
 
-    const modeIcons = {
+    const modeIcons: Record<string, any> = {
         general: MessageSquare,
         route: Navigation,
         recommend: ShoppingBag,
         events: Calendar,
-        floors: MapPin
+        event: Calendar,
+        floors: MapPin,
+        floor: MapPin
     };
 
-    const Icon = modeIcons[mode];
+    const Icon = modeIcons[mode] || MessageSquare;
 
     useEffect(() => {
         setIsInIframe(window.self !== window.top);

@@ -1,31 +1,21 @@
 'use client';
 
 import { useState } from 'react';
-import { Send, Mic, X } from 'lucide-react';
+import { Send, X } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
-import { floors } from '@/data/floors';
 import { useLanguage } from '@/contexts/LanguageContext';
-
-type ChatMode = 'general' | 'route' | 'recommend' | 'events' | 'floors';
 
 interface InputBarProps {
     onSendMessage: (message: string) => void;
     disabled?: boolean;
-    mode?: ChatMode;
-    onModeChange?: (mode: ChatMode) => void;
+    mode?: string;
+    onModeChange?: (mode: string) => void;
+    services?: any;
 }
 
-export function InputBar({ onSendMessage, disabled, mode = 'general', onModeChange }: InputBarProps) {
+export function InputBar({ onSendMessage, disabled, mode = 'general', onModeChange, services = {} }: InputBarProps) {
     const { t } = useLanguage();
     const [input, setInput] = useState('');
-
-    const placeholders = {
-        general: t('input.placeholder'),
-        route: t('input.placeholderRoute'),
-        recommend: t('input.placeholderRecommend'),
-        floors: t('input.placeholderFloors'),
-        events: t('input.placeholderEvents')
-    };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -48,15 +38,17 @@ export function InputBar({ onSendMessage, disabled, mode = 'general', onModeChan
         }
     };
 
+    const currentService = services[mode];
+    const placeholder = currentService?.name 
+        ? `請輸入${currentService.name}相關問題...` 
+        : t('input.placeholder');
+
     return (
         <form onSubmit={handleSubmit} className="p-4 bg-white border-t border-gray-200">
-            {mode !== 'general' && (
+            {mode !== 'general' && currentService && (
                 <div className="mb-2 flex items-center justify-between px-2">
                     <span className="text-sm text-gray-600">
-                        {mode === 'route' && t('quickActions.route')}
-                        {mode === 'recommend' && t('quickActions.recommend')}
-                        {mode === 'floors' && t('quickActions.floors')}
-                        {mode === 'events' && t('quickActions.events')}
+                        {currentService.name || mode}
                     </span>
                     <button
                         type="button"
@@ -74,21 +66,10 @@ export function InputBar({ onSendMessage, disabled, mode = 'general', onModeChan
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyPress={handleKeyPress}
-                    placeholder={placeholders[mode]}
+                    placeholder={placeholder}
                     disabled={disabled}
                     className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
                 />
-                {/* 語音功能暫時隱藏
-                <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    className="rounded-full"
-                    disabled={disabled}
-                >
-                    <Mic className="h-5 w-5" />
-                </Button>
-                */}
                 <Button
                     type="submit"
                     size="icon"

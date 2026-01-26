@@ -121,15 +121,9 @@ export default function TenantsPage() {
                   </button>
                   <button
                     onClick={() => router.push(`/admin/tenants/${tenant.id}/services`)}
-                    className="text-green-600 hover:text-green-900 mr-4"
+                    className="text-green-600 hover:text-green-900"
                   >
                     服務
-                  </button>
-                  <button
-                    onClick={() => router.push(`/admin/tenants/${tenant.id}/prompts`)}
-                    className="text-purple-600 hover:text-purple-900"
-                  >
-                    提示詞
                   </button>
                 </td>
               </tr>

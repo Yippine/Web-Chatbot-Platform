@@ -82,6 +82,20 @@ export const apiClient = {
     return res.json();
   },
 
+  // 查詢資料 (QueryService 專用)
+  async queryData(tenantId: string, serviceName: string, lang?: string) {
+    const params = new URLSearchParams({ service: serviceName });
+    if (lang) params.append('lang', lang);
+    
+    const res = await fetch(`${API_BASE_URL}/api/query/data?${params}`, {
+      method: 'GET',
+      headers: { 
+        'X-Tenant-ID': tenantId
+      }
+    });
+    return res.json();
+  },
+
   // 快速判斷意圖
   async detectIntent(message: string) {
     const res = await fetch(`${API_BASE_URL}/api/chat/intent`, {

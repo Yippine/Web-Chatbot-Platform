@@ -3,24 +3,19 @@
 根據租戶設定動態建立服務實例
 """
 from typing import Dict, Optional
+from services.base_gemini_service import BaseGeminiService
+from services.query_service import QueryService
+from services.chat_service import ChatService
 from services.smart_route_service import SmartRouteService
-from services.recommendation_service import RecommendationService
-from services.event_service import EventService
-from services.floor_service import FloorService
-from services.general_service import GeneralService
-from services.language_service import LanguageService
 
 class ServiceFactory:
     """服務工廠類別"""
     
-    # 服務類別映射
+    # 預設服務類別映射
     SERVICE_CLASSES = {
-        'SmartRouteService': SmartRouteService,
-        'RecommendationService': RecommendationService,
-        'EventService': EventService,
-        'FloorService': FloorService,
-        'GeneralService': GeneralService,
-        'LanguageService': LanguageService
+        'QueryService': QueryService,
+        'ChatService': ChatService,
+        'SmartRouteService': SmartRouteService
     }
     
     def __init__(self, tenant_manager):
@@ -59,20 +54,17 @@ class ServiceFactory:
             print(f"[ServiceFactory] 服務未啟用: {tenant_id}/{service_name}")
             return None
         
-        # 取得服務類別
-        class_name = service_config.get('class')
-        service_class = self.SERVICE_CLASSES.get(class_name)
-        if not service_class:
-            print(f"[ServiceFactory] 未知的服務類別: {class_name}")
-            return None
-        
         # 取得 API Key
         api_key = tenant.get('gemini_api_key')
         if not api_key:
             print(f"[ServiceFactory] 租戶缺少 API Key: {tenant_id}")
             return None
         
-        # 載入自訂 prompt (如果有)
+        # 決定使用的服務類別（預設 ChatService）
+        class_name = service_config.get('class', 'ChatService')
+        service_class = self.SERVICE_CLASSES.get(class_name, ChatService)
+        
+        # 載入提示詞（如果有）
         custom_prompt = None
         prompt_file = service_config.get('prompt_file')
         if prompt_file:
@@ -89,7 +81,7 @@ class ServiceFactory:
                 default_search_keyword=service_config.get('search_keyword')
             )
             
-            # 如果有自訂 prompt,覆寫 SYSTEM_PROMPT
+            # 如果有自訂提示詞，覆寫 SYSTEM_PROMPT
             if custom_prompt:
                 service_instance.SYSTEM_PROMPT = custom_prompt
             

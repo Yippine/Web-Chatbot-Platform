@@ -59,36 +59,16 @@ class AdminAPIClient {
     });
   }
 
-  // ==================== 提示詞管理 ====================
-
-  async listPrompts(tenantId: string) {
-    return this.request<{ prompts: any[] }>(`/admin/tenants/${tenantId}/prompts`);
-  }
-
-  async getPrompt(tenantId: string, serviceName: string) {
-    return this.request<{ service: string; file: string; content: string }>(
-      `/admin/tenants/${tenantId}/prompts/${serviceName}`
-    );
-  }
-
-  async updatePrompt(tenantId: string, serviceName: string, content: string) {
-    return this.request<{ message: string }>(`/admin/tenants/${tenantId}/prompts/${serviceName}`, {
-      method: 'PUT',
-      body: JSON.stringify({ content }),
-    });
-  }
-
-  async createPrompt(tenantId: string, service: string, content: string) {
-    return this.request<{ message: string; file: string }>(`/admin/tenants/${tenantId}/prompts`, {
-      method: 'POST',
-      body: JSON.stringify({ service, content }),
-    });
-  }
-
   // ==================== 服務設定管理 ====================
 
   async listServices(tenantId: string) {
     return this.request<{ services: any }>(`/admin/tenants/${tenantId}/services`);
+  }
+
+  async getService(tenantId: string, serviceName: string) {
+    return this.request<{ service: any; prompt_content: string }>(
+      `/admin/tenants/${tenantId}/services/${serviceName}`
+    );
   }
 
   async updateService(tenantId: string, serviceName: string, data: any) {
@@ -128,6 +108,12 @@ class AdminAPIClient {
         body: JSON.stringify({ quick_actions: quickActions }),
       }
     );
+  }
+
+  // ==================== 服務類別 ====================
+
+  async getServiceClasses() {
+    return this.request<{ classes: any[] }>('/admin/service-classes');
   }
 }
 

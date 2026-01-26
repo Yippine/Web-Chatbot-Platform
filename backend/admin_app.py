@@ -177,11 +177,34 @@ def delete_tenant(tenant_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# ==================== 提示詞管理 ====================
+# ==================== 服務設定管理 ====================
 
-@app.route("/admin/tenants/<tenant_id>/prompts", methods=["GET"])
-def list_prompts(tenant_id):
-    """列出租戶的所有提示詞檔案"""
+@app.route("/admin/service-classes", methods=["GET"])
+def get_service_classes():
+    """取得可用的服務類別清單"""
+    try:
+        from config.service_factory import ServiceFactory
+        
+        classes = [
+            {
+                "value": class_name,
+                "label": class_name,
+                "description": {
+                    "ChatService": "對話問答服務",
+                    "QueryService": "資料查詢服務",
+                    "SmartRouteService": "路線導航服務"
+                }.get(class_name, "")
+            }
+            for class_name in ServiceFactory.SERVICE_CLASSES.keys()
+        ]
+        
+        return jsonify({"classes": classes})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/admin/tenants/<tenant_id>/services/<service_name>", methods=["GET"])
+def get_service(tenant_id, service_name):
+    """取得服務詳細資訊 (包含提示詞內容)"""
     try:
         tenant = tenant_manager.get_tenant(tenant_id)
         if not tenant:
@@ -191,140 +214,23 @@ def list_prompts(tenant_id):
                 return jsonify({"error": "租戶不存在"}), 404
         
         services = tenant.get("services", {})
-        prompts = []
-        
-        for service_name, service_config in services.items():
-            prompt_file = service_config.get("prompt_file")
-            if prompt_file:
-                prompts.append({
-                    "service": service_name,
-                    "file": prompt_file,
-                    "exists": os.path.exists(os.path.join(
-                        os.path.dirname(tenant_manager.config_path), 
-                        '..', 
-                        prompt_file
-                    ))
-                })
-        
-        return jsonify({"prompts": prompts})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-@app.route("/admin/tenants/<tenant_id>/prompts/<service_name>", methods=["GET"])
-def get_prompt(tenant_id, service_name):
-    """讀取特定服務的提示詞"""
-    try:
-        tenant = tenant_manager.get_tenant(tenant_id)
-        if not tenant:
-            all_tenants = tenant_manager.list_tenants()
-            tenant = all_tenants.get(tenant_id)
-            if not tenant:
-                return jsonify({"error": "租戶不存在"}), 404
-        
-        service_config = tenant.get("services", {}).get(service_name)
-        if not service_config:
+        if service_name not in services:
             return jsonify({"error": "服務不存在"}), 404
         
-        prompt_file = service_config.get("prompt_file")
-        if not prompt_file:
-            return jsonify({"error": "服務沒有設定提示詞檔案"}), 404
+        service = services[service_name]
         
-        content = tenant_manager.load_prompt(prompt_file)
+        # 載入提示詞內容
+        prompt_content = ""
+        prompt_file = service.get("prompt_file")
+        if prompt_file:
+            prompt_content = tenant_manager.load_prompt(prompt_file)
         
         return jsonify({
-            "service": service_name,
-            "file": prompt_file,
-            "content": content
+            "service": service,
+            "prompt_content": prompt_content
         })
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-@app.route("/admin/tenants/<tenant_id>/prompts/<service_name>", methods=["PUT"])
-def update_prompt(tenant_id, service_name):
-    """更新提示詞內容"""
-    try:
-        tenant = tenant_manager.get_tenant(tenant_id)
-        if not tenant:
-            all_tenants = tenant_manager.list_tenants()
-            tenant = all_tenants.get(tenant_id)
-            if not tenant:
-                return jsonify({"error": "租戶不存在"}), 404
-        
-        service_config = tenant.get("services", {}).get(service_name)
-        if not service_config:
-            return jsonify({"error": "服務不存在"}), 404
-        
-        prompt_file = service_config.get("prompt_file")
-        if not prompt_file:
-            return jsonify({"error": "服務沒有設定提示詞檔案"}), 404
-        
-        data = request.json
-        content = data.get("content")
-        
-        if content is None:
-            return jsonify({"error": "缺少提示詞內容"}), 400
-        
-        # 儲存提示詞
-        prompt_path = os.path.join(
-            os.path.dirname(tenant_manager.config_path),
-            '..',
-            prompt_file
-        )
-        
-        # 確保目錄存在
-        os.makedirs(os.path.dirname(prompt_path), exist_ok=True)
-        
-        with open(prompt_path, 'w', encoding='utf-8') as f:
-            f.write(content)
-        
-        # 清除服務快取
-        service_factory.clear_cache(tenant_id)
-        
-        return jsonify({"message": "提示詞更新成功"})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-@app.route("/admin/tenants/<tenant_id>/prompts", methods=["POST"])
-def create_prompt(tenant_id):
-    """建立新提示詞檔案"""
-    try:
-        tenant = tenant_manager.get_tenant(tenant_id)
-        if not tenant:
-            all_tenants = tenant_manager.list_tenants()
-            tenant = all_tenants.get(tenant_id)
-            if not tenant:
-                return jsonify({"error": "租戶不存在"}), 404
-        
-        data = request.json
-        service_name = data.get("service")
-        content = data.get("content", "")
-        
-        if not service_name:
-            return jsonify({"error": "缺少服務名稱"}), 400
-        
-        # 建立提示詞檔案路徑
-        prompt_file = f"prompts/{tenant_id}/{service_name}.md"
-        prompt_path = os.path.join(
-            os.path.dirname(tenant_manager.config_path),
-            '..',
-            prompt_file
-        )
-        
-        # 確保目錄存在
-        os.makedirs(os.path.dirname(prompt_path), exist_ok=True)
-        
-        # 儲存提示詞
-        with open(prompt_path, 'w', encoding='utf-8') as f:
-            f.write(content)
-        
-        return jsonify({
-            "message": "提示詞建立成功",
-            "file": prompt_file
-        }), 201
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-# ==================== 服務設定管理 ====================
 
 @app.route("/admin/tenants/<tenant_id>/services", methods=["GET"])
 def list_services(tenant_id):
@@ -344,7 +250,7 @@ def list_services(tenant_id):
 
 @app.route("/admin/tenants/<tenant_id>/services/<service_name>", methods=["PUT"])
 def update_service(tenant_id, service_name):
-    """更新服務設定"""
+    """更新服務設定 (包含提示詞)"""
     try:
         tenants = tenant_manager.list_tenants()
         
@@ -361,6 +267,10 @@ def update_service(tenant_id, service_name):
         service = services[service_name]
         
         # 更新服務設定
+        if "name" in data:
+            service["name"] = data["name"]
+        if "icon" in data:
+            service["icon"] = data["icon"]
         if "enabled" in data:
             service["enabled"] = data["enabled"]
         if "class" in data:
@@ -373,6 +283,23 @@ def update_service(tenant_id, service_name):
             service["use_grounding"] = data["use_grounding"]
         if "search_keyword" in data:
             service["search_keyword"] = data["search_keyword"]
+        if "mode_message" in data:
+            service["mode_message"] = data["mode_message"]
+        if "show_mode_message" in data:
+            service["show_mode_message"] = data["show_mode_message"]
+        
+        # 更新提示詞內容 (如果有提供)
+        if "prompt_content" in data:
+            prompt_file = service.get("prompt_file")
+            if prompt_file:
+                prompt_path = os.path.join(
+                    os.path.dirname(tenant_manager.config_path),
+                    '..',
+                    prompt_file
+                )
+                os.makedirs(os.path.dirname(prompt_path), exist_ok=True)
+                with open(prompt_path, 'w', encoding='utf-8') as f:
+                    f.write(data["prompt_content"])
         
         # 儲存設定
         with open(tenant_manager.config_path, 'w', encoding='utf-8') as f:
@@ -396,28 +323,38 @@ def add_service(tenant_id):
             return jsonify({"error": "租戶不存在"}), 404
         
         data = request.json
-        service_name = data.get("name")
+        service_id = data.get("service_id")
         
-        if not service_name:
-            return jsonify({"error": "缺少服務名稱"}), 400
+        if not service_id:
+            return jsonify({"error": "缺少服務 ID"}), 400
         
         tenant = tenants[tenant_id]
         services = tenant.get("services", {})
         
-        if service_name in services:
+        if service_id in services:
             return jsonify({"error": "服務已存在"}), 409
         
         # 建立新服務
         new_service = {
+            "name": data.get("name", ""),
+            "icon": data.get("icon", "⚙️"),
             "enabled": data.get("enabled", True),
-            "class": data.get("class", "GeneralService"),
-            "prompt_file": data.get("prompt_file", f"prompts/{tenant_id}/{service_name}.md"),
+            "class": data.get("class", "ChatService"),
+            "prompt_file": data.get("prompt_file", f"prompts/{tenant_id}/{service_id}.md"),
             "temperature": data.get("temperature", 0.7),
             "use_grounding": data.get("use_grounding", True),
-            "search_keyword": data.get("search_keyword")
+            "search_keyword": data.get("search_keyword", "")
         }
         
-        services[service_name] = new_service
+        services[service_id] = new_service
+        
+        # 自動新增到 Quick Actions
+        quick_actions = tenant.get("quick_actions", [])
+        quick_actions.append({
+            "service_id": service_id,
+            "query": ""
+        })
+        tenant["quick_actions"] = quick_actions
         
         # 儲存設定
         with open(tenant_manager.config_path, 'w', encoding='utf-8') as f:
@@ -447,6 +384,10 @@ def delete_service(tenant_id, service_name):
         
         # 刪除服務
         del services[service_name]
+        
+        # 同時從 Quick Actions 中移除
+        quick_actions = tenant.get("quick_actions", [])
+        tenant["quick_actions"] = [qa for qa in quick_actions if qa.get("service_id") != service_name]
         
         # 儲存設定
         with open(tenant_manager.config_path, 'w', encoding='utf-8') as f:

@@ -30,8 +30,12 @@ class TenantManager:
             print(f"[TenantManager] 載入設定失敗: {e}")
             self.tenants = {}
     
-    def get_tenant(self, tenant_id: str) -> Optional[Dict]:
+    def get_tenant(self, tenant_id: str, auto_reload: bool = True) -> Optional[Dict]:
         """取得特定租戶設定"""
+        # 自動重新載入設定（開發模式）
+        if auto_reload:
+            self.load_tenants()
+        
         tenant = self.tenants.get(tenant_id)
         if tenant is None:
             print(f"[TenantManager] 租戶不存在: {tenant_id}")
