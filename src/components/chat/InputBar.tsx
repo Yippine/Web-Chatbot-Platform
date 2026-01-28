@@ -49,7 +49,7 @@ export function InputBar({
 
     const currentService = services[mode];
     const placeholder = currentService?.name 
-        ? `請輸入${currentService.name}相關問題...` 
+        ? `請輸入${currentService.name}相關問題` 
         : appearance.placeholder;
 
     return (

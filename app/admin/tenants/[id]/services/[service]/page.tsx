@@ -27,7 +27,9 @@ export default function ServiceEditPage() {
     search_keyword: '',
     prompt_content: '',
     mode_message: '',
-    show_mode_message: false
+    show_mode_message: false,
+    loading_message: '處理中',
+    query_loading_message: '查詢資料中'
   });
 
   useEffect(() => {
@@ -74,7 +76,9 @@ export default function ServiceEditPage() {
         search_keyword: data.service.search_keyword || '',
         prompt_content: data.prompt_content || '',
         mode_message: data.service.mode_message || '',
-        show_mode_message: data.service.show_mode_message !== false
+        show_mode_message: data.service.show_mode_message !== false,
+        loading_message: data.service.loading_message,
+        query_loading_message: data.service.query_loading_message
       });
     } catch (err: any) {
       setError(err.message);
@@ -340,6 +344,38 @@ export default function ServiceEditPage() {
               )}
             </>
           )}
+
+          {/* 問答等待訊息 - 所有服務通用 */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              問答等待訊息
+            </label>
+            <input
+              type="text"
+              value={formData.loading_message}
+              onChange={(e) => setFormData({ ...formData, loading_message: e.target.value })}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              placeholder="例如: 處理中"
+            />
+            <p className="text-xs text-gray-500 mt-1">使用者發送問答訊息時顯示的等待文字</p>
+          </div>
+
+          {/* QueryService 專用設定 */}
+          {formData.class === 'QueryService' && (
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                查詢等待訊息
+              </label>
+              <input
+                type="text"
+                value={formData.query_loading_message}
+                onChange={(e) => setFormData({ ...formData, query_loading_message: e.target.value })}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                placeholder="例如: 查詢資料中"
+              />
+              <p className="text-xs text-gray-500 mt-1">點擊使用資料查詢服務時顯示的等待文字</p>
+            </div>
+          )}
         </div>
 
         {/* 提示詞編輯 */}
@@ -368,7 +404,7 @@ export default function ServiceEditPage() {
               value={formData.prompt_content}
               onChange={(e) => setFormData({ ...formData, prompt_content: e.target.value })}
               className="w-full h-96 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 font-mono text-sm"
-              placeholder="輸入提示詞內容..."
+              placeholder="輸入提示詞內容"
             />
           </div>
         </div>
@@ -399,7 +435,7 @@ export default function ServiceEditPage() {
               disabled={saving}
               className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
             >
-              {saving ? '儲存中...' : '儲存'}
+              {saving ? '儲存中' : '儲存'}
             </button>
           </div>
         </div>

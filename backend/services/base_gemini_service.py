@@ -100,6 +100,10 @@ class BaseGeminiService:
         # 準備查詢（加上搜尋關鍵字）
         search_query = f"{search_keyword} {query}" if search_keyword and use_grounding else query
         
+        # 記錄最終查詢
+        if use_grounding:
+            print(f"[Grounding] 最終查詢: {search_query}")
+        
         # 添加使用者問題到對話歷史
         contents.append(types.Content(
             role="user",

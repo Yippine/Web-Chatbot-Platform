@@ -146,7 +146,7 @@ X-Tenant-ID: your_tenant_id
 ```json
 {
   "type": "general",
-  "response": "您好！我是聊天助手...",
+  "response": "您好！我是聊天助手",
   "references": [],
   "detected_language": {
     "language_code": "zh-TW",

@@ -202,7 +202,7 @@ export default function TenantEditPage() {
               disabled={saving}
               className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
             >
-              {saving ? '儲存中...' : '儲存'}
+              {saving ? '儲存中' : '儲存'}
             </button>
           </div>
         </div>

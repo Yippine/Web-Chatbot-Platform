@@ -306,6 +306,10 @@ def update_service(tenant_id, service_name):
             service["mode_message"] = data["mode_message"]
         if "show_mode_message" in data:
             service["show_mode_message"] = data["show_mode_message"]
+        if "loading_message" in data:
+            service["loading_message"] = data["loading_message"]
+        if "query_loading_message" in data:
+            service["query_loading_message"] = data["query_loading_message"]
         
         # 更新提示詞內容 (如果有提供)
         if "prompt_content" in data:
@@ -362,10 +366,25 @@ def add_service(tenant_id):
             "prompt_file": data.get("prompt_file", f"prompts/{tenant_id}/{service_id}.md"),
             "temperature": data.get("temperature", 0.7),
             "use_grounding": data.get("use_grounding", True),
-            "search_keyword": data.get("search_keyword", "")
+            "search_keyword": data.get("search_keyword", ""),
+            "loading_message": data.get("loading_message"),
+            "query_loading_message": data.get("query_loading_message")
         }
         
         services[service_id] = new_service
+        
+        # 建立提示詞檔案 (如果有提供內容)
+        if "prompt_content" in data:
+            prompt_file = new_service.get("prompt_file")
+            if prompt_file:
+                prompt_path = os.path.join(
+                    os.path.dirname(tenant_manager.config_path),
+                    '..',
+                    prompt_file
+                )
+                os.makedirs(os.path.dirname(prompt_path), exist_ok=True)
+                with open(prompt_path, 'w', encoding='utf-8') as f:
+                    f.write(data["prompt_content"])
         
         # 自動新增到 Quick Actions
         quick_actions = tenant.get("quick_actions", [])
@@ -561,12 +580,24 @@ def upload_chat_icon(tenant_id):
         tenant_dir = os.path.join(base_dir, 'public', 'images', 'tenants', tenant_id)
         os.makedirs(tenant_dir, exist_ok=True)
         
-        # 儲存圖片
-        output_path = os.path.join(tenant_dir, 'chat-icon.png')
+        # 使用時間戳作為檔名
+        import time
+        timestamp = int(time.time())
+        output_path = os.path.join(tenant_dir, f'chat-icon-{timestamp}.png')
         img.save(output_path, 'PNG', optimize=True, quality=85)
         
+        # 刪除舊的 chat-icon 圖片
+        import glob
+        old_icons = glob.glob(os.path.join(tenant_dir, 'chat-icon-*.png'))
+        for old_icon in old_icons:
+            if old_icon != output_path:
+                try:
+                    os.remove(old_icon)
+                except:
+                    pass
+        
         # 回傳 URL
-        icon_url = f"/images/tenants/{tenant_id}/chat-icon.png"
+        icon_url = f"/images/tenants/{tenant_id}/chat-icon-{timestamp}.png"
         
         return jsonify({
             "message": "圖示上傳成功",

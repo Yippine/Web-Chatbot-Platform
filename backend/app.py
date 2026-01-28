@@ -51,6 +51,7 @@ def chat():
                     break
         
         # 根據意圖建立對應服務
+        # 舊版意圖映射 (向下相容)
         service_map = {
             'route': 'route',
             'recommend': 'recommend',
@@ -61,7 +62,8 @@ def chat():
             'general': 'general'
         }
         
-        service_name = service_map.get(intent, 'general')
+        # 如果 intent 在 service_map 中,使用映射值;否則直接使用 intent (支援自訂服務如 bu1, bu2)
+        service_name = service_map.get(intent, intent)
         
         # 如果有 quick_action 設定,使用它的參數動態建立服務
         if quick_action_config:

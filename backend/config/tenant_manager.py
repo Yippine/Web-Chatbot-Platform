@@ -63,7 +63,7 @@ class TenantManager:
     
     def reload(self):
         """重新載入設定 (支援熱更新)"""
-        print("[TenantManager] 重新載入設定...")
+        print("[TenantManager] 重新載入設定")
         self.load_tenants()
     
     def list_tenants(self) -> Dict:

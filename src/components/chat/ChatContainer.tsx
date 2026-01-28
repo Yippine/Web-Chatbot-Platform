@@ -97,38 +97,39 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
         setConversationHistory(prev => [...prev, content]);
 
         try {
+            // TODO: 語言偵測功能待開發
             // 第一步: 偵測語言 (不顯示 loading)
-            const languageResult = await apiClient.detectLanguage(content);
+            // const languageResult = await apiClient.detectLanguage(content);
             
             // 第二步: 切換語言
-            let currentLang: Language = 'zh-tw';
-            if (languageResult.detected_language) {
-                const langCode = languageMap[languageResult.detected_language.language_name];
-                if (langCode) {
-                    currentLang = langCode;
-                    setLanguage(langCode);
-                }
-            }
+            // let currentLang: Language = 'zh-tw';
+            // if (languageResult.detected_language) {
+            //     const langCode = languageMap[languageResult.detected_language.language_name];
+            //     if (langCode) {
+            //         currentLang = langCode;
+            //         setLanguage(langCode);
+            //     }
+            // }
             
-            // 第三步: 顯示分析中 (已切換語言)
-            setLoadingText(getTranslation(currentLang, 'loading.analyzing'));
+            // 暫時使用預設語言
+            const currentLang: Language = 'zh-tw';
+            
+            // 使用當前服務的自訂等待訊息
+            const serviceConfig = services[currentMode];
+            const loadingMsg = serviceConfig?.loading_message;
+            setLoadingText(loadingMsg);
             setIsProcessing(true);
             
+            // TODO: 意圖判斷功能待開發
             // 第四步: 呼叫意圖判斷
-            const intentResult = await apiClient.detectIntent(content);
-            const detectedIntent = intentResult.intent;
+            // const intentResult = await apiClient.detectIntent(content);
+            // const detectedIntent = intentResult.intent;
             
-            // 第五步: 根據意圖更新等待文字
-            const loadingTexts: { [key: string]: string } = {
-                route: getTranslation(currentLang, 'loading.route'),
-                recommend: getTranslation(currentLang, 'loading.recommend'),
-                events: getTranslation(currentLang, 'loading.events'),
-                floors: getTranslation(currentLang, 'loading.floors'),
-                general: getTranslation(currentLang, 'loading.general')
-            };
-            
-            setCurrentMode(detectedIntent as ChatMode);
-            setLoadingText(loadingTexts[detectedIntent] || getTranslation(currentLang, 'loading.general'));
+            // 暫時使用當前模式,如果是 general 則改用第一個可用服務
+            let detectedIntent = currentMode;
+            if (currentMode === 'general' && Object.keys(services).length > 0) {
+                detectedIntent = Object.keys(services)[0];
+            }
             
             const result = await apiClient.chat(content, tenantId, conversationHistory.slice(-5), detectedIntent);
             
@@ -177,7 +178,8 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
         if (serviceConfig.class === 'QueryService') {
             setCurrentMode(serviceId as ChatMode);
             setIsProcessing(true);
-            setLoadingText('查詢資料中...');
+            const loadingMsg = serviceConfig.query_loading_message;
+            setLoadingText(loadingMsg);
             
             try {
                 const result = await apiClient.queryData(tenantId, serviceId, language);
@@ -221,9 +223,68 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
         
         setCurrentMode(serviceId as ChatMode);
         
-        // 如果有 query，發送訊息
+        // 如果有 query，發送訊息 (直接傳入 serviceId 而不依賴 currentMode)
         if (action.query) {
-            handleSendMessage(action.query);
+            handleSendMessageWithMode(action.query, serviceId);
+        }
+    };
+
+    // 新增: 帶有指定模式的發送訊息函式
+    const handleSendMessageWithMode = async (content: string, mode: string) => {
+        const userMessage: MessageType = {
+            id: `user_${Date.now()}`,
+            sender: 'user',
+            type: 'text',
+            content,
+            timestamp: new Date()
+        };
+
+        setMessages(prev => [...prev, userMessage]);
+        setConversationHistory(prev => [...prev, content]);
+
+        try {
+            // 使用服務的自訂等待訊息
+            const serviceConfig = services[mode];
+            const loadingMsg = serviceConfig?.loading_message;
+            console.log('使用等待訊息:', loadingMsg, 'from service:', mode, 'config:', serviceConfig);
+            setLoadingText(loadingMsg);
+            setIsProcessing(true);
+            
+            // 直接使用傳入的 mode
+            const result = await apiClient.chat(content, tenantId, conversationHistory.slice(-5), mode);
+            
+            const botMessage: MessageType = {
+                id: `bot_${Date.now()}`,
+                sender: 'bot',
+                type: 'text',
+                content: result.response,
+                timestamp: new Date()
+            };
+
+            setMessages(prev => [...prev, botMessage]);
+
+            if (result.references && result.references.length > 0) {
+                const refMessage: MessageType = {
+                    id: `ref_${Date.now()}`,
+                    sender: 'bot',
+                    type: 'text',
+                    content: `${t('references')}\n${result.references.slice(0, 3).join('\n')}`,
+                    timestamp: new Date()
+                };
+                setMessages(prev => [...prev, refMessage]);
+            }
+        } catch (error) {
+            console.error('處理訊息失敗:', error);
+            const errorMessage: MessageType = {
+                id: `error_${Date.now()}`,
+                sender: 'bot',
+                type: 'text',
+                content: t('error.general'),
+                timestamp: new Date()
+            };
+            setMessages(prev => [...prev, errorMessage]);
+        } finally {
+            setIsProcessing(false);
         }
     };
 

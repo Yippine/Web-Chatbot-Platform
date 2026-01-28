@@ -73,7 +73,7 @@ class QueryService(BaseGeminiService):
             return self._data_cache
         
         # 使用固定的預設查詢
-        query = "請提供完整的資料列表"
+        query = "完整資料"
         
         result = self.generate_content(query, user_id="get_data", response_language=response_language)
         

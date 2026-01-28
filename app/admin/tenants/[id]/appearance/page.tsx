@@ -510,7 +510,7 @@ export default function AppearanceEditPage() {
                     disabled={uploading}
                     className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                   />
-                  {uploading && <p className="text-sm text-gray-500 mt-2">上傳中...</p>}
+                  {uploading && <p className="text-sm text-gray-500 mt-2">上傳中</p>}
                 </div>
                 {formData.chatIconUrl && (
                   <div>
@@ -532,7 +532,7 @@ export default function AppearanceEditPage() {
                 disabled={saving}
                 className="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed font-medium"
               >
-                {saving ? '儲存中...' : '儲存設定'}
+                {saving ? '儲存中' : '儲存設定'}
               </button>
               <button
                 type="button"

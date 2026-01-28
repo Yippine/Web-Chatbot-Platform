@@ -12,8 +12,15 @@ interface MessageProps {
 
 function formatMessageContent(content: string): string {
     return content
+        // 移除 Markdown 標題符號 (###, ##, #)
+        .replace(/^#{1,6}\s+/gm, '')
+        // 移除列表符號 (-, *, +)
+        .replace(/^[\-\*\+]\s+/gm, '')
+        // 保留粗體格式
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        // 轉換連結
         .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer" class="underline hover:text-orange-600">$1</a>')
+        // 換行
         .replace(/\n/g, '<br />');
 }
 
