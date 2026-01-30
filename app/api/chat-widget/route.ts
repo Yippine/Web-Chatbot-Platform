@@ -29,7 +29,7 @@ export async function GET(request: Request) {
     // 建立 iframe (帶上 tenant_id)
     const iframe = document.createElement('iframe');
     iframe.id = 'chatbot-iframe';
-    iframe.src = FRONTEND_URL + '?tenant_id=' + TENANT_ID;
+    iframe.src = FRONTEND_URL + '/chat?tenant_id=' + TENANT_ID;
     iframe.style.cssText = 'position:fixed;bottom:90px;right:20px;width:400px;height:600px;border:none;border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,0.15);z-index:9999;display:none;transition:all 0.3s;';
     iframe.allow = 'microphone';
     

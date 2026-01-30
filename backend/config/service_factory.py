@@ -78,7 +78,8 @@ class ServiceFactory:
                 tenant_id=tenant_id,
                 default_temperature=service_config.get('temperature', 0.7),
                 default_use_grounding=service_config.get('use_grounding', True),
-                default_search_keyword=service_config.get('search_keyword')
+                default_search_keyword=service_config.get('search_keyword'),
+                config=service_config
             )
             
             # 如果有自訂提示詞，覆寫 SYSTEM_PROMPT

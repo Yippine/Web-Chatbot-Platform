@@ -13,9 +13,9 @@ class ChatService(BaseGeminiService):
     
     def __init__(self, api_key: str, service_name: str = "chat", tenant_id: str = "default",
                  default_temperature: float = 0.7, default_use_grounding: bool = True,
-                 default_search_keyword: str = None):
+                 default_search_keyword: str = None, config: Dict = None):
         super().__init__(api_key, service_name, tenant_id, default_temperature,
-                         default_use_grounding, default_search_keyword)
+                         default_use_grounding, default_search_keyword, config)
     
     def chat(
         self, 

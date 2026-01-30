@@ -25,6 +25,7 @@ export default function ServiceEditPage() {
     temperature: 0.7,
     use_grounding: true,
     search_keyword: '',
+    allowed_domains: '',
     prompt_content: '',
     mode_message: '',
     show_mode_message: false,
@@ -74,6 +75,7 @@ export default function ServiceEditPage() {
         temperature: data.service.temperature,
         use_grounding: data.service.use_grounding,
         search_keyword: data.service.search_keyword || '',
+        allowed_domains: data.service.allowed_domains || '',
         prompt_content: data.prompt_content || '',
         mode_message: data.service.mode_message || '',
         show_mode_message: data.service.show_mode_message !== false,
@@ -200,7 +202,7 @@ export default function ServiceEditPage() {
                 pattern="[a-zA-Z0-9_]+"
                 required
               />
-              <p className="text-xs text-gray-500 mt-1">僅限英文字母、數字和底線</p>
+              <p className="text-xs text-gray-500 mt-1">僅限英文字母、數字和底線，建立後無法修改</p>
             </div>
           )}
 
@@ -313,6 +315,20 @@ export default function ServiceEditPage() {
             />
           </div>
 
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              允許的網域
+            </label>
+            <input
+              type="text"
+              value={formData.allowed_domains}
+              onChange={(e) => setFormData({ ...formData, allowed_domains: e.target.value })}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              placeholder="例如: leosys.com, syntrend.com.tw"
+            />
+            <p className="text-xs text-gray-500 mt-1">限制參考資料來源網域，多個用逗號分隔</p>
+          </div>
+
           {/* ChatService 專用設定 */}
           {formData.class === 'ChatService' && (
             <>
@@ -393,7 +409,7 @@ export default function ServiceEditPage() {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 cursor-not-allowed"
               placeholder={`prompts/${tenantId}/${serviceName}.md`}
             />
-            <p className="text-xs text-gray-500 mt-1">路徑自動生成：prompts/[租戶ID]/[服務ID].md</p>
+            <p className="text-xs text-gray-500 mt-1">路徑自動生成：prompts/[品牌ID]/[服務ID].md</p>
           </div>
 
           <div>

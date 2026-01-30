@@ -28,6 +28,51 @@ def require_admin():
         return jsonify({"error": "未授權"}), 401
     return None
 
+def update_env_file(tenant_id: str, api_key: str):
+    """更新 .env 檔案中的租戶 API Key"""
+    env_path = os.path.join(os.path.dirname(__file__), '.env')
+    env_key = f"TENANT_{tenant_id.upper()}_GEMINI_API_KEY"
+    
+    # 讀取現有 .env
+    env_lines = []
+    if os.path.exists(env_path):
+        with open(env_path, 'r', encoding='utf-8') as f:
+            env_lines = f.readlines()
+    
+    # 更新或新增
+    key_found = False
+    for i, line in enumerate(env_lines):
+        if line.startswith(f"{env_key}="):
+            env_lines[i] = f"{env_key}={api_key}\n"
+            key_found = True
+            break
+    
+    if not key_found:
+        env_lines.append(f"{env_key}={api_key}\n")
+    
+    # 寫回 .env
+    with open(env_path, 'w', encoding='utf-8') as f:
+        f.writelines(env_lines)
+    
+    return env_key
+
+def remove_env_key(tenant_id: str):
+    """從 .env 移除租戶 API Key"""
+    env_path = os.path.join(os.path.dirname(__file__), '.env')
+    env_key = f"TENANT_{tenant_id.upper()}_GEMINI_API_KEY"
+    
+    if not os.path.exists(env_path):
+        return
+    
+    with open(env_path, 'r', encoding='utf-8') as f:
+        env_lines = f.readlines()
+    
+    # 過濾掉該 key
+    env_lines = [line for line in env_lines if not line.startswith(f"{env_key}=")]
+    
+    with open(env_path, 'w', encoding='utf-8') as f:
+        f.writelines(env_lines)
+
 @app.before_request
 def check_admin():
     """所有請求都需要管理員權限 (除了 OPTIONS 和 health)"""
@@ -95,11 +140,18 @@ def create_tenant():
         if tenant_manager.tenant_exists(tenant_id):
             return jsonify({"error": "租戶 ID 已存在"}), 409
         
-        # 建立租戶設定,包含完整的外觀設定
+        # 取得 API Key 並寫入 .env
+        api_key = data.get("gemini_api_key", "")
+        if api_key:
+            env_key = update_env_file(tenant_id, api_key)
+        else:
+            env_key = f"TENANT_{tenant_id.upper()}_GEMINI_API_KEY"
+        
+        # 建立租戶設定 (不儲存 API Key，改存環境變數名稱)
         new_tenant = {
             "id": tenant_id,
             "name": data.get("name", "新租戶"),
-            "gemini_api_key": data.get("gemini_api_key", ""),
+            "api_key_env": env_key,
             "enabled": data.get("enabled", True),
             "services": data.get("services", {}),
             "quick_actions": data.get("quick_actions", []),
@@ -152,7 +204,13 @@ def update_tenant(tenant_id):
         if "name" in data:
             tenant["name"] = data["name"]
         if "gemini_api_key" in data:
-            tenant["gemini_api_key"] = data["gemini_api_key"]
+            # 更新 .env 而不是 tenants.json
+            api_key = data["gemini_api_key"]
+            if api_key:
+                env_key = update_env_file(tenant_id, api_key)
+                tenant["api_key_env"] = env_key
+                # 移除舊的 gemini_api_key 欄位（如果存在）
+                tenant.pop("gemini_api_key", None)
         if "enabled" in data:
             tenant["enabled"] = data["enabled"]
         if "services" in data:
@@ -180,6 +238,9 @@ def delete_tenant(tenant_id):
         
         if tenant_id not in tenants:
             return jsonify({"error": "租戶不存在"}), 404
+        
+        # 從 .env 移除 API Key
+        remove_env_key(tenant_id)
         
         # 刪除租戶
         del tenants[tenant_id]
@@ -302,6 +363,8 @@ def update_service(tenant_id, service_name):
             service["use_grounding"] = data["use_grounding"]
         if "search_keyword" in data:
             service["search_keyword"] = data["search_keyword"]
+        if "allowed_domains" in data:
+            service["allowed_domains"] = data["allowed_domains"]
         if "mode_message" in data:
             service["mode_message"] = data["mode_message"]
         if "show_mode_message" in data:
@@ -367,8 +430,9 @@ def add_service(tenant_id):
             "temperature": data.get("temperature", 0.7),
             "use_grounding": data.get("use_grounding", True),
             "search_keyword": data.get("search_keyword", ""),
-            "loading_message": data.get("loading_message"),
-            "query_loading_message": data.get("query_loading_message")
+            "allowed_domains": data.get("allowed_domains", ""),
+            "loading_message": data.get("loading_message", "處理中"),
+            "query_loading_message": data.get("query_loading_message", "查詢資料中")
         }
         
         services[service_id] = new_service

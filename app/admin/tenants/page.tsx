@@ -53,12 +53,12 @@ export default function TenantsPage() {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">租戶管理</h1>
+        <h1 className="text-3xl font-bold text-gray-900">品牌管理</h1>
         <button
           onClick={() => router.push('/admin/tenants/new')}
           className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
         >
-          新增租戶
+          新增品牌
         </button>
       </div>
 
@@ -73,7 +73,7 @@ export default function TenantsPage() {
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                租戶 ID
+                品牌 ID
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 名稱
@@ -113,6 +113,14 @@ export default function TenantsPage() {
                   {tenant.services_count}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-4">
+                  <a
+                    href={`/chat?tenant_id=${tenant.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-indigo-600 hover:text-indigo-900"
+                  >
+                    開啟聊天
+                  </a>
                   <button
                     onClick={() => router.push(`/admin/tenants/${tenant.id}`)}
                     className="text-blue-600 hover:text-blue-900"
@@ -139,7 +147,7 @@ export default function TenantsPage() {
 
         {tenants.length === 0 && (
           <div className="text-center py-12 text-gray-500">
-            尚無租戶，請新增第一個租戶
+            尚無品牌，請新增第一個品牌
           </div>
         )}
       </div>

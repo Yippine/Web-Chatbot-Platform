@@ -202,7 +202,7 @@ export default function AppearanceEditPage() {
           onClick={() => router.push(`/admin/tenants/${tenantId}`)}
           className="text-blue-600 hover:text-blue-800 mb-4"
         >
-          ← 返回租戶設定
+          ← 返回品牌設定
         </button>
         <h1 className="text-3xl font-bold text-gray-900">外觀設定</h1>
         <p className="text-gray-600 mt-2">客製化聊天視窗的外觀與樣式</p>

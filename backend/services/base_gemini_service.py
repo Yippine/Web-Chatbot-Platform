@@ -24,7 +24,8 @@ class BaseGeminiService:
         tenant_id: str = "default",
         default_temperature: float = 0.7,
         default_use_grounding: bool = True,
-        default_search_keyword: str = None
+        default_search_keyword: str = None,
+        config: Dict = None
     ):
         self.client = genai.Client(api_key=api_key)
         self.grounding_tool = types.Tool(google_search=types.GoogleSearch())
@@ -33,6 +34,7 @@ class BaseGeminiService:
         self.default_temperature = default_temperature
         self.default_use_grounding = default_use_grounding
         self.default_search_keyword = default_search_keyword
+        self.config = config or {}
         
         # 初始化 Redis
         self.redis_client = self._init_redis()
@@ -236,14 +238,23 @@ class BaseGeminiService:
     def _process_single_url(self, url: str) -> Optional[str]:
         """處理單個 URL"""
         try:
-            # 解析 Vertex AI 重定向（降低超時時間）
+            # 解析 Vertex AI 重定向
             if 'vertexaisearch.cloud.google.com/grounding-api-redirect' in url:
-                response = requests.head(url, allow_redirects=True, timeout=0.8)  # 降到 0.8 秒
+                response = requests.head(url, allow_redirects=True, timeout=0.8)
                 url = response.url
             
-            # 只保留三創官網連結
-            if 'syntrend.com.tw' in url:
-                return url
+            # 檢查是否在允許的網域列表中
+            allowed_domains = self.config.get('allowed_domains', '')
+            if allowed_domains:
+                # 分割多個網域（逗號分隔）
+                domains = [d.strip() for d in allowed_domains.split(',') if d.strip()]
+                # 檢查 URL 是否包含任一允許的網域
+                for domain in domains:
+                    if domain in url:
+                        return url
+                return None
+            
+            # 如果沒有設定 allowed_domains，不保留任何 URL
             return None
         except Exception:
             return None

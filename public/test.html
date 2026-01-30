@@ -34,10 +34,12 @@
   <div class="content">
     <h3>使用方式</h3>
     <p>在任何網頁加入以下程式碼：</p>
-    <pre><code>&lt;script src="http://localhost:3000/api/chat-widget"&gt;&lt;/script&gt;</code></pre>
+    <pre><code>&lt;script src="http://localhost:3000/api/chat-widget?tenant_id=demo"&gt;&lt;/script&gt;</code></pre>
+    <p>更換不同租戶：</p>
+    <pre><code>&lt;script src="http://localhost:3000/api/chat-widget?tenant_id=test"&gt;&lt;/script&gt;</code></pre>
   </div>
 
-  <!-- 載入聊天小工具 -->
-  <script src="/api/chat-widget"></script>
+  <!-- 載入聊天小工具 (demo 租戶) -->
+  <script src="/api/chat-widget?tenant_id=demo"></script>
 </body>
 </html>

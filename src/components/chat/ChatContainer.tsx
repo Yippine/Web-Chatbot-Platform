@@ -193,6 +193,18 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
                 };
                 setMessages(prev => [...prev, botMessage]);
                 
+                // 顯示參考資料
+                if (result.references && result.references.length > 0) {
+                    const refMessage: MessageType = {
+                        id: `ref_${Date.now()}`,
+                        sender: 'bot',
+                        type: 'text',
+                        content: `${t('references')}\n${result.references.slice(0, 3).join('\n')}`,
+                        timestamp: new Date()
+                    };
+                    setMessages(prev => [...prev, refMessage]);
+                }
+                
             } catch (error) {
                 console.error('查詢失敗:', error);
                 const errorMessage: MessageType = {

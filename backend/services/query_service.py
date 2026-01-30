@@ -14,9 +14,9 @@ class QueryService(BaseGeminiService):
     
     def __init__(self, api_key: str, service_name: str = "query", tenant_id: str = "default",
                  default_temperature: float = 0.7, default_use_grounding: bool = True,
-                 default_search_keyword: str = None):
+                 default_search_keyword: str = None, config: Dict = None):
         super().__init__(api_key, service_name, tenant_id, default_temperature,
-                         default_use_grounding, default_search_keyword)
+                         default_use_grounding, default_search_keyword, config)
         # 快取資料（避免重複查詢）
         self._data_cache = None
         self._cache_timestamp = 0

@@ -45,6 +45,15 @@ class TenantManager:
             print(f"[TenantManager] 租戶未啟用: {tenant_id}")
             return None
         
+        # 從環境變數讀取 API Key
+        api_key_env = tenant.get('api_key_env')
+        if api_key_env:
+            api_key = os.getenv(api_key_env)
+            if api_key:
+                tenant['gemini_api_key'] = api_key
+            else:
+                print(f"[TenantManager] 警告: 環境變數 {api_key_env} 未設定")
+        
         return tenant
     
     def load_prompt(self, prompt_file: str) -> str:

@@ -7,7 +7,7 @@ export default function AdminPage() {
   const router = useRouter();
 
   useEffect(() => {
-    // 重定向到租戶管理頁面
+    // 重定向到品牌管理頁面
     router.push('/admin/tenants');
   }, [router]);
 
