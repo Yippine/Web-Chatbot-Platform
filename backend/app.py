@@ -161,60 +161,6 @@ def create_service_from_quick_action(tenant_id: str, tenant: dict, qa_config: di
     
     return service_instance
 
-@app.route("/api/chat/intent", methods=["POST"])
-@require_tenant(tenant_manager)
-def detect_intent():
-    """意圖判斷端點（多租戶版）"""
-    data = request.json
-    message = data.get("message")
-    
-    if not message:
-        return jsonify({"error": "缺少訊息內容"}), 400
-    
-    try:
-        tenant_id = request.tenant_id
-        user_id = f"intent_{tenant_id}"
-        
-        # 使用通用服務進行意圖判斷
-        general_service = service_factory.create_service(tenant_id, 'general')
-        if not general_service:
-            return jsonify({"error": "服務不可用"}), 503
-        
-        # 意圖判斷
-        intent_prompt = f"""判斷以下問題的類型，只回答一個關鍵字：
-                        - 如果是**產品推薦、購物諮詢**（如：推薦、想買、找商品、有什麼、賣什麼、哪裡買、產品、商品），回答「recommend」
-                        - 如果是**路線導航**（如：怎麼去、怎麼走、從A到B、導航），回答「route」
-                        - 如果是**活動資訊**（如：活動、展覽、優惠、促銷、檔期），回答「events」
-                        - 如果是**樓層店家查詢**（如：幾樓、樓層配置、店家列表、櫃位資訊），回答「floors」
-                        - 其他問題回答「general」
-
-                        問題：{message}
-                        回答："""
-        
-        intent_result = general_service.generate_content(
-            intent_prompt, 
-            user_id=user_id,
-            temperature=0, 
-            use_grounding=False
-        )
-        intent = intent_result["text"].strip().lower()
-        
-        # 標準化意圖
-        if "route" in intent:
-            intent = "route"
-        elif "recommend" in intent:
-            intent = "recommend"
-        elif "event" in intent:
-            intent = "events"
-        elif "floor" in intent:
-            intent = "floors"
-        else:
-            intent = "general"
-        
-        return jsonify({"intent": intent})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
 @app.route("/api/tenant/config", methods=["GET"])
 @require_tenant(tenant_manager)
 def get_tenant_config():

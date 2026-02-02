@@ -116,16 +116,11 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
             
             // 使用當前服務的自訂等待訊息
             const serviceConfig = services[currentMode];
-            const loadingMsg = serviceConfig?.loading_message;
+            const loadingMsg = serviceConfig?.loading_message || '處理中...';
             setLoadingText(loadingMsg);
             setIsProcessing(true);
             
-            // TODO: 意圖判斷功能待開發
-            // 第四步: 呼叫意圖判斷
-            // const intentResult = await apiClient.detectIntent(content);
-            // const detectedIntent = intentResult.intent;
-            
-            // 暫時使用當前模式,如果是 general 則改用第一個可用服務
+            // 使用當前模式,如果是 general 則改用第一個可用服務
             let detectedIntent = currentMode;
             if (currentMode === 'general' && Object.keys(services).length > 0) {
                 detectedIntent = Object.keys(services)[0];

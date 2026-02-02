@@ -94,15 +94,5 @@ export const apiClient = {
       }
     });
     return res.json();
-  },
-
-  // 快速判斷意圖
-  async detectIntent(message: string) {
-    const res = await fetch(`${API_BASE_URL}/api/chat/intent`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message })
-    });
-    return res.json();
   }
 };
