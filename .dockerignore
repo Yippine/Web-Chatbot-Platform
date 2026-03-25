@@ -1,0 +1,8 @@
+node_modules
+.next
+.git
+backend
+.env
+.env.*
+*.md
+.kiro
