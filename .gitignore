@@ -45,3 +45,6 @@ next-env.d.ts
 /.amazonq
 /.kiro
 /public/images/*
+
+# nginx
+nginx.conf
