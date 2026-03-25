@@ -7,8 +7,8 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       {/* Sidebar */}
       <aside className="fixed left-0 top-0 h-full w-64 bg-white border-r border-gray-200">
         <div className="p-6">
-          <h1 className="text-2xl font-bold text-gray-900">管理後台</h1>
-          <p className="text-sm text-gray-500 mt-1">多品牌聊天機器人平台</p>
+          <h1 className="text-2xl font-bold text-gray-900">EzLine</h1>
+          <p className="text-sm text-gray-500 mt-1">AI 網頁精靈管理平台</p>
         </div>
         
         <nav className="px-4 space-y-1">
