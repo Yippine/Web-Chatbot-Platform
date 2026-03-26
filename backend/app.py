@@ -19,7 +19,7 @@ CORS(app)
 tenant_manager = TenantManager()
 service_factory = ServiceFactory(tenant_manager)
 
-@app.route("/health", methods=["GET"])
+@app.route("/api/health", methods=["GET"])
 def health():
     return jsonify({"status": "healthy"})
 

@@ -85,13 +85,13 @@ def check_admin():
         if error:
             return error
 
-@app.route("/health", methods=["GET"])
+@app.route("/api/admin/health", methods=["GET"])
 def health():
     return jsonify({"status": "healthy"})
 
 # ==================== 租戶管理 ====================
 
-@app.route("/admin/tenants", methods=["GET"])
+@app.route("/api/admin/tenants", methods=["GET"])
 def list_tenants():
     """列出所有租戶"""
     try:
@@ -110,7 +110,7 @@ def list_tenants():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route("/admin/tenants/<tenant_id>", methods=["GET"])
+@app.route("/api/admin/tenants/<tenant_id>", methods=["GET"])
 def get_tenant(tenant_id):
     """取得租戶詳細資訊"""
     try:
@@ -126,7 +126,7 @@ def get_tenant(tenant_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route("/admin/tenants", methods=["POST"])
+@app.route("/api/admin/tenants", methods=["POST"])
 def create_tenant():
     """建立新租戶"""
     try:
@@ -188,7 +188,7 @@ def create_tenant():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route("/admin/tenants/<tenant_id>", methods=["PUT"])
+@app.route("/api/admin/tenants/<tenant_id>", methods=["PUT"])
 def update_tenant(tenant_id):
     """更新租戶設定"""
     try:
@@ -230,7 +230,7 @@ def update_tenant(tenant_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route("/admin/tenants/<tenant_id>", methods=["DELETE"])
+@app.route("/api/admin/tenants/<tenant_id>", methods=["DELETE"])
 def delete_tenant(tenant_id):
     """刪除租戶"""
     try:
@@ -259,7 +259,7 @@ def delete_tenant(tenant_id):
 
 # ==================== 服務設定管理 ====================
 
-@app.route("/admin/service-classes", methods=["GET"])
+@app.route("/api/admin/service-classes", methods=["GET"])
 def get_service_classes():
     """取得可用的服務類別清單"""
     try:
@@ -282,7 +282,7 @@ def get_service_classes():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route("/admin/tenants/<tenant_id>/services/<service_name>", methods=["GET"])
+@app.route("/api/admin/tenants/<tenant_id>/services/<service_name>", methods=["GET"])
 def get_service(tenant_id, service_name):
     """取得服務詳細資訊 (包含提示詞內容)"""
     try:
@@ -312,7 +312,7 @@ def get_service(tenant_id, service_name):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route("/admin/tenants/<tenant_id>/services", methods=["GET"])
+@app.route("/api/admin/tenants/<tenant_id>/services", methods=["GET"])
 def list_services(tenant_id):
     """列出租戶的所有服務設定"""
     try:
@@ -328,7 +328,7 @@ def list_services(tenant_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route("/admin/tenants/<tenant_id>/services/<service_name>", methods=["PUT"])
+@app.route("/api/admin/tenants/<tenant_id>/services/<service_name>", methods=["PUT"])
 def update_service(tenant_id, service_name):
     """更新服務設定 (包含提示詞)"""
     try:
@@ -399,7 +399,7 @@ def update_service(tenant_id, service_name):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route("/admin/tenants/<tenant_id>/services", methods=["POST"])
+@app.route("/api/admin/tenants/<tenant_id>/services", methods=["POST"])
 def add_service(tenant_id):
     """新增服務"""
     try:
@@ -469,7 +469,7 @@ def add_service(tenant_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route("/admin/tenants/<tenant_id>/services/<service_name>", methods=["DELETE"])
+@app.route("/api/admin/tenants/<tenant_id>/services/<service_name>", methods=["DELETE"])
 def delete_service(tenant_id, service_name):
     """刪除服務"""
     try:
@@ -505,7 +505,7 @@ def delete_service(tenant_id, service_name):
 
 # ==================== Quick Actions 管理 ====================
 
-@app.route("/admin/tenants/<tenant_id>/quick-actions", methods=["GET"])
+@app.route("/api/admin/tenants/<tenant_id>/quick-actions", methods=["GET"])
 def get_quick_actions(tenant_id):
     """取得固定問題"""
     try:
@@ -521,7 +521,7 @@ def get_quick_actions(tenant_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route("/admin/tenants/<tenant_id>/quick-actions", methods=["PUT"])
+@app.route("/api/admin/tenants/<tenant_id>/quick-actions", methods=["PUT"])
 def update_quick_actions(tenant_id):
     """更新固定問題"""
     try:
@@ -552,7 +552,7 @@ def update_quick_actions(tenant_id):
 
 # ==================== 外觀設定管理 ====================
 
-@app.route("/admin/tenants/<tenant_id>/appearance", methods=["GET"])
+@app.route("/api/admin/tenants/<tenant_id>/appearance", methods=["GET"])
 def get_appearance(tenant_id):
     """取得租戶外觀設定"""
     try:
@@ -568,7 +568,7 @@ def get_appearance(tenant_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route("/admin/tenants/<tenant_id>/appearance", methods=["PUT"])
+@app.route("/api/admin/tenants/<tenant_id>/appearance", methods=["PUT"])
 def update_appearance(tenant_id):
     """更新租戶外觀設定"""
     try:
@@ -593,7 +593,7 @@ def update_appearance(tenant_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route("/admin/tenants/<tenant_id>/appearance/upload-icon", methods=["POST"])
+@app.route("/api/admin/tenants/<tenant_id>/appearance/upload-icon", methods=["POST"])
 def upload_chat_icon(tenant_id):
     """上傳聊天圖示"""
     try:
