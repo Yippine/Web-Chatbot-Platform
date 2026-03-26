@@ -23,6 +23,7 @@ services:
       - REDIS_PORT=6379
       - TENANTS_CONFIG_PATH=/app/data/tenants.json
     volumes:
+      - ./backend/.env:/app/.env
       - ./backend/data:/app/data
       - ./backend/prompts:/app/prompts
     depends_on:
@@ -42,6 +43,7 @@ services:
       - REDIS_PORT=6379
       - TENANTS_CONFIG_PATH=/app/data/tenants.json
     volumes:
+      - ./backend/.env:/app/.env
       - ./backend/data:/app/data
       - ./backend/prompts:/app/prompts
     depends_on:

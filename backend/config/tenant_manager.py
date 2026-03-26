@@ -48,14 +48,16 @@ class TenantManager:
             print(f"[TenantManager] 租戶未啟用: {tenant_id}")
             return None
         
-        # 從環境變數讀取 API Key
+        # 從 .env 檔案即時讀取 API Key（免重啟容器）
         api_key_env = tenant.get('api_key_env')
         if api_key_env:
-            api_key = os.getenv(api_key_env)
+            from dotenv import dotenv_values
+            env = dotenv_values(os.path.join(os.path.dirname(__file__), '..', '.env'))
+            api_key = env.get(api_key_env)
             if api_key:
                 tenant['gemini_api_key'] = api_key
             else:
-                print(f"[TenantManager] 警告: 環境變數 {api_key_env} 未設定")
+                print(f"[TenantManager] 警告: {api_key_env} 未設定於 .env")
         
         return tenant
     
