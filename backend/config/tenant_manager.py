@@ -11,7 +11,10 @@ class TenantManager:
     
     def __init__(self, config_path: str = None):
         if config_path is None:
-            config_path = os.path.join(os.path.dirname(__file__), 'tenants.json')
+            config_path = os.environ.get(
+                'TENANTS_CONFIG_PATH',
+                os.path.join(os.path.dirname(__file__), 'tenants.json')
+            )
         self.config_path = config_path
         self.tenants = {}
         self.load_tenants()

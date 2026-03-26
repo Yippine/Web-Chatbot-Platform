@@ -21,6 +21,10 @@ services:
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+      - TENANTS_CONFIG_PATH=/app/data/tenants.json
+    volumes:
+      - backend-data:/app/data
+      - backend-prompts:/app/prompts
     depends_on:
       redis:
         condition: service_healthy
@@ -36,6 +40,10 @@ services:
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+      - TENANTS_CONFIG_PATH=/app/data/tenants.json
+    volumes:
+      - backend-data:/app/data
+      - backend-prompts:/app/prompts
     depends_on:
       redis:
         condition: service_healthy
@@ -67,3 +75,5 @@ services:
 
 volumes:
   redis-data:
+  backend-data:
+  backend-prompts:
