@@ -1,8 +1,8 @@
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const tenantId = searchParams.get('tenant_id') || 'demo';
-  const frontendUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || 'http://localhost:3000';
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+  const frontendUrl = process.env.NEXT_PUBLIC_FRONTEND_URL!;
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL!;
   
   const script = `(function() {
   const FRONTEND_URL = '${frontendUrl}';
