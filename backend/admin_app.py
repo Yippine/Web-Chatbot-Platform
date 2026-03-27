@@ -649,8 +649,11 @@ def upload_chat_icon(tenant_id):
         img.thumbnail((128, 128), Image.Resampling.LANCZOS)
         
         # 建立目錄
-        base_dir = os.path.dirname(os.path.dirname(__file__))
-        tenant_dir = os.path.join(base_dir, 'public', 'images', 'tenants', tenant_id)
+        upload_dir = os.environ.get(
+            'UPLOAD_IMAGES_PATH',
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), 'public', 'images', 'tenants')
+        )
+        tenant_dir = os.path.join(upload_dir, tenant_id)
         os.makedirs(tenant_dir, exist_ok=True)
         
         # 使用時間戳作為檔名
