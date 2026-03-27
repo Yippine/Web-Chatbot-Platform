@@ -46,6 +46,7 @@ services:
       - ./backend/.env:/app/.env
       - ./backend/data:/app/data
       - ./backend/prompts:/app/prompts
+      - ./backend/data/images/tenants:/app/public/images/tenants
     depends_on:
       redis:
         condition: service_healthy
@@ -71,6 +72,7 @@ services:
       - "${NGINX_PORT}:80"
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./backend/data/images/tenants:/usr/share/nginx/images/tenants:ro
     depends_on:
       - frontend
       - backend

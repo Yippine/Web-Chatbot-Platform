@@ -192,6 +192,7 @@ def create_tenant():
 def update_tenant(tenant_id):
     """更新租戶設定"""
     try:
+        tenant_manager.reload()
         tenants = tenant_manager.list_tenants()
         
         if tenant_id not in tenants:
@@ -234,6 +235,7 @@ def update_tenant(tenant_id):
 def delete_tenant(tenant_id):
     """刪除租戶"""
     try:
+        tenant_manager.reload()
         tenants = tenant_manager.list_tenants()
         
         if tenant_id not in tenants:
@@ -332,6 +334,7 @@ def list_services(tenant_id):
 def update_service(tenant_id, service_name):
     """更新服務設定 (包含提示詞)"""
     try:
+        tenant_manager.reload()
         tenants = tenant_manager.list_tenants()
         
         if tenant_id not in tenants:
@@ -403,6 +406,7 @@ def update_service(tenant_id, service_name):
 def add_service(tenant_id):
     """新增服務"""
     try:
+        tenant_manager.reload()
         tenants = tenant_manager.list_tenants()
         
         if tenant_id not in tenants:
@@ -473,6 +477,7 @@ def add_service(tenant_id):
 def delete_service(tenant_id, service_name):
     """刪除服務"""
     try:
+        tenant_manager.reload()
         tenants = tenant_manager.list_tenants()
         
         if tenant_id not in tenants:
@@ -525,6 +530,7 @@ def get_quick_actions(tenant_id):
 def update_quick_actions(tenant_id):
     """更新固定問題"""
     try:
+        tenant_manager.reload()
         tenants = tenant_manager.list_tenants()
         
         if tenant_id not in tenants:
@@ -556,6 +562,7 @@ def update_quick_actions(tenant_id):
 def get_appearance(tenant_id):
     """取得租戶外觀設定"""
     try:
+        tenant_manager.reload()
         tenants = tenant_manager.list_tenants()
         
         if tenant_id not in tenants:
@@ -572,6 +579,7 @@ def get_appearance(tenant_id):
 def update_appearance(tenant_id):
     """更新租戶外觀設定"""
     try:
+        tenant_manager.reload()
         tenants = tenant_manager.list_tenants()
         
         if tenant_id not in tenants:
@@ -597,6 +605,7 @@ def update_appearance(tenant_id):
 def upload_chat_icon(tenant_id):
     """上傳聊天圖示"""
     try:
+        tenant_manager.reload()
         tenants = tenant_manager.list_tenants()
         
         if tenant_id not in tenants:
