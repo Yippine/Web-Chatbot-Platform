@@ -1,297 +1,341 @@
-# 多租戶聊天機器人平台
+# AI Genie — 多租戶聊天機器人平台
 
-可客製化的嵌入式聊天機器人平台,支援多租戶管理、動態服務配置、提示詞編輯等功能。
+可客製化的嵌入式 AI 聊天機器人平台，支援多租戶管理、動態服務配置、提示詞編輯、外觀自訂等功能。
 
 ## 功能特色
 
-- ✅ **多租戶架構**: 每個客戶獨立的 API Key、設定、提示詞
-- ✅ **動態服務配置**: 可啟用/停用服務,調整參數 (temperature, grounding 等)
-- ✅ **提示詞管理**: Markdown 格式,支援線上編輯
-- ✅ **固定問題客製化**: 每個租戶自訂 Quick Actions
-- ✅ **管理後台**: Web UI 管理租戶、服務、提示詞
-- ✅ **嵌入式部署**: 一行代碼嵌入任何網站
+- **多租戶架構**：每個品牌獨立的 API Key、服務設定、提示詞
+- **動態服務配置**：可啟用/停用服務，調整 temperature、grounding、搜尋關鍵字等參數
+- **提示詞管理**：Markdown 格式，支援線上編輯
+- **Quick Actions**：每個租戶自訂快捷按鈕
+- **外觀自訂**：標題、色彩、漸層、聊天圖示皆可自訂
+- **管理後台**：Web UI 管理租戶、服務、提示詞、外觀
+- **嵌入式部署**：一行 `<script>` 嵌入任何網站
 
 ## 技術架構
 
-### 後端
-- **框架**: Flask
-- **AI**: Google Gemini 2.5 Flash
-- **快取**: Redis
-- **語言**: Python 3.x
+| 層級 | 技術 |
+|------|------|
+| 前端框架 | Next.js 16 (App Router) + React 19 + TypeScript 5 |
+| 樣式 | Tailwind CSS 4 + Framer Motion |
+| 後端框架 | Flask 3.0 (Python 3.x) |
+| AI 服務 | Google Gemini 2.5 Flash (google-genai SDK) |
+| Session 管理 | Redis 5.0 |
+| 容器化 | Docker + Docker Compose + Nginx 反向代理 |
 
-### 前端
-- **框架**: Next.js 16 (App Router)
-- **語言**: TypeScript
-- **樣式**: Tailwind CSS
-- **UI**: Framer Motion
+## 專案結構
 
-## 快速開始
+```
+chatbot-platform/
+├── app/                              # Next.js App Router
+│   ├── page.tsx                      # 首頁（重導至聊天頁）
+│   ├── layout.tsx                    # 根佈局
+│   ├── chat/page.tsx                 # 聊天主頁面
+│   ├── admin/                        # 管理後台頁面
+│   │   ├── login/page.tsx            #   登入頁
+│   │   └── tenants/                  #   品牌管理
+│   │       ├── page.tsx              #     品牌列表
+│   │       └── [id]/
+│   │           ├── page.tsx          #     品牌編輯
+│   │           ├── services/         #     服務管理
+│   │           └── appearance/       #     外觀設定
+│   └── api/
+│       ├── chat/route.ts             # 聊天 API 代理
+│       └── chat-widget/route.ts      # 嵌入式腳本產生器
+├── src/
+│   ├── components/
+│   │   ├── chat/                     # ChatContainer, MessageList, InputBar, QuickActions 等
+│   │   └── ui/                       # Button, Card, Carousel
+│   ├── lib/
+│   │   ├── api-client.ts             # 前端 → 後端 API 通訊
+│   │   ├── admin/api-client.ts       # 管理後台 API Client
+│   │   ├── appearance.ts             # 外觀工具函式
+│   │   ├── i18n.ts                   # 多語系
+│   │   └── utils.ts                  # 工具函式
+│   ├── types/index.ts                # TypeScript 型別定義
+│   ├── contexts/                     # React Context (語言)
+│   └── locales/translations.json     # 翻譯檔
+├── backend/
+│   ├── app.py                        # 主 API 伺服器 (port 5000)
+│   ├── admin_app.py                  # 管理後台 API (port 5001)
+│   ├── config/
+│   │   ├── tenant_manager.py         # 租戶設定管理器
+│   │   ├── service_factory.py        # 服務工廠（動態建立 AI 服務）
+│   │   └── tenants.json              # 租戶設定資料
+│   ├── services/
+│   │   ├── base_gemini_service.py    # Gemini AI 基礎類別 + Redis session
+│   │   ├── chat_service.py           # 對話問答服務
+│   │   ├── query_service.py          # 資料查詢服務（含 grounding）
+│   │   ├── smart_route_service.py    # 路線導航服務
+│   │   └── language_service.py       # 語言偵測服務
+│   ├── middleware/
+│   │   └── tenant_auth.py            # 租戶驗證中介層
+│   ├── prompts/{tenant_id}/          # 各租戶的提示詞 (Markdown)
+│   ├── Dockerfile                    # 主 API 容器
+│   ├── Dockerfile.admin              # 管理 API 容器
+│   └── requirements.txt              # Python 依賴
+├── public/                           # 靜態資源（圖示、測試頁面）
+├── scripts/build-widget.js           # 嵌入式 Widget 建置腳本
+├── docker-compose.yml                # 容器編排
+├── nginx.conf                        # Nginx 反向代理設定
+├── Dockerfile                        # 前端容器
+└── .env.example                      # 環境變數範本
+```
 
-### 1. 環境準備
+## 本地端開發部署
+
+### 前置需求
+
+- Node.js 20+
+- Python 3.11+
+- Redis
+
+### 步驟 1：安裝依賴
 
 ```bash
-# 安裝 Python 依賴
-cd backend
-pip install -r requirements.txt
-
-# 安裝 Node.js 依賴
-cd ..
+# 前端
 npm install
+
+# 後端
+cd backend
+python -m venv venv
+# Linux / macOS
+source venv/bin/activate
+# Windows
+venv\Scripts\activate
+
+pip install -r requirements.txt
 ```
 
-### 2. 設定環境變數
+### 步驟 2：設定環境變數
 
-**backend/.env**:
-```env
-GEMINI_API_KEY=your_gemini_api_key
-REDIS_HOST=localhost
-REDIS_PORT=6379
-ADMIN_API_KEY=admin_secret_key
-```
+**根目錄 `.env`**（建立或複製 `.env.example`）：
 
-**.env.local** (根目錄):
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:5000
 NEXT_PUBLIC_ADMIN_API_URL=http://localhost:5001
 NEXT_PUBLIC_FRONTEND_URL=http://localhost:3000
 ```
 
-### 3. 啟動服務
+**`backend/.env`**（建立或複製 `backend/.env.example`）：
 
-**啟動 Redis**:
+```env
+GEMINI_API_KEY=your_gemini_api_key
+ADMIN_API_KEY=your_admin_secret_key
+
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_DB=0
+REDIS_PASSWORD=
+
+# 各租戶的 Gemini API Key（由管理後台自動寫入）
+# TENANT_DEMO_GEMINI_API_KEY=xxx
+```
+
+### 步驟 3：啟動 Redis
+
 ```bash
 redis-server
 ```
 
-**啟動後端 API** (port 5000):
+如果是 Windows 且沒有原生 Redis，可用 Docker：
+
 ```bash
-cd backend
-python app.py
+docker run -d --name redis -p 6379:6379 redis:latest
 ```
 
-**啟動管理後台 API** (port 5001):
+### 步驟 4：啟動後端
+
+開兩個終端機：
+
 ```bash
+# 終端機 1 — 主 API (port 5000)
 cd backend
+source venv/bin/activate   # Windows: venv\Scripts\activate
+python app.py
+
+# 終端機 2 — 管理後台 API (port 5001)
+cd backend
+source venv/bin/activate   # Windows: venv\Scripts\activate
 python admin_app.py
 ```
 
-**啟動前端** (port 3000):
+### 步驟 5：啟動前端
+
 ```bash
+# 終端機 3 — Next.js (port 3000)
 npm run dev
 ```
 
-### 4. 訪問管理後台
+### 步驟 6：開始使用
 
-- URL: http://localhost:3000/admin/login
-- API Key: `admin_secret_key`
+| 頁面 | URL |
+|------|-----|
+| 聊天頁面 | http://localhost:3000/chat?tenant_id=demo |
+| 管理後台登入 | http://localhost:3000/admin/login |
+| 後端健康檢查 | http://localhost:5000/api/health |
+| 管理 API 健康檢查 | http://localhost:5001/api/admin/health |
 
-## 使用指南
+管理後台登入密碼為 `backend/.env` 中的 `ADMIN_API_KEY`。
 
-### 管理租戶
+## Docker 部署
 
-1. 登入管理後台
-2. 點擊「新增租戶」
-3. 填寫租戶資訊:
-   - 租戶名稱
-   - Gemini API Key
-   - 啟用狀態
-4. 儲存
+### 步驟 1：設定環境變數
 
-### 設定服務
+編輯根目錄 `.env`：
 
-1. 在租戶列表點擊「服務」
-2. 查看已啟用的服務
-3. 調整服務參數:
-   - Temperature (0-1)
-   - Use Grounding (是/否)
-   - Search Keyword
+```env
+NGINX_PORT=80
+NEXT_PUBLIC_API_URL=https://your-domain.com
+NEXT_PUBLIC_ADMIN_API_URL=https://your-domain.com
+NEXT_PUBLIC_FRONTEND_URL=https://your-domain.com
+```
 
-### 編輯提示詞
+編輯 `backend/.env`（同上方後端環境變數）。
 
-1. 在租戶列表點擊「提示詞」
-2. 選擇要編輯的服務
-3. 在編輯器中修改提示詞 (Markdown 格式)
-4. 點擊「儲存」
+### 步驟 2：準備資料目錄
 
-### 嵌入聊天機器人
+Docker 環境下 `tenants.json` 透過 volume 掛載在 `backend/data/`：
 
-在您的網站中加入以下代碼:
+```bash
+mkdir -p backend/data
+cp backend/config/tenants.json backend/data/tenants.json
+```
 
-```html
-<script src="http://localhost:3000/api/chat-widget?tenant_id=YOUR_TENANT_ID"></script>
+### 步驟 3：啟動
+
+```bash
+docker-compose up -d --build
+```
+
+### 服務架構
+
+```
+Client → Nginx (:80)
+           ├── /api/admin/*  → admin-backend (:5001)
+           ├── /api/*        → backend (:5000)
+           └── /*            → frontend (:3000)
+                                    └── Redis
+```
+
+### 常用指令
+
+```bash
+docker-compose up -d          # 啟動
+docker-compose down           # 停止
+docker-compose logs -f        # 查看即時日誌
+docker-compose up -d --build  # 重新建置並啟動
 ```
 
 ## API 文件
 
-### 聊天 API
+### 聊天 API（app.py — port 5000）
 
-**端點**: `POST /api/chat`
+| 方法 | 端點 | 說明 |
+|------|------|------|
+| GET | `/api/health` | 健康檢查 |
+| POST | `/api/chat` | 聊天（需 `X-Tenant-ID` header） |
+| GET | `/api/tenant/config` | 取得租戶前端設定（需 `X-Tenant-ID`） |
+| GET | `/api/query/data` | 查詢資料（需 `X-Tenant-ID`） |
 
-**Headers**:
-```
-Content-Type: application/json
-X-Tenant-ID: your_tenant_id
-```
+**聊天請求範例**：
 
-**請求**:
-```json
-{
-  "message": "你好",
-  "mode": "general",
-  "history": []
-}
-```
-
-**回應**:
-```json
-{
-  "type": "general",
-  "response": "您好！我是聊天助手",
-  "references": [],
-  "detected_language": {
-    "language_code": "zh-TW",
-    "language_name": "Traditional Chinese"
-  }
-}
+```bash
+curl -X POST http://localhost:5000/api/chat \
+  -H "Content-Type: application/json" \
+  -H "X-Tenant-ID: demo" \
+  -d '{"message": "你好", "mode": "general"}'
 ```
 
-### 租戶設定 API
+### 管理後台 API（admin_app.py — port 5001）
 
-**端點**: `GET /api/tenant/config`
+所有管理 API 需要 `X-Admin-Key` header。
 
-**Headers**:
+**租戶管理**：
+
+| 方法 | 端點 | 說明 |
+|------|------|------|
+| GET | `/api/admin/tenants` | 列出所有租戶 |
+| GET | `/api/admin/tenants/{id}` | 取得租戶詳情 |
+| POST | `/api/admin/tenants` | 建立租戶 |
+| PUT | `/api/admin/tenants/{id}` | 更新租戶 |
+| DELETE | `/api/admin/tenants/{id}` | 刪除租戶 |
+
+**服務管理**：
+
+| 方法 | 端點 | 說明 |
+|------|------|------|
+| GET | `/api/admin/tenants/{id}/services` | 列出服務 |
+| GET | `/api/admin/tenants/{id}/services/{service}` | 取得服務（含提示詞） |
+| POST | `/api/admin/tenants/{id}/services` | 新增服務 |
+| PUT | `/api/admin/tenants/{id}/services/{service}` | 更新服務 |
+| DELETE | `/api/admin/tenants/{id}/services/{service}` | 刪除服務 |
+| GET | `/api/admin/service-classes` | 取得可用服務類別 |
+
+**Quick Actions**：
+
+| 方法 | 端點 | 說明 |
+|------|------|------|
+| GET | `/api/admin/tenants/{id}/quick-actions` | 取得 Quick Actions |
+| PUT | `/api/admin/tenants/{id}/quick-actions` | 更新 Quick Actions |
+
+**外觀設定**：
+
+| 方法 | 端點 | 說明 |
+|------|------|------|
+| GET | `/api/admin/tenants/{id}/appearance` | 取得外觀設定 |
+| PUT | `/api/admin/tenants/{id}/appearance` | 更新外觀設定 |
+| POST | `/api/admin/tenants/{id}/appearance/upload-icon` | 上傳聊天圖示 |
+
+## 嵌入聊天機器人
+
+在任意網站加入一行：
+
+```html
+<script src="https://your-domain.com/api/chat-widget?tenant_id=YOUR_TENANT_ID"></script>
 ```
-X-Tenant-ID: your_tenant_id
+
+本地開發時：
+
+```html
+<script src="http://localhost:3000/api/chat-widget?tenant_id=demo"></script>
 ```
 
-**回應**:
-```json
-{
-  "tenant_id": "demo",
-  "name": "示範客戶",
-  "quick_actions": [
-    {
-      "icon": "🗺️",
-      "text": "路線導航",
-      "query": "從停車場到 Apple Store 怎麼去？"
-    }
-  ]
-}
-```
+也可以用 `public/test.html` 測試嵌入效果。
 
-## 管理後台 API
+## 新增自訂服務
 
-### 租戶管理
+1. 在 `backend/services/` 建立新的服務類別，繼承 `BaseGeminiService`
+2. 在 `backend/config/service_factory.py` 的 `SERVICE_CLASSES` 中註冊
+3. 透過管理後台新增服務時選擇對應的服務類別
 
-**列出所有租戶**: `GET /admin/tenants`  
-**取得租戶**: `GET /admin/tenants/{id}`  
-**建立租戶**: `POST /admin/tenants`  
-**更新租戶**: `PUT /admin/tenants/{id}`  
-**刪除租戶**: `DELETE /admin/tenants/{id}`
+目前內建的服務類別：
 
-### 提示詞管理
-
-**列出提示詞**: `GET /admin/tenants/{id}/prompts`  
-**取得提示詞**: `GET /admin/tenants/{id}/prompts/{service}`  
-**更新提示詞**: `PUT /admin/tenants/{id}/prompts/{service}`  
-**建立提示詞**: `POST /admin/tenants/{id}/prompts`
-
-### 服務管理
-
-**列出服務**: `GET /admin/tenants/{id}/services`  
-**更新服務**: `PUT /admin/tenants/{id}/services/{service}`  
-**新增服務**: `POST /admin/tenants/{id}/services`  
-**刪除服務**: `DELETE /admin/tenants/{id}/services/{service}`
-
-### Quick Actions 管理
-
-**取得**: `GET /admin/tenants/{id}/quick-actions`  
-**更新**: `PUT /admin/tenants/{id}/quick-actions`
-
-所有管理 API 需要在 Header 中帶上 `X-Admin-Key`。
-
-## 專案結構
-
-```
-chatbot-platform/
-├── app/                        # Next.js App Router
-│   ├── admin/                  # 管理後台頁面
-│   │   ├── login/
-│   │   └── tenants/
-│   ├── api/
-│   │   └── chat-widget/        # 嵌入腳本 API
-│   └── page.tsx                # 聊天主頁
-├── src/
-│   ├── components/chat/        # 聊天 UI 元件
-│   ├── lib/
-│   │   ├── admin/              # 管理後台工具
-│   │   └── api-client.ts       # API Client
-│   └── types/
-├── backend/
-│   ├── app.py                  # 主 API
-│   ├── admin_app.py            # 管理後台 API
-│   ├── config/
-│   │   ├── tenant_manager.py  # 租戶管理器
-│   │   ├── service_factory.py # 服務工廠
-│   │   └── tenants.json        # 租戶設定
-│   ├── prompts/                # 提示詞檔案
-│   │   └── {tenant_id}/
-│   ├── middleware/
-│   │   └── tenant_auth.py      # 租戶驗證
-│   └── services/               # AI 服務
-└── public/
-```
+| 類別 | 說明 |
+|------|------|
+| `ChatService` | 通用對話問答 |
+| `QueryService` | 資料查詢（支援 grounding 搜尋） |
+| `SmartRouteService` | 路線導航規劃 |
 
 ## 測試
 
-執行後端測試:
 ```bash
 cd backend
-python test_tenant_manager.py
-python test_service_factory.py
-python test_tenant_auth.py
-python test_admin_api.py
-python test_admin_prompts.py
-python test_admin_services.py
+python -m pytest test/ -v
 ```
 
-## 部署
-
-### Docker 部署 (推薦)
+或個別執行：
 
 ```bash
-# 建立 Docker 映像
-docker-compose build
-
-# 啟動服務
-docker-compose up -d
+python test/test_tenant_manager.py
+python test/test_service_factory.py
+python test/test_tenant_auth.py
+python test/test_admin_api.py
+python test/test_admin_prompts.py
+python test/test_admin_services.py
+python test/test_integration.py
 ```
-
-### 手動部署
-
-1. 設定 Nginx 反向代理
-2. 使用 PM2 管理 Node.js 進程
-3. 使用 Gunicorn 運行 Flask
-4. 設定 Redis 持久化
-
-## 常見問題
-
-**Q: 如何新增自訂服務?**  
-A: 繼承 `BaseGeminiService`,實作自己的服務類別,然後在租戶設定中引用。
-
-**Q: 提示詞支援哪些格式?**  
-A: 支援 Markdown 格式,可以使用標題、列表、粗體等。
-
-**Q: 如何切換語言?**  
-A: 系統自動偵測使用者語言並翻譯回應。
-
-**Q: Redis 連線失敗怎麼辦?**  
-A: 檢查 Redis 是否啟動,確認 `.env` 中的連線設定正確。
 
 ## 授權
 
 MIT License
-
-## 聯絡方式
-
-如有問題請聯繫開發團隊。
