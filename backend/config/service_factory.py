@@ -20,7 +20,6 @@ class ServiceFactory:
     
     def __init__(self, tenant_manager):
         self.tenant_manager = tenant_manager
-        self.service_cache = {}  # 快取: {tenant_id}_{service_name} -> service_instance
     
     def create_service(self, tenant_id: str, service_name: str):
         """
@@ -33,11 +32,6 @@ class ServiceFactory:
         Returns:
             服務實例或 None
         """
-        # 檢查快取
-        cache_key = f"{tenant_id}_{service_name}"
-        if cache_key in self.service_cache:
-            return self.service_cache[cache_key]
-        
         # 取得租戶設定
         tenant = self.tenant_manager.get_tenant(tenant_id)
         if not tenant:
@@ -86,9 +80,6 @@ class ServiceFactory:
             if custom_prompt:
                 service_instance.SYSTEM_PROMPT = custom_prompt
             
-            # 快取服務實例
-            self.service_cache[cache_key] = service_instance
-            
             print(f"[ServiceFactory] 建立服務: {tenant_id}/{service_name} ({class_name})")
             return service_instance
             
@@ -97,14 +88,5 @@ class ServiceFactory:
             return None
     
     def clear_cache(self, tenant_id: str = None):
-        """清除快取"""
-        if tenant_id:
-            # 清除特定租戶的快取
-            keys_to_remove = [k for k in self.service_cache.keys() if k.startswith(f"{tenant_id}_")]
-            for key in keys_to_remove:
-                del self.service_cache[key]
-            print(f"[ServiceFactory] 清除租戶快取: {tenant_id}")
-        else:
-            # 清除所有快取
-            self.service_cache.clear()
-            print("[ServiceFactory] 清除所有快取")
+        """清除快取（保留向下相容，目前為空操作）"""
+        pass

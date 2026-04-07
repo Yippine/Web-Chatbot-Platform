@@ -72,7 +72,8 @@ class QueryService(BaseGeminiService):
         if self._data_cache and (time.time() - self._cache_timestamp < cache_ttl):
             return self._data_cache
         
-        result = self.generate_content("", user_id="get_data", response_language=response_language)
+        # 使用空字串，由 generate_content 的 search_keyword 組合查詢
+        result = self.generate_content("", user_id=f"get_data_{int(time.time())}", response_language=response_language)
         
         # 更新快取
         self._data_cache = {

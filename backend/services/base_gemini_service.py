@@ -28,7 +28,6 @@ class BaseGeminiService:
         config: Dict = None
     ):
         self.client = genai.Client(api_key=api_key)
-        self.grounding_tool = types.Tool(google_search=types.GoogleSearch())
         self.service_name = service_name
         self.tenant_id = tenant_id
         self.default_temperature = default_temperature
@@ -102,14 +101,26 @@ class BaseGeminiService:
         # 準備查詢（加上搜尋關鍵字）
         search_query = f"{search_keyword} {query}" if search_keyword and use_grounding else query
         
+        # 判斷是否嘗試 url_context
+        allowed_domains = self.config.get('allowed_domains', '')
+        use_url_context = bool(allowed_domains)
+        
+        # 注入 allowed_domains URL
+        if use_url_context:
+            domains_list = [d.strip() for d in allowed_domains.split(',') if d.strip()]
+            domain_urls = ' '.join([f"https://{d}" if not d.startswith('http') else d for d in domains_list])
+            search_query_with_url = f"{search_query}\n請參考以下網站的內容：{domain_urls}"
+        else:
+            search_query_with_url = search_query
+        
         # 記錄最終查詢
-        if use_grounding:
-            print(f"[Grounding] 最終查詢: {search_query}")
+        if use_grounding or use_url_context:
+            print(f"[Grounding] 最終查詢: {search_query_with_url}")
         
         # 添加使用者問題到對話歷史
         contents.append(types.Content(
             role="user",
-            parts=[types.Part(text=search_query)]
+            parts=[types.Part(text=search_query_with_url)]
         ))
         
         # 準備 system prompt（加入語言指令）
@@ -118,9 +129,16 @@ class BaseGeminiService:
             language_instruction = f"\n\n## CRITICAL INSTRUCTION - LANGUAGE REQUIREMENT\n**YOU MUST respond in {response_language} language. This is mandatory. All your response content MUST be in {response_language}, including all section titles, labels, descriptions, and formatting markers. Translate everything to {response_language}.**"
             final_system_prompt = final_system_prompt + language_instruction
         
+        # 組裝 tools
+        tools = []
+        if use_grounding:
+            tools.append({"google_search": {}})
+        if use_url_context:
+            tools.append({"url_context": {}})
+        
         # 配置
         config = types.GenerateContentConfig(
-            tools=[self.grounding_tool] if use_grounding else None,
+            tools=tools if tools else None,
             system_instruction=final_system_prompt,
             temperature=temperature
         )
@@ -135,6 +153,29 @@ class BaseGeminiService:
         api_call_time = time.time() - api_call_start
         
         answer_text = response.text
+        
+        # 檢查 url_context 是否抓取失敗，自動 fallback 到純 google_search
+        if use_url_context and self._is_url_context_failed(response):
+            print(f"[{self.service_name}] ⚠️ url_context 抓取失敗，fallback 到 google_search")
+            # 移除帶 URL 的訊息，換成純關鍵字查詢
+            contents.pop()
+            contents.append(types.Content(
+                role="user",
+                parts=[types.Part(text=search_query)]
+            ))
+            config = types.GenerateContentConfig(
+                tools=[{"google_search": {}}] if use_grounding else None,
+                system_instruction=final_system_prompt,
+                temperature=temperature
+            )
+            fallback_start = time.time()
+            response = self.client.models.generate_content(
+                model="gemini-2.5-flash",
+                contents=contents,
+                config=config
+            )
+            api_call_time += time.time() - fallback_start
+            answer_text = response.text
         
         # 更新對話歷史
         contents.append(types.Content(
@@ -173,6 +214,22 @@ class BaseGeminiService:
             "text": answer_text,
             "references": references
         }
+    
+    def _is_url_context_failed(self, response) -> bool:
+        """檢查 url_context 是否抓取失敗"""
+        try:
+            candidate = response.candidates[0]
+            metadata = getattr(candidate, 'url_context_metadata', None)
+            if not metadata:
+                return False
+            url_metadata_list = getattr(metadata, 'url_metadata', [])
+            for item in url_metadata_list:
+                status = getattr(item, 'url_retrieval_status', None)
+                if status and 'ERROR' in str(status):
+                    return True
+            return False
+        except Exception:
+            return False
     
     def _extract_references_parallel(self, response, max_refs: int = 3) -> List[str]:
         """並行提取參考連結（優化版）"""
