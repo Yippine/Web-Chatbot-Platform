@@ -1,5 +1,15 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
+function getUserId(): string {
+  if (typeof window === 'undefined') return 'server';
+  let id = sessionStorage.getItem('chatbot_user_id');
+  if (!id) {
+    id = crypto.randomUUID();
+    sessionStorage.setItem('chatbot_user_id', id);
+  }
+  return id;
+}
+
 export const apiClient = {
   // 路線規劃
   async planRoute(start?: string, end?: string, context?: string) {
@@ -56,7 +66,7 @@ export const apiClient = {
         'Content-Type': 'application/json',
         'X-Tenant-ID': tenantId
       },
-      body: JSON.stringify({ message, history, mode })
+      body: JSON.stringify({ message, history, mode, user_id: getUserId() })
     });
     return res.json();
   },

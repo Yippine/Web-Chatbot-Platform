@@ -119,6 +119,8 @@ def chat():
                 return jsonify({"error": "服務不支援此操作"}), 400
             
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
 def create_service_from_quick_action(tenant_id: str, tenant: dict, qa_config: dict):
@@ -206,6 +208,8 @@ def query_data():
             "references": result.get("references", [])
         })
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":

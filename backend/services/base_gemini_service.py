@@ -142,9 +142,9 @@ class BaseGeminiService:
             parts=[types.Part(text=answer_text)]
         ))
         
-        # 限制歷史長度（保留最近5輪）
-        if len(contents) > 10:
-            contents = contents[-10:]
+        # 限制歷史長度（保留最近2輪）
+        if len(contents) > 4:
+            contents = contents[-4:]
         
         # 保存到 Redis
         session_save_start = time.time()
@@ -246,9 +246,7 @@ class BaseGeminiService:
             # 檢查是否在允許的網域列表中
             allowed_domains = self.config.get('allowed_domains', '')
             if allowed_domains:
-                # 分割多個網域（逗號分隔）
                 domains = [d.strip() for d in allowed_domains.split(',') if d.strip()]
-                # 檢查 URL 是否包含任一允許的網域
                 for domain in domains:
                     if domain in url:
                         return url

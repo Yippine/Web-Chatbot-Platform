@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="zh-TW">
       <head>
-        <title>載入中</title>
+        <title>Leo AI Genie</title>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}

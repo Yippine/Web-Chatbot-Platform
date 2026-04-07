@@ -72,10 +72,7 @@ class QueryService(BaseGeminiService):
         if self._data_cache and (time.time() - self._cache_timestamp < cache_ttl):
             return self._data_cache
         
-        # 使用固定的預設查詢
-        query = "完整資料"
-        
-        result = self.generate_content(query, user_id="get_data", response_language=response_language)
+        result = self.generate_content("", user_id="get_data", response_language=response_language)
         
         # 更新快取
         self._data_cache = {
