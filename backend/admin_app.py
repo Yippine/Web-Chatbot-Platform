@@ -436,7 +436,9 @@ def add_service(tenant_id):
             "search_keyword": data.get("search_keyword", ""),
             "allowed_domains": data.get("allowed_domains", ""),
             "loading_message": data.get("loading_message", "處理中"),
-            "query_loading_message": data.get("query_loading_message", "查詢資料中")
+            "query_loading_message": data.get("query_loading_message", "查詢資料中"),
+            "mode_message": data.get("mode_message", ""),
+            "show_mode_message": data.get("show_mode_message", False)
         }
         
         services[service_id] = new_service
@@ -674,6 +676,12 @@ def upload_chat_icon(tenant_id):
         
         # 回傳 URL
         icon_url = f"/images/tenants/{tenant_id}/chat-icon-{timestamp}.png"
+        
+        # 自動更新 tenants.json 的 chatIconUrl
+        tenants[tenant_id].setdefault("appearance", {})["chatIconUrl"] = icon_url
+        with open(tenant_manager.config_path, 'w', encoding='utf-8') as f:
+            json.dump(tenants, f, ensure_ascii=False, indent=2)
+        tenant_manager.reload()
         
         return jsonify({
             "message": "圖示上傳成功",

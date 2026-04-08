@@ -129,6 +129,10 @@ class BaseGeminiService:
             language_instruction = f"\n\n## CRITICAL INSTRUCTION - LANGUAGE REQUIREMENT\n**YOU MUST respond in {response_language} language. This is mandatory. All your response content MUST be in {response_language}, including all section titles, labels, descriptions, and formatting markers. Translate everything to {response_language}.**"
             final_system_prompt = final_system_prompt + language_instruction
         
+        # 有 url_context 時，禁止模型輸出內部推理過程
+        if use_url_context:
+            final_system_prompt += "\n\n## 回答規則\n絕對不要在回答中描述你的搜尋過程、網頁瀏覽行為、工具使用情況或內部推理步驟。直接回答使用者的問題。"
+        
         # 組裝 tools
         tools = []
         if use_grounding:
