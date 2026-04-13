@@ -114,17 +114,29 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
             // 暫時使用預設語言
             const currentLang: Language = 'zh-tw';
             
-            // 使用當前服務的自訂等待訊息
-            const serviceConfig = services[currentMode];
-            const loadingMsg = serviceConfig?.loading_message || '處理中...';
-            setLoadingText(loadingMsg);
-            setIsProcessing(true);
-            
-            // 使用當前模式,如果是 general 則改用第一個可用服務
+            // AI 意圖判斷：僅在 general 模式時執行，已指定模式直接使用
             let detectedIntent = currentMode;
             if (currentMode === 'general' && Object.keys(services).length > 0) {
-                detectedIntent = Object.keys(services)[0];
+                setLoadingText('問題智慧分析中');
+                setIsProcessing(true);
+                try {
+                    const intentResult = await apiClient.detectIntent(content, tenantId);
+                    const validServices = Object.keys(services);
+                    detectedIntent = (intentResult.intent && intentResult.intent !== 'general' && validServices.includes(intentResult.intent))
+                        ? intentResult.intent
+                        : validServices[0];
+                } catch {
+                    detectedIntent = Object.keys(services)[0];
+                }
             }
+            
+            setCurrentMode(detectedIntent as ChatMode);
+            
+            // 切換到服務的等待訊息
+            const intentServiceConfig = services[detectedIntent];
+            const loadingMsg = intentServiceConfig?.loading_message || '處理中...';
+            setLoadingText(loadingMsg);
+            setIsProcessing(true);
             
             const result = await apiClient.chat(content, tenantId, conversationHistory.slice(-5), detectedIntent);
             

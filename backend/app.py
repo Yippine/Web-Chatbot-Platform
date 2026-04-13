@@ -23,6 +23,73 @@ service_factory = ServiceFactory(tenant_manager)
 def health():
     return jsonify({"status": "healthy"})
 
+@app.route("/api/chat/intent", methods=["POST"])
+@require_tenant(tenant_manager)
+def detect_intent():
+    """AI 意圖判斷端點"""
+    data = request.json
+    message = data.get("message")
+    
+    if not message:
+        return jsonify({"error": "缺少訊息內容"}), 400
+    
+    try:
+        tenant_id = request.tenant_id
+        tenant = request.tenant
+        
+        # 取得該租戶所有啟用的服務
+        services = tenant.get("services", {})
+        enabled_services = {k: v for k, v in services.items() if v.get("enabled", True)}
+        
+        if not enabled_services:
+            return jsonify({"intent": "general"})
+        
+        # 動態產生意圖選項
+        service_options = []
+        for sid, sconfig in enabled_services.items():
+            name = sconfig.get("name", sid)
+            keyword = sconfig.get("search_keyword", "")
+            service_options.append(f'- 如果與「{name}」相關（關鍵字：{keyword}），回答「{sid}」')
+        
+        options_text = "\n".join(service_options)
+        
+        intent_prompt = f"""判斷以下問題應該由哪個服務處理，只回答一個服務 ID：
+{options_text}
+- 如果都不符合，回答「general」
+
+問題：{message}
+回答："""
+        
+        # 用任一服務的 API key 做意圖判斷
+        api_key = tenant.get("gemini_api_key")
+        if not api_key:
+            return jsonify({"intent": "general"})
+        
+        from google import genai
+        from google.genai import types
+        import time
+        
+        client = genai.Client(api_key=api_key)
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=intent_prompt,
+            config=types.GenerateContentConfig(temperature=0)
+        )
+        
+        intent = response.text.strip().lower().strip('「」')
+        
+        # 驗證 intent 是否為有效服務
+        if intent not in enabled_services and intent != "general":
+            intent = "general"
+        
+        print(f"[Intent] 租戶={tenant_id}, 訊息={message[:30]}, 意圖={intent}")
+        return jsonify({"intent": intent})
+        
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"intent": "general"})
+
 @app.route("/api/chat", methods=["POST"])
 @require_tenant(tenant_manager)
 def chat():

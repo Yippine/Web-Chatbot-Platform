@@ -49,11 +49,14 @@ export const apiClient = {
     return res.json();
   },
 
-  async analyzeIntent(conversation: string[]) {
-    const res = await fetch(`${API_BASE_URL}/api/analyze/intent`, {
+  async detectIntent(message: string, tenantId: string) {
+    const res = await fetch(`${API_BASE_URL}/api/chat/intent`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ conversation })
+      headers: { 
+        'Content-Type': 'application/json',
+        'X-Tenant-ID': tenantId
+      },
+      body: JSON.stringify({ message })
     });
     return res.json();
   },
