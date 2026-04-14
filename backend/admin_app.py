@@ -148,12 +148,31 @@ def create_tenant():
             env_key = f"TENANT_{tenant_id.upper()}_GEMINI_API_KEY"
         
         # 建立租戶設定 (不儲存 API Key，改存環境變數名稱)
+        # 預設帶入 general 通用對話服務
+        default_services = {
+            "general": {
+                "name": "通用對話",
+                "icon": "💬",
+                "enabled": True,
+                "class": "ChatService",
+                "prompt_file": f"prompts/{tenant_id}/general.md",
+                "temperature": 0.7,
+                "use_grounding": False,
+                "search_keyword": "",
+                "allowed_domains": "",
+                "loading_message": "處理中",
+                "query_loading_message": "查詢資料中",
+                "mode_message": "",
+                "show_mode_message": False
+            }
+        }
+        
         new_tenant = {
             "id": tenant_id,
             "name": data.get("name", "新租戶"),
             "api_key_env": env_key,
             "enabled": data.get("enabled", True),
-            "services": data.get("services", {}),
+            "services": {**default_services, **data.get("services", {})},
             "quick_actions": data.get("quick_actions", []),
             "appearance": {
                 "pageTitle": "",
@@ -180,6 +199,15 @@ def create_tenant():
         
         with open(tenant_manager.config_path, 'w', encoding='utf-8') as f:
             json.dump(tenants, f, ensure_ascii=False, indent=2)
+        
+        # 建立預設 general prompt 檔案
+        general_prompt_path = os.path.join(
+            os.path.dirname(tenant_manager.config_path), '..', 'prompts', tenant_id, 'general.md'
+        )
+        os.makedirs(os.path.dirname(general_prompt_path), exist_ok=True)
+        if not os.path.exists(general_prompt_path):
+            with open(general_prompt_path, 'w', encoding='utf-8') as f:
+                f.write(f"# 通用對話\n你是「{data.get('name', '新租戶')}」的智能助手，請友善且專業地回答使用者的問題。\n")
         
         # 重新載入設定
         tenant_manager.reload()
@@ -456,13 +484,14 @@ def add_service(tenant_id):
                 with open(prompt_path, 'w', encoding='utf-8') as f:
                     f.write(data["prompt_content"])
         
-        # 自動新增到 Quick Actions
-        quick_actions = tenant.get("quick_actions", [])
-        quick_actions.append({
-            "service_id": service_id,
-            "query": ""
-        })
-        tenant["quick_actions"] = quick_actions
+        # 自動新增到 Quick Actions（general 除外）
+        if service_id != "general":
+            quick_actions = tenant.get("quick_actions", [])
+            quick_actions.append({
+                "service_id": service_id,
+                "query": ""
+            })
+            tenant["quick_actions"] = quick_actions
         
         # 儲存設定
         with open(tenant_manager.config_path, 'w', encoding='utf-8') as f:
