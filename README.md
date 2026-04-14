@@ -338,4 +338,6 @@ python test/test_integration.py
 
 ## 授權
 
-MIT License
+本專案採用 [GNU Affero General Public License v3.0](LICENSE) 授權，附帶額外條款（依據 AGPL-3.0 第 7 條）。
+
+© 2026 Wendy YU (YwY170) — https://github.com/YwY170/Web-Chatbot-Platform

@@ -1,0 +1,98 @@
+GNU AFFERO GENERAL PUBLIC LICENSE
+Version 3, 19 November 2007 (with Additional Terms)
+
+Copyright (C) 2026 Wendy YU (YwY170)
+https://github.com/YwY170/Web-Chatbot-Platform
+
+=========================================================
+PREAMBLE & STANDARD AGPL-3.0 TERMS
+=========================================================
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+=========================================================
+TERMS AND CONDITIONS
+=========================================================
+
+1. FREEDOMS GRANTED
+   You are free to use, copy, modify, merge, publish, distribute,
+   sublicense, and/or sell copies of this software, including for
+   commercial purposes, subject to the conditions below.
+
+2. ATTRIBUTION
+   All copies or substantial portions of this software must retain:
+   - The above copyright notice
+   - This license text
+   - The original author's name: Wendy YU (YwY170)
+     GitHub: https://github.com/YwY170
+
+3. COPYLEFT — DERIVATIVE WORKS
+   Any modified version or derivative work based on this software
+   must be distributed under the same GNU Affero General Public
+   License v3.0 or any later version. The full source code of such
+   derivative works must be made publicly available.
+
+4. NETWORK USE IS DISTRIBUTION
+   If you run a modified version of this software as a network
+   service (e.g., SaaS, web application, API service), you must
+   make the complete corresponding source code of your modified
+   version available to all users of that network service, under
+   this same license, at no charge.
+
+=========================================================
+ADDITIONAL TERMS (pursuant to AGPL-3.0 Section 7)
+=========================================================
+
+5. SPECIAL ATTRIBUTION REQUIREMENT FOR SHIH, RUEI-LIN
+   Pursuant to Section 7(b) of the GNU Affero General Public
+   License v3.0, the following additional attribution requirement
+   applies:
+
+   If this software, or any derivative work thereof, is used,
+   deployed, distributed, or incorporated — in whole or in part —
+   by the individual known as:
+
+       SHIH, RUEI-LIN (Yippine)
+       GitHub: https://github.com/Yippine
+
+   then such use MUST include a clearly visible attribution notice
+   in ALL of the following locations, as applicable:
+
+   (a) In the source code repository (e.g., README.md or CREDITS file):
+       "Based on Web-Chatbot-Platform by Wendy YU (YwY170)
+        https://github.com/YwY170/Web-Chatbot-Platform"
+
+   (b) In any user-facing interface (UI, web page, documentation):
+       "Powered by / Originally developed by Wendy YU (YwY170)
+        https://github.com/YwY170"
+
+   (c) In any published paper, report, presentation, or commercial
+       material derived from this software:
+       "Original source: Web-Chatbot-Platform © 2026 Wendy YU (YwY170)
+        Licensed under AGPL-3.0 — https://github.com/YwY170/Web-Chatbot-Platform"
+
+   Failure to comply with this attribution requirement constitutes
+   a material breach of this license and immediately terminates all
+   rights granted herein to the violating party.
+
+=========================================================
+FULL LICENSE TEXT REFERENCE
+=========================================================
+
+The complete text of the GNU Affero General Public License v3.0
+is available at: https://www.gnu.org/licenses/agpl-3.0.txt
+
+The Additional Terms above are incorporated pursuant to
+AGPL-3.0 Section 7 ("Additional Terms") and are legally
+binding as part of this license.
