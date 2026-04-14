@@ -49,6 +49,18 @@ export const apiClient = {
     return res.json();
   },
 
+  async detectLanguage(message: string, tenantId: string) {
+    const res = await fetch(`${API_BASE_URL}/api/detect-language`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'X-Tenant-ID': tenantId
+      },
+      body: JSON.stringify({ message })
+    });
+    return res.json();
+  },
+
   async detectIntent(message: string, tenantId: string) {
     const res = await fetch(`${API_BASE_URL}/api/chat/intent`, {
       method: 'POST',
@@ -74,19 +86,10 @@ export const apiClient = {
     return res.json();
   },
 
-  // 偵測語言
-  async detectLanguage(message: string) {
-    const res = await fetch(`${API_BASE_URL}/api/detect-language`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message })
-    });
-    return res.json();
-  },
-
   // 取得租戶設定
-  async getTenantConfig(tenantId: string) {
-    const res = await fetch(`${API_BASE_URL}/api/tenant/config`, {
+  async getTenantConfig(tenantId: string, lang?: string) {
+    const params = lang ? `?lang=${lang}` : '';
+    const res = await fetch(`${API_BASE_URL}/api/tenant/config${params}`, {
       method: 'GET',
       headers: { 
         'X-Tenant-ID': tenantId

@@ -1,6 +1,6 @@
 import translations from '@/locales/translations.json';
 
-export type Language = 'zh-tw' | 'en' | 'ja' | 'ko' | 'vi' | 'id' | 'th';
+export type Language = 'zh-tw' | 'en' | 'ja' | 'ko' | 'vi' | 'id' | 'th' | 'zh-cn';
 
 export function getTranslation(lang: Language, key: string): string {
   const keys = key.split('.');
@@ -23,11 +23,13 @@ export const languageMap: Record<string, Language> = {
   'Vietnamese': 'vi',
   'Indonesian': 'id',
   'Thai': 'th',
+  'Simplified Chinese': 'zh-cn',
   'zh-tw': 'zh-tw',
   'en': 'en',
   'ja': 'ja',
   'ko': 'ko',
   'vi': 'vi',
   'id': 'id',
-  'th': 'th'
+  'th': 'th',
+  'zh-cn': 'zh-cn'
 };

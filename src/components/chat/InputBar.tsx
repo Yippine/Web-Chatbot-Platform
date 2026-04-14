@@ -48,9 +48,7 @@ export function InputBar({
     };
 
     const currentService = services[mode];
-    const placeholder = currentService?.name 
-        ? `請輸入${currentService.name}相關問題` 
-        : appearance.placeholder;
+    const placeholder = appearance.placeholder || t('input.placeholder');
 
     return (
         <form onSubmit={handleSubmit} className="p-4 bg-white border-t border-gray-200">

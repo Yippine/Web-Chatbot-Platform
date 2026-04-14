@@ -4,6 +4,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
+import json
 from dotenv import load_dotenv
 
 from config.tenant_manager import TenantManager
@@ -22,6 +23,33 @@ service_factory = ServiceFactory(tenant_manager)
 @app.route("/api/health", methods=["GET"])
 def health():
     return jsonify({"status": "healthy"})
+
+@app.route("/api/detect-language", methods=["POST"])
+@require_tenant(tenant_manager)
+def detect_language():
+    """語言偵測端點"""
+    data = request.json
+    message = data.get("message")
+    
+    if not message:
+        return jsonify({"error": "缺少訊息內容"}), 400
+    
+    try:
+        tenant = request.tenant
+        api_key = tenant.get("gemini_api_key")
+        if not api_key:
+            return jsonify({"detected_language": {"language_code": "zh-TW", "language_name": "Traditional Chinese"}})
+        
+        from services.language_service import LanguageService
+        lang_service = LanguageService(api_key=api_key)
+        detected = lang_service.detect_language(message)
+        
+        print(f"[Language] 偵測結果: {detected}")
+        return jsonify({"detected_language": detected})
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"detected_language": {"language_code": "zh-TW", "language_name": "Traditional Chinese"}})
 
 @app.route("/api/chat/intent", methods=["POST"])
 @require_tenant(tenant_manager)
@@ -233,19 +261,58 @@ def create_service_from_quick_action(tenant_id: str, tenant: dict, qa_config: di
 @app.route("/api/tenant/config", methods=["GET"])
 @require_tenant(tenant_manager)
 def get_tenant_config():
-    """取得租戶前端設定"""
+    """取得租戶前端設定（支援多語言）"""
     try:
         tenant = request.tenant
+        tenant_id = request.tenant_id
+        lang = request.args.get('lang')
         
-        return jsonify({
-            "tenant_id": request.tenant_id,
+        config = {
+            "tenant_id": tenant_id,
             "name": tenant.get("name"),
             "quick_actions": tenant.get("quick_actions", []),
             "services": tenant.get("services", {}),
             "appearance": tenant.get("appearance", {})
-        })
+        }
+        
+        # 如果有指定語言，嘗試載入翻譯檔覆蓋
+        if lang and lang != 'zh-tw':
+            translation = _load_translation(tenant_id, lang)
+            if translation:
+                # 覆蓋 appearance
+                if "appearance" in translation:
+                    for key, value in translation["appearance"].items():
+                        if value:
+                            config["appearance"][key] = value
+                # 覆蓋 services
+                if "services" in translation:
+                    for sid, fields in translation["services"].items():
+                        if sid in config["services"]:
+                            for key, value in fields.items():
+                                if value:
+                                    config["services"][sid][key] = value
+        
+        return jsonify(config)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+def _load_translation(tenant_id: str, lang: str) -> dict:
+    """載入翻譯檔，fallback: 指定語言 → en → None"""
+    translations_dir = os.path.join(os.path.dirname(tenant_manager.config_path), '..', 'translations', tenant_id)
+    
+    for try_lang in [lang, 'en']:
+        filepath = os.path.join(translations_dir, f"{try_lang}.json")
+        if os.path.exists(filepath):
+            try:
+                with open(filepath, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                data.pop('_source_hash', None)
+                print(f"[Translation] 載入 {tenant_id}/{try_lang}.json")
+                return data
+            except Exception as e:
+                print(f"[Translation] ❌ 載入翻譯檔失敗: {e}")
+    
+    return None
 
 @app.route("/api/query/data", methods=["GET"])
 @require_tenant(tenant_manager)

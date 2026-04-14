@@ -3,6 +3,17 @@
 import { Message as MessageType } from '@/types';
 import { cn } from '@/lib/utils';
 import { ColorConfig, generateColorStyle } from '@/lib/appearance';
+import { useLanguage } from '@/contexts/LanguageContext';
+
+const localeMap: Record<string, string> = {
+    'zh-tw': 'zh-TW',
+    'en': 'en-US',
+    'ja': 'ja-JP',
+    'ko': 'ko-KR',
+    'vi': 'vi-VN',
+    'id': 'id-ID',
+    'th': 'th-TH',
+};
 
 interface MessageProps {
     message: MessageType;
@@ -26,6 +37,8 @@ function formatMessageContent(content: string): string {
 
 export function Message({ message, buttonColor, textColor = 'white' }: MessageProps) {
     const isBot = message.sender === 'bot';
+    const { language } = useLanguage();
+    const locale = localeMap[language] || 'zh-TW';
 
     const userMessageStyle = buttonColor 
         ? generateColorStyle(buttonColor)
@@ -53,7 +66,7 @@ export function Message({ message, buttonColor, textColor = 'white' }: MessagePr
                 </div>
 
                 <div className={cn('text-xs text-gray-500 mt-1 px-2', isBot ? 'text-left' : 'text-right')}>
-                    {message.timestamp.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit' })}
+                    {message.timestamp.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' })}
                 </div>
             </div>
         </div>

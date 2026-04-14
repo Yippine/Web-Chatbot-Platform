@@ -151,6 +151,13 @@ class AdminAPIClient {
 
     return response.json();
   }
+
+  async generateTranslation(tenantId: string, lang: string) {
+    return this.request<{ message: string }>(`/api/admin/tenants/${tenantId}/translations`, {
+      method: 'POST',
+      body: JSON.stringify({ language: lang }),
+    });
+  }
 }
 
 export default AdminAPIClient;

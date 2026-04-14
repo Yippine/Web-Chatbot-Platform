@@ -17,6 +17,7 @@ env/
 config/tenants.json
 prompts/*/
 test/
+translations/*/
 
 # IDE
 .vscode/

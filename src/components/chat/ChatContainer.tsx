@@ -61,28 +61,24 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
     useEffect(() => {
         if (!appearance) return;
         
-        const welcomeMessage: MessageType = {
-            id: 'welcome',
-            sender: 'bot',
-            type: 'text',
-            content: appearance.welcomeMessage,
-            timestamp: new Date()
-        };
-        setMessages([welcomeMessage]);
-    }, [appearance]);
-
-    // 當語言切換時,更新 welcome message
-    useEffect(() => {
+        // 只更新歡迎訊息內容，不清除對話歷史
         setMessages(prev => {
-            if (prev.length > 0 && prev[0].id === 'welcome') {
-                return [{
-                    ...prev[0],
-                    content: t('welcome.message')
-                }, ...prev.slice(1)];
+            const welcomeMessage: MessageType = {
+                id: 'welcome',
+                sender: 'bot',
+                type: 'text',
+                content: appearance.welcomeMessage,
+                timestamp: new Date()
+            };
+            if (prev.length === 0) {
+                return [welcomeMessage];
+            }
+            if (prev[0].id === 'welcome') {
+                return [welcomeMessage, ...prev.slice(1)];
             }
             return prev;
         });
-    }, [t]);
+    }, [appearance]);
 
     const handleSendMessage = async (content: string) => {
         const userMessage: MessageType = {
@@ -97,32 +93,41 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
         setConversationHistory(prev => [...prev, content]);
 
         try {
-            // TODO: 語言偵測功能待開發
-            // 第一步: 偵測語言 (不顯示 loading)
-            // const languageResult = await apiClient.detectLanguage(content);
+            // 第一步: 偵測語言
+            let currentLang: Language = 'zh-tw';
+            try {
+                const langResult = await apiClient.detectLanguage(content, tenantId);
+                if (langResult?.detected_language) {
+                    const langCode = languageMap[langResult.detected_language.language_name];
+                    if (langCode) {
+                        currentLang = langCode;
+                        setLanguage(langCode);
+                        
+                        // 重新載入翻譯版 config 更新 UI
+                        if (langCode !== 'zh-tw' && langCode !== language) {
+                            try {
+                                const translatedConfig = await apiClient.getTenantConfig(tenantId, langCode);
+                                if (translatedConfig.services) setServices(translatedConfig.services);
+                                if (translatedConfig.appearance) setAppearance(translatedConfig.appearance);
+                            } catch (e) {
+                                console.error('載入翻譯 config 失敗:', e);
+                            }
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error('語言偵測失敗，使用預設語言:', e);
+            }
             
-            // 第二步: 切換語言
-            // let currentLang: Language = 'zh-tw';
-            // if (languageResult.detected_language) {
-            //     const langCode = languageMap[languageResult.detected_language.language_name];
-            //     if (langCode) {
-            //         currentLang = langCode;
-            //         setLanguage(langCode);
-            //     }
-            // }
-            
-            // 暫時使用預設語言
-            const currentLang: Language = 'zh-tw';
-            
-            // AI 意圖判斷：僅在 general 模式時執行，已指定模式直接使用
+            // 第二步: AI 意圖判斷（UI 翻譯完成後執行）
             let detectedIntent = currentMode;
             if (currentMode === 'general' && Object.keys(services).length > 0) {
-                setLoadingText('問題智慧分析中');
+                setLoadingText(getTranslation(currentLang, 'loading.analyzing'));
                 setIsProcessing(true);
                 try {
                     const intentResult = await apiClient.detectIntent(content, tenantId);
                     const validServices = Object.keys(services);
-                    detectedIntent = (intentResult.intent && intentResult.intent !== 'general' && validServices.includes(intentResult.intent))
+                    detectedIntent = (intentResult?.intent && intentResult.intent !== 'general' && validServices.includes(intentResult.intent))
                         ? intentResult.intent
                         : validServices[0];
                 } catch {
@@ -132,9 +137,9 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
             
             setCurrentMode(detectedIntent as ChatMode);
             
-            // 切換到服務的等待訊息
+            // 第三步: 切換到服務的等待訊息
             const intentServiceConfig = services[detectedIntent];
-            const loadingMsg = intentServiceConfig?.loading_message || '處理中...';
+            const loadingMsg = intentServiceConfig?.loading_message || getTranslation(currentLang, 'loading.general');
             setLoadingText(loadingMsg);
             setIsProcessing(true);
             
@@ -218,7 +223,7 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
                     id: `error_${Date.now()}`,
                     sender: 'bot',
                     type: 'text',
-                    content: '抱歉，查詢資料時發生錯誤',
+                    content: t('error.general'),
                     timestamp: new Date()
                 };
                 setMessages(prev => [...prev, errorMessage]);

@@ -21,6 +21,57 @@ export default function TenantEditPage() {
     enabled: true,
   });
 
+  // 翻譯設定
+  const AVAILABLE_LANGUAGES = [
+    { code: 'en', label: 'English' },
+    { code: 'ja', label: '日本語' },
+    { code: 'ko', label: '한국어' },
+    { code: 'vi', label: 'Tiếng Việt' },
+    { code: 'id', label: 'Bahasa Indonesia' },
+    { code: 'th', label: 'ภาษาไทย' },
+    { code: 'zh-cn', label: '简体中文' },
+  ];
+  const [selectedLangs, setSelectedLangs] = useState<string[]>([]);
+  const [translating, setTranslating] = useState(false);
+  const [translateProgress, setTranslateProgress] = useState(0);
+  const [translateLog, setTranslateLog] = useState<string[]>([]);
+
+  const toggleLang = (code: string) => {
+    setSelectedLangs(prev => 
+      prev.includes(code) ? prev.filter(c => c !== code) : [...prev, code]
+    );
+  };
+
+  const handleGenerateTranslations = async () => {
+    if (selectedLangs.length === 0) return;
+    setTranslating(true);
+    setTranslateProgress(0);
+    setTranslateLog([]);
+
+    try {
+      const apiKey = localStorage.getItem('admin_api_key');
+      if (!apiKey) return;
+      const client = new AdminAPIClient(apiKey);
+
+      for (let i = 0; i < selectedLangs.length; i++) {
+        const lang = selectedLangs[i];
+        const langLabel = AVAILABLE_LANGUAGES.find(l => l.code === lang)?.label || lang;
+        setTranslateLog(prev => [...prev, `正在生成 ${langLabel} 翻譯...`]);
+        
+        await client.generateTranslation(tenantId, lang);
+        
+        const progress = Math.round(((i + 1) / selectedLangs.length) * 100);
+        setTranslateProgress(progress);
+        setTranslateLog(prev => [...prev, `✅ ${langLabel} 翻譯完成`]);
+      }
+      setTranslateLog(prev => [...prev, '🎉 所有翻譯生成完成']);
+    } catch (err: any) {
+      setTranslateLog(prev => [...prev, `❌ 翻譯失敗: ${err.message}`]);
+    } finally {
+      setTranslating(false);
+    }
+  };
+
   useEffect(() => {
     if (tenantId !== 'new') {
       loadTenant();
@@ -219,6 +270,63 @@ export default function TenantEditPage() {
           <label htmlFor="enabled" className="ml-2 block text-sm text-gray-700">
             啟用品牌
           </label>
+        </div>
+
+        {/* 翻譯設定 */}
+        <div className="border-t border-gray-200 pt-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-2">翻譯設定</h2>
+          <p className="text-sm text-gray-500 mb-4">選擇要生成哪些語言的聊天介面翻譯</p>
+          
+          <div className="flex flex-wrap gap-2 mb-4">
+            {AVAILABLE_LANGUAGES.map(lang => (
+              <button
+                key={lang.code}
+                type="button"
+                onClick={() => toggleLang(lang.code)}
+                className={`px-3 py-1.5 rounded-full text-sm font-medium transition ${
+                  selectedLangs.includes(lang.code)
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                {lang.label}
+              </button>
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={handleGenerateTranslations}
+            disabled={tenantId === 'new' || translating || selectedLangs.length === 0}
+            className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition disabled:bg-gray-300 disabled:cursor-not-allowed text-sm font-medium"
+          >
+            {translating ? '翻譯生成中...' : '生成翻譯'}
+          </button>
+          {tenantId === 'new' && (
+            <p className="text-xs text-gray-400 mt-1">請先建立品牌後再生成翻譯</p>
+          )}
+
+          {/* 進度條 */}
+          {translating && (
+            <div className="mt-4">
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div
+                  className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${translateProgress}%` }}
+                />
+              </div>
+              <p className="text-xs text-gray-500 mt-1 text-right">{translateProgress}%</p>
+            </div>
+          )}
+
+          {/* 翻譯進度 log */}
+          {translateLog.length > 0 && (
+            <div className="mt-3 space-y-1">
+              {translateLog.map((log, i) => (
+                <p key={i} className="text-xs text-gray-400">{log}</p>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="flex justify-between pt-4">

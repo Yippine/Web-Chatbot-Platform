@@ -719,5 +719,159 @@ def upload_chat_icon(tenant_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route("/api/admin/tenants/<tenant_id>/translations", methods=["POST"])
+def generate_translation(tenant_id):
+    """生成租戶聊天介面的語言翻譯檔"""
+    try:
+        tenant_manager.reload()
+        tenants = tenant_manager.list_tenants()
+        
+        if tenant_id not in tenants:
+            return jsonify({"error": "租戶不存在"}), 404
+        
+        data = request.json
+        lang = data.get("language")
+        if not lang:
+            return jsonify({"error": "缺少 language 參數"}), 400
+        
+        tenant = tenants[tenant_id]
+        print(f"[Translation] 開始生成 {tenant_id} 的 {lang} 翻譯")
+        
+        # 收集需要翻譯的繁中原始文字
+        appearance = tenant.get("appearance", {})
+        services = tenant.get("services", {})
+        
+        source_texts = {
+            "appearance": {
+                "title": appearance.get("title", ""),
+                "subtitle": appearance.get("subtitle", ""),
+                "welcomeMessage": appearance.get("welcomeMessage", ""),
+                "placeholder": appearance.get("placeholder", "")
+            },
+            "services": {}
+        }
+        for sid, sconfig in services.items():
+            source_texts["services"][sid] = {
+                "name": sconfig.get("name", ""),
+                "loading_message": sconfig.get("loading_message", ""),
+                "mode_message": sconfig.get("mode_message", "")
+            }
+        
+        print(f"[Translation] 收集到的原始文字: appearance={list(source_texts['appearance'].keys())}, services={list(source_texts['services'].keys())}")
+        
+        # 計算原始文字 hash（用於異動偵測）
+        import hashlib
+        source_json = json.dumps(source_texts, ensure_ascii=False, sort_keys=True)
+        source_hash = hashlib.md5(source_json.encode('utf-8')).hexdigest()
+        print(f"[Translation] 原始文字 hash: {source_hash}")
+        
+        # 檢查現有翻譯檔
+        translations_dir = os.path.join(os.path.dirname(tenant_manager.config_path), '..', 'translations', tenant_id)
+        os.makedirs(translations_dir, exist_ok=True)
+        translation_file = os.path.join(translations_dir, f"{lang}.json")
+        
+        if os.path.exists(translation_file):
+            with open(translation_file, 'r', encoding='utf-8') as f:
+                existing = json.load(f)
+            if existing.get("_source_hash") == source_hash:
+                print(f"[Translation] {lang} 翻譯檔已存在且原始文字未異動，跳過")
+                return jsonify({"message": f"{lang} 翻譯未異動，使用現有檔案", "skipped": True})
+            else:
+                print(f"[Translation] {lang} 翻譯檔存在但原始文字已異動，重新生成")
+        
+        # 取得 API Key
+        api_key = tenant.get("gemini_api_key")
+        if not api_key:
+            # 從 .env 讀取
+            api_key_env = tenant.get("api_key_env")
+            if api_key_env:
+                from dotenv import dotenv_values
+                env = dotenv_values(os.path.join(os.path.dirname(tenant_manager.config_path), '..', '.env'))
+                api_key = env.get(api_key_env)
+        
+        if not api_key:
+            print(f"[Translation] ❌ 租戶 {tenant_id} 缺少 API Key")
+            return jsonify({"error": "租戶缺少 API Key"}), 400
+        
+        # 語言名稱映射
+        lang_names = {
+            "en": "English",
+            "ja": "Japanese (日本語)",
+            "ko": "Korean (한국어)",
+            "vi": "Vietnamese (Tiếng Việt)",
+            "id": "Indonesian (Bahasa Indonesia)",
+            "th": "Thai (ภาษาไทย)",
+            "zh-cn": "Simplified Chinese (简体中文)"
+        }
+        lang_name = lang_names.get(lang, lang)
+        
+        # 呼叫 Gemini 翻譯
+        print(f"[Translation] 呼叫 Gemini API 翻譯為 {lang_name}...")
+        
+        from google import genai
+        from google.genai import types
+        
+        client = genai.Client(api_key=api_key)
+        
+        translate_prompt = f"""請將以下 JSON 中所有的繁體中文文字翻譯成 {lang_name}。
+
+規則：
+1. 只翻譯 JSON 的 value，不要改變 key
+2. 保留 emoji 符號不翻譯
+3. 保留換行符號 \\n
+4. 空字串保持空字串
+5. 只回傳 JSON，不要加任何說明或 markdown 格式
+
+要翻譯的 JSON：
+{json.dumps(source_texts, ensure_ascii=False, indent=2)}"""
+        
+        import time
+        api_start = time.time()
+        
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=translate_prompt,
+            config=types.GenerateContentConfig(temperature=0.3)
+        )
+        
+        api_time = time.time() - api_start
+        print(f"[Translation] Gemini API 回應時間: {api_time:.2f}s")
+        
+        # 解析回應
+        response_text = response.text.strip()
+        # 清理 markdown 格式
+        if response_text.startswith("```json"):
+            response_text = response_text[7:]
+        if response_text.startswith("```"):
+            response_text = response_text[3:]
+        if response_text.endswith("```"):
+            response_text = response_text[:-3]
+        response_text = response_text.strip()
+        
+        print(f"[Translation] 解析翻譯結果...")
+        
+        try:
+            translated = json.loads(response_text)
+        except json.JSONDecodeError as e:
+            print(f"[Translation] ❌ JSON 解析失敗: {e}")
+            print(f"[Translation] 原始回應: {response_text[:500]}")
+            return jsonify({"error": f"翻譯結果解析失敗: {str(e)}"}), 500
+        
+        # 加入 hash 並儲存
+        translated["_source_hash"] = source_hash
+        
+        with open(translation_file, 'w', encoding='utf-8') as f:
+            json.dump(translated, f, ensure_ascii=False, indent=2)
+        
+        print(f"[Translation] ✅ {lang} 翻譯檔已儲存: {translation_file}")
+        
+        return jsonify({"message": f"{lang} 翻譯生成完成"})
+        
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        print(f"[Translation] ❌ 翻譯失敗: {e}")
+        return jsonify({"error": str(e)}), 500
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001, debug=True)
