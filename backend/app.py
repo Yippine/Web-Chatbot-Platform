@@ -27,7 +27,7 @@ def health():
 @app.route("/api/detect-language", methods=["POST"])
 @require_tenant(tenant_manager)
 def detect_language():
-    """語言偵測端點"""
+    """語言偵測端點（輕量版，不使用 Redis）"""
     data = request.json
     message = data.get("message")
     
@@ -40,12 +40,53 @@ def detect_language():
         if not api_key:
             return jsonify({"detected_language": {"language_code": "zh-TW", "language_name": "Traditional Chinese"}})
         
-        from services.language_service import LanguageService
-        lang_service = LanguageService(api_key=api_key)
-        detected = lang_service.detect_language(message)
+        from google import genai
+        from google.genai import types
+        import time
         
+        client = genai.Client(api_key=api_key)
+        
+        prompt = f"""偵測以下文字的語言，並以 JSON 格式回傳結果。
+        
+                    格式要求：
+                    {{"language_code": "語言代碼", "language_name": "語言英文名稱"}}
+
+                    重要規則：
+                    - 繁體中文和簡體中文都統一回傳 zh-TW / Traditional Chinese
+
+                    語言代碼範例：
+                    - 中文（繁體或簡體）: zh-TW
+                    - 英文: en
+                    - 日文: ja
+                    - 韓文: ko
+                    - 越南文: vi
+                    - 印尼文: id
+                    - 泰文: th
+
+                    文字：{message}
+
+                    只回傳 JSON，不要加任何說明。"""
+        
+        api_start = time.time()
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=prompt,
+            config=types.GenerateContentConfig(temperature=0)
+        )
+        print(f"[Language] Gemini API: {time.time() - api_start:.2f}s")
+        
+        response_text = response.text.strip()
+        if response_text.startswith("```json"):
+            response_text = response_text[7:]
+        if response_text.startswith("```"):
+            response_text = response_text[3:]
+        if response_text.endswith("```"):
+            response_text = response_text[:-3]
+        
+        detected = json.loads(response_text.strip())
         print(f"[Language] 偵測結果: {detected}")
         return jsonify({"detected_language": detected})
+        
     except Exception as e:
         import traceback
         traceback.print_exc()
@@ -126,6 +167,14 @@ def chat():
     message = data.get("message")
     user_id = data.get("user_id", "default")
     forced_mode = data.get("mode")
+    lang = data.get("lang")
+    
+    # 語言代碼轉語言名稱（供 response_language 使用）
+    lang_name_map = {
+        "en": "English", "ja": "Japanese", "ko": "Korean",
+        "vi": "Vietnamese", "id": "Indonesian", "th": "Thai"
+    }
+    response_language = lang_name_map.get(lang) if lang else None
     
     if not message:
         return jsonify({"error": "缺少訊息內容"}), 400
@@ -175,8 +224,7 @@ def chat():
         from services.smart_route_service import SmartRouteService
         
         if isinstance(service, QueryService):
-            # QueryService: 呼叫 query_data()
-            result = service.query_data(message, user_id=user_id)
+            result = service.query_data(message, user_id=user_id, response_language=response_language)
             return jsonify({
                 "type": "query",
                 "response": result["response"],
@@ -184,8 +232,7 @@ def chat():
             })
         
         elif isinstance(service, SmartRouteService):
-            # SmartRouteService: 呼叫 plan_route()
-            result = service.plan_route(end=message, user_id=user_id)
+            result = service.plan_route(end=message, user_id=user_id, response_language=response_language)
             return jsonify({
                 "type": "route",
                 "response": result["route"],
@@ -193,8 +240,7 @@ def chat():
             })
         
         elif isinstance(service, ChatService):
-            # ChatService: 呼叫 chat()
-            result = service.chat(message, user_id=user_id)
+            result = service.chat(message, user_id=user_id, response_language=response_language)
             return jsonify({
                 "type": "chat",
                 "response": result["response"],
@@ -204,7 +250,7 @@ def chat():
         else:
             # 預設：嘗試呼叫 chat() 方法
             if hasattr(service, 'chat'):
-                result = service.chat(message, user_id=user_id)
+                result = service.chat(message, user_id=user_id, response_language=response_language)
                 return jsonify({
                     "type": "general",
                     "response": result.get("response") or result.get("text"),

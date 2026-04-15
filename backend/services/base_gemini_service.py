@@ -331,26 +331,32 @@ class BaseGeminiService:
             return []
     
     def _save_session_to_redis(self, session_key: str, contents: List[types.Content], ttl: int = 3600):
-        """保存對話歷史到 Redis"""
+        """保存對話歷史到 Redis（過濾無效資料）"""
         try:
             history_data = [self._serialize_content(c) for c in contents]
+            # 過濾掉 parts 為空的 content，避免存入損壞資料
+            history_data = [c for c in history_data if c["parts"]]
             history_json = json.dumps(history_data, ensure_ascii=False)
             self.redis_client.setex(session_key, ttl, history_json)
         except Exception as e:
             print(f"[{self.service_name}] 保存 session 失敗: {e}")
     
     def _serialize_content(self, content: types.Content) -> dict:
-        """序列化 Content"""
+        """序列化 Content（過濾空 parts）"""
+        parts = [{"text": part.text} for part in content.parts if hasattr(part, 'text') and part.text]
         return {
             "role": content.role,
-            "parts": [{"text": part.text} for part in content.parts if hasattr(part, 'text')]
+            "parts": parts
         }
     
     def _deserialize_content(self, data: dict) -> types.Content:
-        """反序列化 Content"""
+        """反序列化 Content（過濾空 parts，防止 API 400 錯誤）"""
+        parts = [types.Part(text=part["text"]) for part in data.get("parts", []) if part.get("text")]
+        if not parts:
+            parts = [types.Part(text="...")]
         return types.Content(
             role=data["role"],
-            parts=[types.Part(text=part["text"]) for part in data["parts"]]
+            parts=parts
         )
     
     def clear_user_history(self, user_id: str):
