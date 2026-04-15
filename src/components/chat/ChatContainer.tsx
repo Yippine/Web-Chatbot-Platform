@@ -94,17 +94,20 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
 
         try {
             // 第一步: 偵測語言
+            setLoadingText(getTranslation(language, 'loading.detectingLanguage'));
+            setIsProcessing(true);
+            
             let currentLang: Language = 'zh-tw';
             try {
                 const langResult = await apiClient.detectLanguage(content, tenantId);
                 if (langResult?.detected_language) {
                     const langCode = languageMap[langResult.detected_language.language_name];
-                    if (langCode) {
+                    if (langCode && langCode !== 'zh-tw') {
                         currentLang = langCode;
                         setLanguage(langCode);
                         
-                        // 重新載入翻譯版 config 更新 UI
-                        if (langCode !== 'zh-tw' && langCode !== language) {
+                        if (langCode !== language) {
+                            setLoadingText(getTranslation(langCode, 'loading.translatingUI'));
                             try {
                                 const translatedConfig = await apiClient.getTenantConfig(tenantId, langCode);
                                 if (translatedConfig.services) setServices(translatedConfig.services);
@@ -143,7 +146,7 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
             setLoadingText(loadingMsg);
             setIsProcessing(true);
             
-            const result = await apiClient.chat(content, tenantId, conversationHistory.slice(-5), detectedIntent);
+            const result = await apiClient.chat(content, tenantId, conversationHistory.slice(-5), detectedIntent, currentLang !== 'zh-tw' ? currentLang : undefined);
             
             const botMessage: MessageType = {
                 id: `bot_${Date.now()}`,
@@ -275,7 +278,7 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
             setIsProcessing(true);
             
             // 直接使用傳入的 mode
-            const result = await apiClient.chat(content, tenantId, conversationHistory.slice(-5), mode);
+            const result = await apiClient.chat(content, tenantId, conversationHistory.slice(-5), mode, language !== 'zh-tw' ? language : undefined);
             
             const botMessage: MessageType = {
                 id: `bot_${Date.now()}`,

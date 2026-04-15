@@ -152,6 +152,12 @@ class AdminAPIClient {
     return response.json();
   }
 
+  async getTranslationStatus(tenantId: string) {
+    return this.request<{ translations: Record<string, { exists: boolean; outdated?: boolean }> }>(
+      `/api/admin/tenants/${tenantId}/translations`
+    );
+  }
+
   async generateTranslation(tenantId: string, lang: string) {
     return this.request<{ message: string }>(`/api/admin/tenants/${tenantId}/translations`, {
       method: 'POST',

@@ -719,6 +719,69 @@ def upload_chat_icon(tenant_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route("/api/admin/tenants/<tenant_id>/translations", methods=["GET"])
+def get_translation_status(tenant_id):
+    """查詢租戶各語言翻譯狀態"""
+    try:
+        translations_dir = os.path.join(os.path.dirname(tenant_manager.config_path), '..', 'translations', tenant_id)
+        
+        languages = ["en", "ja", "ko", "vi", "id", "th"]
+        status = {}
+        
+        for lang in languages:
+            filepath = os.path.join(translations_dir, f"{lang}.json")
+            if os.path.exists(filepath):
+                try:
+                    with open(filepath, 'r', encoding='utf-8') as f:
+                        data = json.load(f)
+                    status[lang] = {
+                        "exists": True,
+                        "source_hash": data.get("_source_hash", "")
+                    }
+                except Exception:
+                    status[lang] = {"exists": False}
+            else:
+                status[lang] = {"exists": False}
+        
+        # 計算當前原始文字 hash，用於判斷是否過期
+        tenant_manager.reload()
+        tenants = tenant_manager.list_tenants()
+        tenant = tenants.get(tenant_id, {})
+        
+        appearance = tenant.get("appearance", {})
+        services = tenant.get("services", {})
+        source_texts = {
+            "appearance": {
+                "title": appearance.get("title", ""),
+                "subtitle": appearance.get("subtitle", ""),
+                "welcomeMessage": appearance.get("welcomeMessage", ""),
+                "placeholder": appearance.get("placeholder", "")
+            },
+            "services": {}
+        }
+        for sid, sconfig in services.items():
+            source_texts["services"][sid] = {
+                "name": sconfig.get("name", ""),
+                "loading_message": sconfig.get("loading_message", ""),
+                "query_loading_message": sconfig.get("query_loading_message", ""),
+                "mode_message": sconfig.get("mode_message", "")
+            }
+        
+        import hashlib
+        source_json = json.dumps(source_texts, ensure_ascii=False, sort_keys=True)
+        current_hash = hashlib.md5(source_json.encode('utf-8')).hexdigest()
+        
+        # 標記是否過期
+        for lang in languages:
+            if status[lang].get("exists"):
+                status[lang]["outdated"] = status[lang]["source_hash"] != current_hash
+        
+        return jsonify({"translations": status, "current_hash": current_hash})
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+
 @app.route("/api/admin/tenants/<tenant_id>/translations", methods=["POST"])
 def generate_translation(tenant_id):
     """生成租戶聊天介面的語言翻譯檔"""
@@ -754,6 +817,7 @@ def generate_translation(tenant_id):
             source_texts["services"][sid] = {
                 "name": sconfig.get("name", ""),
                 "loading_message": sconfig.get("loading_message", ""),
+                "query_loading_message": sconfig.get("query_loading_message", ""),
                 "mode_message": sconfig.get("mode_message", "")
             }
         
@@ -800,8 +864,7 @@ def generate_translation(tenant_id):
             "ko": "Korean (한국어)",
             "vi": "Vietnamese (Tiếng Việt)",
             "id": "Indonesian (Bahasa Indonesia)",
-            "th": "Thai (ภาษาไทย)",
-            "zh-cn": "Simplified Chinese (简体中文)"
+            "th": "Thai (ภาษาไทย)"
         }
         lang_name = lang_names.get(lang, lang)
         

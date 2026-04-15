@@ -29,17 +29,45 @@ export default function TenantEditPage() {
     { code: 'vi', label: 'Tiếng Việt' },
     { code: 'id', label: 'Bahasa Indonesia' },
     { code: 'th', label: 'ภาษาไทย' },
-    { code: 'zh-cn', label: '简体中文' },
   ];
   const [selectedLangs, setSelectedLangs] = useState<string[]>([]);
   const [translating, setTranslating] = useState(false);
   const [translateProgress, setTranslateProgress] = useState(0);
   const [translateLog, setTranslateLog] = useState<string[]>([]);
+  const [translatedLangs, setTranslatedLangs] = useState<Record<string, { exists: boolean; outdated?: boolean }>>({});
+
+  const loadTranslationStatus = async () => {
+    try {
+      const apiKey = localStorage.getItem('admin_api_key');
+      if (!apiKey || tenantId === 'new') return;
+      const client = new AdminAPIClient(apiKey);
+      const result = await client.getTranslationStatus(tenantId);
+      if (result.translations) setTranslatedLangs(result.translations);
+    } catch (e) {
+      console.error('載入翻譯狀態失敗:', e);
+    }
+  };
 
   const toggleLang = (code: string) => {
     setSelectedLangs(prev => 
       prev.includes(code) ? prev.filter(c => c !== code) : [...prev, code]
     );
+  };
+
+  const getLangButtonStyle = (code: string) => {
+    if (selectedLangs.includes(code)) return 'bg-blue-600 text-white';
+    const status = translatedLangs[code];
+    if (status?.exists && !status?.outdated) return 'bg-green-600 text-white';
+    if (status?.exists && status?.outdated) return 'bg-yellow-500 text-white';
+    return 'bg-gray-100 text-gray-700 hover:bg-gray-200';
+  };
+
+  const getLangBadge = (code: string) => {
+    const status = translatedLangs[code];
+    if (selectedLangs.includes(code)) return '';
+    if (status?.exists && !status?.outdated) return ' ✓';
+    if (status?.exists && status?.outdated) return ' ⚠';
+    return '';
   };
 
   const handleGenerateTranslations = async () => {
@@ -65,6 +93,8 @@ export default function TenantEditPage() {
         setTranslateLog(prev => [...prev, `✅ ${langLabel} 翻譯完成`]);
       }
       setTranslateLog(prev => [...prev, '🎉 所有翻譯生成完成']);
+      setSelectedLangs([]);
+      await loadTranslationStatus();
     } catch (err: any) {
       setTranslateLog(prev => [...prev, `❌ 翻譯失敗: ${err.message}`]);
     } finally {
@@ -75,6 +105,7 @@ export default function TenantEditPage() {
   useEffect(() => {
     if (tenantId !== 'new') {
       loadTenant();
+      loadTranslationStatus();
     } else {
       setLoading(false);
     }
@@ -275,21 +306,16 @@ export default function TenantEditPage() {
         {/* 翻譯設定 */}
         <div className="border-t border-gray-200 pt-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-2">翻譯設定</h2>
-          <p className="text-sm text-gray-500 mb-4">選擇要生成哪些語言的聊天介面翻譯</p>
-          
+          <p className="text-sm text-gray-500 mb-4">選擇要生成的聊天介面翻譯語言<br />（綠底白字，表示已翻譯；黃底白字，表示原始文字有異動，需要重新生成）</p>          
           <div className="flex flex-wrap gap-2 mb-4">
             {AVAILABLE_LANGUAGES.map(lang => (
               <button
                 key={lang.code}
                 type="button"
                 onClick={() => toggleLang(lang.code)}
-                className={`px-3 py-1.5 rounded-full text-sm font-medium transition ${
-                  selectedLangs.includes(lang.code)
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
+                className={`px-3 py-1.5 rounded-full text-sm font-medium transition ${getLangButtonStyle(lang.code)}`}
               >
-                {lang.label}
+                {lang.label}{getLangBadge(lang.code)}
               </button>
             ))}
           </div>
