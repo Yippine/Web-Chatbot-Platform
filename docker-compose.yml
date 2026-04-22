@@ -26,6 +26,7 @@ services:
       - ./backend/.env:/app/.env
       - ./backend/data:/app/data
       - ./backend/prompts:/app/prompts
+      - ./backend/translations:/app/translations
     depends_on:
       redis:
         condition: service_healthy
@@ -47,6 +48,7 @@ services:
       - ./backend/.env:/app/.env
       - ./backend/data:/app/data
       - ./backend/prompts:/app/prompts
+      - ./backend/translations:/app/translations
       - ./backend/data/images/tenants:/app/public/images/tenants
     depends_on:
       redis:
