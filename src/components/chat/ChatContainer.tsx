@@ -132,9 +132,9 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
                     const validServices = Object.keys(services);
                     detectedIntent = (intentResult?.intent && intentResult.intent !== 'general' && validServices.includes(intentResult.intent))
                         ? intentResult.intent
-                        : validServices[0];
+                        : 'general';
                 } catch {
-                    detectedIntent = Object.keys(services)[0];
+                    detectedIntent = 'general';
                 }
             }
             

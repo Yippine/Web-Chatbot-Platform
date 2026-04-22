@@ -859,12 +859,12 @@ def generate_translation(tenant_id):
         
         # 語言名稱映射
         lang_names = {
-            "en": "English",
-            "ja": "Japanese (日本語)",
-            "ko": "Korean (한국어)",
-            "vi": "Vietnamese (Tiếng Việt)",
-            "id": "Indonesian (Bahasa Indonesia)",
-            "th": "Thai (ภาษาไทย)"
+            "en": "英文",
+            "ja": "Japanese (日文)",
+            "ko": "Korean (韓文)",
+            "vi": "Vietnamese (越南文)",
+            "id": "Indonesian (印尼文)",
+            "th": "Thai (泰文)"
         }
         lang_name = lang_names.get(lang, lang)
         

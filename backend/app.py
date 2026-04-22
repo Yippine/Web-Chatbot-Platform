@@ -106,9 +106,9 @@ def detect_intent():
         tenant_id = request.tenant_id
         tenant = request.tenant
         
-        # 取得該租戶所有啟用的服務
+        # 取得該租戶所有啟用的服務（排除 general）
         services = tenant.get("services", {})
-        enabled_services = {k: v for k, v in services.items() if v.get("enabled", True)}
+        enabled_services = {k: v for k, v in services.items() if v.get("enabled", True) and k != "general"}
         
         if not enabled_services:
             return jsonify({"intent": "general"})

@@ -23,12 +23,12 @@ export default function TenantEditPage() {
 
   // 翻譯設定
   const AVAILABLE_LANGUAGES = [
-    { code: 'en', label: 'English' },
-    { code: 'ja', label: '日本語' },
-    { code: 'ko', label: '한국어' },
-    { code: 'vi', label: 'Tiếng Việt' },
-    { code: 'id', label: 'Bahasa Indonesia' },
-    { code: 'th', label: 'ภาษาไทย' },
+    { code: 'en', label: '英文' },
+    { code: 'ja', label: '日文' },
+    { code: 'ko', label: '韓文' },
+    { code: 'vi', label: '越南文' },
+    { code: 'id', label: '印尼文' },
+    { code: 'th', label: '泰文' },
   ];
   const [selectedLangs, setSelectedLangs] = useState<string[]>([]);
   const [translating, setTranslating] = useState(false);
@@ -229,6 +229,8 @@ export default function TenantEditPage() {
       )}
 
       <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow p-6 space-y-6">
+        <h2 className="text-lg font-semibold text-gray-900">基本設定</h2>
+
         {tenantId === 'new' && (
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -303,58 +305,6 @@ export default function TenantEditPage() {
           </label>
         </div>
 
-        {/* 翻譯設定 */}
-        <div className="border-t border-gray-200 pt-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-2">翻譯設定</h2>
-          <p className="text-sm text-gray-500 mb-4">選擇要生成的聊天介面翻譯語言<br />（綠底白字，表示已翻譯；黃底白字，表示原始文字有異動，需要重新生成）</p>          
-          <div className="flex flex-wrap gap-2 mb-4">
-            {AVAILABLE_LANGUAGES.map(lang => (
-              <button
-                key={lang.code}
-                type="button"
-                onClick={() => toggleLang(lang.code)}
-                className={`px-3 py-1.5 rounded-full text-sm font-medium transition ${getLangButtonStyle(lang.code)}`}
-              >
-                {lang.label}{getLangBadge(lang.code)}
-              </button>
-            ))}
-          </div>
-
-          <button
-            type="button"
-            onClick={handleGenerateTranslations}
-            disabled={tenantId === 'new' || translating || selectedLangs.length === 0}
-            className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition disabled:bg-gray-300 disabled:cursor-not-allowed text-sm font-medium"
-          >
-            {translating ? '翻譯生成中...' : '生成翻譯'}
-          </button>
-          {tenantId === 'new' && (
-            <p className="text-xs text-gray-400 mt-1">請先建立品牌後再生成翻譯</p>
-          )}
-
-          {/* 進度條 */}
-          {translating && (
-            <div className="mt-4">
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div
-                  className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                  style={{ width: `${translateProgress}%` }}
-                />
-              </div>
-              <p className="text-xs text-gray-500 mt-1 text-right">{translateProgress}%</p>
-            </div>
-          )}
-
-          {/* 翻譯進度 log */}
-          {translateLog.length > 0 && (
-            <div className="mt-3 space-y-1">
-              {translateLog.map((log, i) => (
-                <p key={i} className="text-xs text-gray-400">{log}</p>
-              ))}
-            </div>
-          )}
-        </div>
-
         <div className="flex justify-between pt-4">
           <div>
             {tenantId !== 'new' && (
@@ -385,6 +335,60 @@ export default function TenantEditPage() {
           </div>
         </div>
       </form>
+
+      {/* 翻譯設定 */}
+      <div className="bg-white rounded-lg shadow p-6 space-y-4 mt-6">
+        <h2 className="text-lg font-semibold text-gray-900">翻譯設定</h2>
+        <p className="text-sm text-gray-500">選擇要生成的聊天介面翻譯語言<br />（綠底白字，表示已翻譯；黃底白字，表示原始文字有異動，需要重新生成）</p>          
+        
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap gap-2 flex-1">
+            {AVAILABLE_LANGUAGES.map(lang => (
+              <button
+                key={lang.code}
+                type="button"
+                onClick={() => toggleLang(lang.code)}
+                className={`px-3 py-1.5 rounded-full text-sm font-medium transition ${getLangButtonStyle(lang.code)}`}
+              >
+                {lang.label}{getLangBadge(lang.code)}
+              </button>
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={handleGenerateTranslations}
+            disabled={tenantId === 'new' || translating || selectedLangs.length === 0}
+            className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition disabled:bg-gray-300 disabled:cursor-not-allowed text-sm font-medium whitespace-nowrap"
+          >
+            {translating ? '翻譯生成中...' : '生成翻譯'}
+          </button>
+        </div>
+        {tenantId === 'new' && (
+          <p className="text-xs text-gray-400 mt-1">請先建立品牌後再生成翻譯</p>
+        )}
+
+        {/* 進度條 */}
+        {translating && (
+          <div className="mt-4">
+            <div className="w-full bg-gray-200 rounded-full h-2">
+              <div
+                className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                style={{ width: `${translateProgress}%` }}
+              />
+            </div>
+            <p className="text-xs text-gray-500 mt-1 text-right">{translateProgress}%</p>
+          </div>
+        )}
+
+        {/* 翻譯進度 log */}
+        {translateLog.length > 0 && (
+          <div className="mt-3 space-y-1">
+            {translateLog.map((log, i) => (
+              <p key={i} className="text-xs text-gray-400">{log}</p>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
