@@ -144,7 +144,8 @@ class BaseGeminiService:
         config = types.GenerateContentConfig(
             tools=tools if tools else None,
             system_instruction=final_system_prompt,
-            temperature=temperature
+            temperature=temperature,
+            thinking_config=types.ThinkingConfig(thinking_budget=0)
         )
         
         # 呼叫 Gemini API
@@ -170,7 +171,8 @@ class BaseGeminiService:
             config = types.GenerateContentConfig(
                 tools=[{"google_search": {}}] if use_grounding else None,
                 system_instruction=final_system_prompt,
-                temperature=temperature
+                temperature=temperature,
+                thinking_config=types.ThinkingConfig(thinking_budget=0)
             )
             fallback_start = time.time()
             response = self.client.models.generate_content(

@@ -71,7 +71,10 @@ def detect_language():
         response = client.models.generate_content(
             model="gemini-2.5-flash",
             contents=prompt,
-            config=types.GenerateContentConfig(temperature=0)
+            config=types.GenerateContentConfig(
+                temperature=0,
+                thinking_config=types.ThinkingConfig(thinking_budget=0)
+            )
         )
         print(f"[Language] Gemini API: {time.time() - api_start:.2f}s")
         
@@ -118,16 +121,22 @@ def detect_intent():
         for sid, sconfig in enabled_services.items():
             name = sconfig.get("name", sid)
             keyword = sconfig.get("search_keyword", "")
-            service_options.append(f'- 如果與「{name}」相關（關鍵字：{keyword}），回答「{sid}」')
+            service_options.append(f'- "{sid}"：{name}（相關主題：{keyword}）')
         
         options_text = "\n".join(service_options)
         
-        intent_prompt = f"""判斷以下問題應該由哪個服務處理，只回答一個服務 ID：
-{options_text}
-- 如果都不符合，回答「general」
+        intent_prompt = f"""你是意圖分類器。根據使用者的問題，判斷最適合的服務 ID。
+                        可用服務：
+                        {options_text}
 
-問題：{message}
-回答："""
+                        規則：
+                        1. 用語意理解判斷，不要只看關鍵字是否完全吻合
+                        2. 只要問題的主題與某個服務相關，就選擇該服務
+                        3. 只有在問題完全無法歸類到任何服務時，才回答 "general"
+                        4. 只回答服務 ID，不要加任何說明
+
+                        問題：{message}
+                        回答："""
         
         # 用任一服務的 API key 做意圖判斷
         api_key = tenant.get("gemini_api_key")
@@ -142,7 +151,10 @@ def detect_intent():
         response = client.models.generate_content(
             model="gemini-2.5-flash",
             contents=intent_prompt,
-            config=types.GenerateContentConfig(temperature=0)
+            config=types.GenerateContentConfig(
+                temperature=0,
+                thinking_config=types.ThinkingConfig(thinking_budget=0)
+            )
         )
         
         intent = response.text.strip().lower().strip('「」')

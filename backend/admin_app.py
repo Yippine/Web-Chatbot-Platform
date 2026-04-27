@@ -894,7 +894,10 @@ def generate_translation(tenant_id):
         response = client.models.generate_content(
             model="gemini-2.5-flash",
             contents=translate_prompt,
-            config=types.GenerateContentConfig(temperature=0.3)
+            config=types.GenerateContentConfig(
+                temperature=0.3,
+                thinking_config=types.ThinkingConfig(thinking_budget=0)
+            )
         )
         
         api_time = time.time() - api_start
