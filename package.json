@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:widget": "node scripts/build-widget.js",
     "start": "next start",
     "lint": "eslint"
   },

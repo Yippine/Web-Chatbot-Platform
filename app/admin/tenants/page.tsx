@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import AdminAPIClient from '@/lib/admin/api-client';
 
@@ -11,10 +11,74 @@ interface Tenant {
   services_count: number;
 }
 
+function EmbedCodeBlock({ tenantId }: { tenantId: string }) {
+  const [tab, setTab] = useState<'script' | 'gtm'>('script');
+  const [copied, setCopied] = useState(false);
+  const frontendUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || window.location.origin;
+
+  const scriptCode = `<script src="${frontendUrl}/api/chat-widget?tenant_id=${tenantId}"></script>`;
+  const gtmCode = `<script>
+(function() {
+  var s = document.createElement('script');
+  s.src = '${frontendUrl}/api/chat-widget?tenant_id=${tenantId}';
+  s.async = true;
+  document.head.appendChild(s);
+})();
+</script>`;
+
+  const currentCode = tab === 'script' ? scriptCode : gtmCode;
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(currentCode);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div className="px-6 py-4 bg-gray-50 border-t border-gray-100">
+      <div className="flex items-center gap-2 mb-3">
+        <button
+          onClick={() => setTab('script')}
+          className={`px-3 py-1 text-xs font-medium rounded-md transition ${
+            tab === 'script' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
+          }`}
+        >
+          一般嵌入
+        </button>
+        <button
+          onClick={() => setTab('gtm')}
+          className={`px-3 py-1 text-xs font-medium rounded-md transition ${
+            tab === 'gtm' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
+          }`}
+        >
+          GTM 嵌入
+        </button>
+      </div>
+      <div className="relative">
+        <pre className="bg-gray-900 text-green-400 text-xs p-3 rounded-lg overflow-x-auto whitespace-pre-wrap break-all">
+          {currentCode}
+        </pre>
+        <button
+          onClick={handleCopy}
+          className="absolute top-2 right-2 px-2 py-1 text-xs bg-gray-700 text-gray-200 rounded hover:bg-gray-600 transition"
+        >
+          {copied ? '✓ 已複製' : '複製'}
+        </button>
+      </div>
+      {tab === 'gtm' && (
+        <p className="mt-2 text-xs text-gray-500">
+          在 GTM 中新增「自訂 HTML」標籤，貼上以上程式碼，觸發條件設為「All Pages」
+        </p>
+      )}
+    </div>
+  );
+}
+
 export default function TenantsPage() {
   const [tenants, setTenants] = useState<Tenant[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [expandedTenant, setExpandedTenant] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -91,56 +155,71 @@ export default function TenantsPage() {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {tenants.map((tenant) => (
-              <tr key={tenant.id} className="hover:bg-gray-50">
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                  {tenant.id}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                  {tenant.name}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span
-                    className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                      tenant.enabled
-                        ? 'bg-green-100 text-green-800'
-                        : 'bg-gray-100 text-gray-800'
-                    }`}
-                  >
-                    {tenant.enabled ? '啟用' : '停用'}
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                  {tenant.services_count}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-4">
-                  <a
-                    href={`/chat?tenant_id=${tenant.id}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-indigo-600 hover:text-indigo-900"
-                  >
-                    開啟聊天
-                  </a>
-                  <button
-                    onClick={() => router.push(`/admin/tenants/${tenant.id}`)}
-                    className="text-blue-600 hover:text-blue-900"
-                  >
-                    編輯
-                  </button>
-                  <button
-                    onClick={() => router.push(`/admin/tenants/${tenant.id}/services`)}
-                    className="text-green-600 hover:text-green-900"
-                  >
-                    服務
-                  </button>
-                  <button
-                    onClick={() => router.push(`/admin/tenants/${tenant.id}/appearance`)}
-                    className="text-purple-600 hover:text-purple-900"
-                  >
-                    外觀
-                  </button>
-                </td>
-              </tr>
+              <React.Fragment key={tenant.id}>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    {tenant.id}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                    {tenant.name}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span
+                      className={`px-2 py-1 text-xs font-semibold rounded-full ${
+                        tenant.enabled
+                          ? 'bg-green-100 text-green-800'
+                          : 'bg-gray-100 text-gray-800'
+                      }`}
+                    >
+                      {tenant.enabled ? '啟用' : '停用'}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                    {tenant.services_count}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-4">
+                    <button
+                      onClick={() => setExpandedTenant(expandedTenant === tenant.id ? null : tenant.id)}
+                      className="text-orange-600 hover:text-orange-900"
+                    >
+                      嵌入碼
+                    </button>
+                    <a
+                      href={`/chat?tenant_id=${tenant.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-indigo-600 hover:text-indigo-900"
+                    >
+                      開啟聊天
+                    </a>
+                    <button
+                      onClick={() => router.push(`/admin/tenants/${tenant.id}`)}
+                      className="text-blue-600 hover:text-blue-900"
+                    >
+                      編輯
+                    </button>
+                    <button
+                      onClick={() => router.push(`/admin/tenants/${tenant.id}/services`)}
+                      className="text-green-600 hover:text-green-900"
+                    >
+                      服務
+                    </button>
+                    <button
+                      onClick={() => router.push(`/admin/tenants/${tenant.id}/appearance`)}
+                      className="text-purple-600 hover:text-purple-900"
+                    >
+                      外觀
+                    </button>
+                  </td>
+                </tr>
+                {expandedTenant === tenant.id && (
+                  <tr>
+                    <td colSpan={5} className="p-0">
+                      <EmbedCodeBlock tenantId={tenant.id} />
+                    </td>
+                  </tr>
+                )}
+              </React.Fragment>
             ))}
           </tbody>
         </table>
