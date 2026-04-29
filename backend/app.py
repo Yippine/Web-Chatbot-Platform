@@ -157,11 +157,11 @@ def detect_intent():
             )
         )
         
-        intent = response.text.strip().lower().strip('「」')
-        
-        # 驗證 intent 是否為有效服務
-        if intent not in enabled_services and intent != "general":
-            intent = "general"
+        intent_raw = response.text.strip().strip('「」').strip()
+
+        # 大小寫不敏感比對，還原為 enabled_services 的原始 key
+        matched = next((k for k in enabled_services if k.lower() == intent_raw.lower()), None)
+        intent = matched if matched else "general"
         
         print(f"[Intent] 租戶={tenant_id}, 訊息={message[:30]}, 意圖={intent}")
         return jsonify({"intent": intent})
