@@ -66,6 +66,8 @@ class BaseGeminiService:
         user_id: str = "default",
         temperature: float = None,
         use_grounding: bool = None,
+        use_maps: bool = False,
+        lat_lng: Optional[Dict] = None,
         system_prompt: Optional[str] = None,
         search_keyword: Optional[str] = None,
         response_language: Optional[str] = None
@@ -78,6 +80,8 @@ class BaseGeminiService:
             user_id: 使用者 ID（用於 session 管理）
             temperature: 溫度參數 (None 則使用預設值)
             use_grounding: 是否使用 Google Search (None 則使用預設值)
+            use_maps: 是否使用 Google Maps Grounding
+            lat_lng: 使用者座標 {"latitude": float, "longitude": float}
             system_prompt: 自訂系統提示
             search_keyword: 搜尋關鍵字 (None 則使用預設值)
             response_language: 回應語言（如 "English", "Japanese"）
@@ -114,7 +118,7 @@ class BaseGeminiService:
             search_query_with_url = search_query
         
         # 記錄最終查詢
-        if use_grounding or use_url_context:
+        if use_grounding or use_url_context or use_maps:
             print(f"[Grounding] 最終查詢: {search_query_with_url}")
         
         # 添加使用者問題到對話歷史
@@ -130,19 +134,34 @@ class BaseGeminiService:
             final_system_prompt = final_system_prompt + language_instruction
         
         # 有使用搜尋工具時，禁止模型輸出內部推理過程
-        if use_url_context or use_grounding:
+        if use_url_context or use_grounding or use_maps:
             final_system_prompt += "\n\n## 回答規則\n絕對不要在回答中描述你的搜尋過程、網頁瀏覽行為、工具使用情況或內部推理步驟。直接回答使用者的問題。"
         
         # 組裝 tools
         tools = []
-        if use_grounding:
+        if use_maps:
+            tools.append(types.Tool(google_maps=types.GoogleMaps()))
+        elif use_grounding:
             tools.append({"google_search": {}})
         if use_url_context:
             tools.append({"url_context": {}})
         
+        # Maps tool_config（傳入使用者座標）
+        tool_config = None
+        if use_maps and lat_lng:
+            tool_config = types.ToolConfig(
+                retrieval_config=types.RetrievalConfig(
+                    lat_lng=types.LatLng(
+                        latitude=lat_lng["latitude"],
+                        longitude=lat_lng["longitude"]
+                    )
+                )
+            )
+        
         # 配置
         config = types.GenerateContentConfig(
             tools=tools if tools else None,
+            tool_config=tool_config,
             system_instruction=final_system_prompt,
             temperature=temperature,
             thinking_config=types.ThinkingConfig(thinking_budget=0)
@@ -157,7 +176,7 @@ class BaseGeminiService:
         )
         api_call_time = time.time() - api_call_start
         
-        answer_text = response.text
+        answer_text = self._extract_text_only(response)
         
         # 檢查 url_context 是否抓取失敗，自動 fallback 到純 google_search
         if use_url_context and self._is_url_context_failed(response):
@@ -181,7 +200,7 @@ class BaseGeminiService:
                 config=config
             )
             api_call_time += time.time() - fallback_start
-            answer_text = response.text
+            answer_text = self._extract_text_only(response)
         
         # 更新對話歷史
         contents.append(types.Content(
@@ -201,7 +220,12 @@ class BaseGeminiService:
         # 提取參考連結（並行處理）
         url_process_start = time.time()
         try:
-            references = self._extract_references_parallel(response) if use_grounding else []
+            if use_maps:
+                references = self._extract_maps_references(response)
+            elif use_grounding:
+                references = self._extract_references_parallel(response)
+            else:
+                references = []
         except Exception as e:
             print(f"[{self.service_name}] ❌ URL 處理失敗: {e}")
             references = []
@@ -216,10 +240,35 @@ class BaseGeminiService:
         print(f"[{self.service_name}] ⏱️  Session 保存: {session_save_time:.3f}s")
         print(f"[{self.service_name}] ⏱️  總計: {total_time:.3f}s")
         
+        # 提取 Maps widget token（預留）
+        maps_widget_token = None
+        if use_maps:
+            try:
+                grounding = response.candidates[0].grounding_metadata
+                maps_widget_token = getattr(grounding, 'google_maps_widget_context_token', None)
+            except Exception:
+                pass
+        
         return {
             "text": answer_text,
-            "references": references
+            "references": references,
+            "maps_widget_token": maps_widget_token
         }
+    
+    def _extract_text_only(self, response) -> str:
+        """從 response 中只提取非 thinking 的文字內容"""
+        try:
+            parts = response.candidates[0].content.parts
+            text_parts = []
+            for part in parts:
+                # 跳過 thought=True 的 parts（推理過程）
+                if getattr(part, 'thought', False):
+                    continue
+                if hasattr(part, 'text') and part.text:
+                    text_parts.append(part.text)
+            return ''.join(text_parts) if text_parts else response.text
+        except Exception:
+            return response.text
     
     def _is_url_context_failed(self, response) -> bool:
         """檢查 url_context 是否抓取失敗"""
@@ -236,6 +285,38 @@ class BaseGeminiService:
             return False
         except Exception:
             return False
+    
+    def _extract_maps_references(self, response) -> List[Dict]:
+        """提取 Maps Grounding 參考資料"""
+        if not hasattr(response, 'candidates') or not response.candidates:
+            return []
+        
+        candidate = response.candidates[0]
+        if not hasattr(candidate, 'grounding_metadata') or not candidate.grounding_metadata:
+            return []
+        
+        metadata = candidate.grounding_metadata
+        if not hasattr(metadata, 'grounding_chunks') or not metadata.grounding_chunks:
+            return []
+        
+        refs = []
+        for chunk in metadata.grounding_chunks:
+            if hasattr(chunk, 'maps') and chunk.maps:
+                refs.append({
+                    "type": "maps",
+                    "title": getattr(chunk.maps, 'title', ''),
+                    "uri": getattr(chunk.maps, 'uri', '').rstrip(')'),
+                    "place_id": getattr(chunk.maps, 'place_id', '')
+                })
+            elif hasattr(chunk, 'web') and chunk.web:
+                refs.append({
+                    "type": "web",
+                    "title": getattr(chunk.web, 'title', ''),
+                    "uri": getattr(chunk.web, 'uri', '').rstrip(')')
+                })
+        
+        print(f"[{self.service_name}] Maps refs: {len(refs)} 個")
+        return refs
     
     def _extract_references_parallel(self, response, max_refs: int = 3) -> List[str]:
         """並行提取參考連結（優化版）"""

@@ -180,6 +180,7 @@ def chat():
     user_id = data.get("user_id", "default")
     forced_mode = data.get("mode")
     lang = data.get("lang")
+    lat_lng = data.get("lat_lng")
     
     # 語言代碼轉語言名稱（供 response_language 使用）
     lang_name_map = {
@@ -244,11 +245,12 @@ def chat():
             })
         
         elif isinstance(service, SmartRouteService):
-            result = service.plan_route(end=message, user_id=user_id, response_language=response_language)
+            result = service.plan_route(message=message, user_id=user_id, response_language=response_language, lat_lng=lat_lng)
             return jsonify({
                 "type": "route",
                 "response": result["route"],
-                "references": result.get("references", [])
+                "references": result.get("references", []),
+                "tool_used": result.get("tool_used")
             })
         
         elif isinstance(service, ChatService):

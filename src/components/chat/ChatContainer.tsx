@@ -11,6 +11,26 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { languageMap, getTranslation, Language } from '@/lib/i18n';
 import { AppearanceConfig } from '@/lib/appearance';
 
+async function getLocation(): Promise<{ latitude: number; longitude: number } | null> {
+    if (typeof window === 'undefined' || !navigator.geolocation) return null;
+    try {
+        const pos = await new Promise<GeolocationPosition>((resolve, reject) =>
+            navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 3000 })
+        );
+        return { latitude: pos.coords.latitude, longitude: pos.coords.longitude };
+    } catch {
+        return null;
+    }
+}
+
+function formatReferences(refs: (string | { type: string; title: string; uri: string })[]): string {
+    return refs.map(ref => {
+        if (typeof ref === 'string') return ref;
+        const icon = ref.type === 'maps' ? '📍' : '🔗';
+        return ref.uri ? `${icon} ${ref.title}\n   ${ref.uri}` : `${icon} ${ref.title}`;
+    }).join('\n');
+}
+
 type ChatMode = string;
 
 interface ChatContainerProps {
@@ -28,6 +48,8 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
     const [services, setServices] = useState<any>({});
     const [appearance, setAppearance] = useState<AppearanceConfig | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+
+    const isRouteService = (mode: string) => services[mode]?.class === 'SmartRouteService';
 
     // 載入租戶設定
     useEffect(() => {
@@ -146,7 +168,10 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
             setLoadingText(loadingMsg);
             setIsProcessing(true);
             
-            const result = await apiClient.chat(content, tenantId, conversationHistory.slice(-5), detectedIntent, currentLang !== 'zh-tw' ? currentLang : undefined);
+            // 取得 GPS（僅 route 服務）
+            const latLng = isRouteService(detectedIntent) ? await getLocation() : null;
+            
+            const result = await apiClient.chat(content, tenantId, conversationHistory.slice(-5), detectedIntent, currentLang !== 'zh-tw' ? currentLang : undefined, latLng ?? undefined);
             
             const botMessage: MessageType = {
                 id: `bot_${Date.now()}`,
@@ -163,7 +188,7 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
                     id: `ref_${Date.now()}`,
                     sender: 'bot',
                     type: 'text',
-                    content: `${t('references')}\n${result.references.slice(0, 3).join('\n')}`,
+                    content: `${t('references')}\n${formatReferences(result.references)}`,
                     timestamp: new Date()
                 };
                 setMessages(prev => [...prev, refMessage]);
@@ -214,7 +239,7 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
                         id: `ref_${Date.now()}`,
                         sender: 'bot',
                         type: 'text',
-                        content: `${t('references')}\n${result.references.slice(0, 3).join('\n')}`,
+                        content: `${t('references')}\n${formatReferences(result.references)}`,
                         timestamp: new Date()
                     };
                     setMessages(prev => [...prev, refMessage]);
@@ -277,8 +302,11 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
             setLoadingText(loadingMsg);
             setIsProcessing(true);
             
+            // 取得 GPS（僅 route 服務）
+            const latLng = isRouteService(mode) ? await getLocation() : null;
+            
             // 直接使用傳入的 mode
-            const result = await apiClient.chat(content, tenantId, conversationHistory.slice(-5), mode, language !== 'zh-tw' ? language : undefined);
+            const result = await apiClient.chat(content, tenantId, conversationHistory.slice(-5), mode, language !== 'zh-tw' ? language : undefined, latLng ?? undefined);
             
             const botMessage: MessageType = {
                 id: `bot_${Date.now()}`,
@@ -295,7 +323,7 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
                     id: `ref_${Date.now()}`,
                     sender: 'bot',
                     type: 'text',
-                    content: `${t('references')}\n${result.references.slice(0, 3).join('\n')}`,
+                    content: `${t('references')}\n${formatReferences(result.references)}`,
                     timestamp: new Date()
                 };
                 setMessages(prev => [...prev, refMessage]);

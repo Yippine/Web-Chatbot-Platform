@@ -22,6 +22,7 @@ services:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - TENANTS_CONFIG_PATH=/app/data/tenants.json
+      - PYTHONUNBUFFERED=1
     volumes:
       - ./backend/.env:/app/.env
       - ./backend/data:/app/data
@@ -44,6 +45,7 @@ services:
       - REDIS_PORT=6379
       - TENANTS_CONFIG_PATH=/app/data/tenants.json
       - UPLOAD_IMAGES_PATH=/app/public/images/tenants
+      - PYTHONUNBUFFERED=1
     volumes:
       - ./backend/.env:/app/.env
       - ./backend/data:/app/data

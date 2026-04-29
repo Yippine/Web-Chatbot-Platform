@@ -74,14 +74,14 @@ export const apiClient = {
   },
 
   // 統一聊天接口（多租戶版）
-  async chat(message: string, tenantId: string, history?: string[], mode?: string, lang?: string) {
+  async chat(message: string, tenantId: string, history?: string[], mode?: string, lang?: string, latLng?: { latitude: number; longitude: number }) {
     const res = await fetch(`${API_BASE_URL}/api/chat`, {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
         'X-Tenant-ID': tenantId
       },
-      body: JSON.stringify({ message, history, mode, user_id: getUserId(), lang })
+      body: JSON.stringify({ message, history, mode, user_id: getUserId(), lang, lat_lng: latLng })
     });
     return res.json();
   },
