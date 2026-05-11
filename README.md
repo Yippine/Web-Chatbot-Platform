@@ -1,15 +1,18 @@
 # AI Genie — 多租戶聊天機器人平台
 
-可客製化的嵌入式 AI 聊天機器人平台，支援多租戶管理、動態服務配置、提示詞編輯、外觀自訂等功能。
+可客製化的嵌入式 AI 聊天機器人平台，支援多租戶管理、動態服務配置、提示詞編輯、外觀自訂、多語系翻譯等功能。
 
 ## 功能特色
 
 - **多租戶架構**：每個品牌獨立的 API Key、服務設定、提示詞
 - **動態服務配置**：可啟用/停用服務，調整 temperature、grounding、搜尋關鍵字等參數
-- **提示詞管理**：Markdown 格式，支援線上編輯
-- **Quick Actions**：每個租戶自訂快捷按鈕
+- **AI 意圖路由**：自動判斷使用者意圖，分派至對應服務
+- **提示詞管理**：Markdown 格式，支援線上編輯，按租戶/服務分目錄
+- **Quick Actions**：每個租戶自訂快捷按鈕，可綁定服務與參數
 - **外觀自訂**：標題、色彩、漸層、聊天圖示皆可自訂
-- **管理後台**：Web UI 管理租戶、服務、提示詞、外觀
+- **多語系翻譯**：支援自動翻譯介面文字（en、ja、ko、vi、id、th），含過期偵測
+- **語言偵測**：自動偵測使用者語言並以對應語言回覆
+- **管理後台**：Web UI 管理租戶、服務、提示詞、外觀、翻譯
 - **嵌入式部署**：一行 `<script>` 嵌入任何網站
 
 ## 技術架構
@@ -18,10 +21,12 @@
 |------|------|
 | 前端框架 | Next.js 16 (App Router) + React 19 + TypeScript 5 |
 | 樣式 | Tailwind CSS 4 + Framer Motion |
-| 後端框架 | Flask 3.0 (Python 3.x) |
+| 後端框架 | Flask 3.0 (Python 3.11+) |
 | AI 服務 | Google Gemini 2.5 Flash (google-genai SDK) |
 | Session 管理 | Redis 5.0 |
+| 圖片處理 | Pillow |
 | 容器化 | Docker + Docker Compose + Nginx 反向代理 |
+| 生產部署 | Gunicorn (WSGI) |
 
 ## 專案結構
 
@@ -30,8 +35,11 @@ chatbot-platform/
 ├── app/                              # Next.js App Router
 │   ├── page.tsx                      # 首頁（重導至聊天頁）
 │   ├── layout.tsx                    # 根佈局
+│   ├── globals.css                   # 全域樣式 (Tailwind)
 │   ├── chat/page.tsx                 # 聊天主頁面
 │   ├── admin/                        # 管理後台頁面
+│   │   ├── layout.tsx                #   管理後台佈局
+│   │   ├── page.tsx                  #   管理後台首頁
 │   │   ├── login/page.tsx            #   登入頁
 │   │   └── tenants/                  #   品牌管理
 │   │       ├── page.tsx              #     品牌列表
@@ -44,7 +52,8 @@ chatbot-platform/
 │       └── chat-widget/route.ts      # 嵌入式腳本產生器
 ├── src/
 │   ├── components/
-│   │   ├── chat/                     # ChatContainer, MessageList, InputBar, QuickActions 等
+│   │   ├── chat/                     # ChatContainer, MessageList, InputBar,
+│   │   │                             # Message, ChatHeader, QuickActions, LoadingMessage
 │   │   └── ui/                       # Button, Card, Carousel
 │   ├── lib/
 │   │   ├── api-client.ts             # 前端 → 後端 API 通訊
@@ -53,8 +62,8 @@ chatbot-platform/
 │   │   ├── i18n.ts                   # 多語系
 │   │   └── utils.ts                  # 工具函式
 │   ├── types/index.ts                # TypeScript 型別定義
-│   ├── contexts/                     # React Context (語言)
-│   └── locales/translations.json     # 翻譯檔
+│   ├── contexts/LanguageContext.tsx   # React Context (語言)
+│   └── locales/translations.json     # 前端翻譯檔
 ├── backend/
 │   ├── app.py                        # 主 API 伺服器 (port 5000)
 │   ├── admin_app.py                  # 管理後台 API (port 5001)
@@ -65,21 +74,25 @@ chatbot-platform/
 │   ├── services/
 │   │   ├── base_gemini_service.py    # Gemini AI 基礎類別 + Redis session
 │   │   ├── chat_service.py           # 對話問答服務
-│   │   ├── query_service.py          # 資料查詢服務（含 grounding）
-│   │   ├── smart_route_service.py    # 路線導航服務
-│   │   └── language_service.py       # 語言偵測服務
+│   │   ├── query_service.py          # 資料查詢服務（含 grounding + 快取）
+│   │   └── smart_route_service.py    # 路線導航服務（含 Google Maps 工具）
 │   ├── middleware/
 │   │   └── tenant_auth.py            # 租戶驗證中介層
 │   ├── prompts/{tenant_id}/          # 各租戶的提示詞 (Markdown)
-│   ├── Dockerfile                    # 主 API 容器
-│   ├── Dockerfile.admin              # 管理 API 容器
+│   ├── translations/{tenant_id}/     # 各租戶的多語系翻譯檔 (JSON)
+│   ├── public/images/tenants/        # 租戶上傳的圖片
+│   ├── test/                         # 測試檔案
+│   ├── Dockerfile                    # 主 API 容器 (Gunicorn, 4 workers)
+│   ├── Dockerfile.admin              # 管理 API 容器 (Gunicorn, 2 workers)
 │   └── requirements.txt              # Python 依賴
 ├── public/                           # 靜態資源（圖示、測試頁面）
-├── scripts/build-widget.js           # 嵌入式 Widget 建置腳本
-├── docker-compose.yml                # 容器編排
+├── docs/                             # 文件
+│   └── APPEARANCE_GUIDE.md           # 外觀設定指南
+├── docker-compose.yml                # 容器編排（5 服務）
 ├── nginx.conf                        # Nginx 反向代理設定
-├── Dockerfile                        # 前端容器
-└── .env.example                      # 環境變數範本
+├── Dockerfile                        # 前端容器（多階段建置）
+├── .env.example                      # 根目錄環境變數範本
+└── LICENSE                           # AGPL-3.0
 ```
 
 ## 本地端開發部署
@@ -109,7 +122,7 @@ pip install -r requirements.txt
 
 ### 步驟 2：設定環境變數
 
-**根目錄 `.env`**（建立或複製 `.env.example`）：
+**根目錄 `.env`**（複製 `.env.example`）：
 
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:5000
@@ -117,7 +130,7 @@ NEXT_PUBLIC_ADMIN_API_URL=http://localhost:5001
 NEXT_PUBLIC_FRONTEND_URL=http://localhost:3000
 ```
 
-**`backend/.env`**（建立或複製 `backend/.env.example`）：
+**`backend/.env`**（複製 `backend/.env.example`）：
 
 ```env
 GEMINI_API_KEY=your_gemini_api_key
@@ -172,6 +185,7 @@ npm run dev
 | 頁面 | URL |
 |------|-----|
 | 聊天頁面 | http://localhost:3000/chat?tenant_id=demo |
+| 管理後台 | http://localhost:3000/admin |
 | 管理後台登入 | http://localhost:3000/admin/login |
 | 後端健康檢查 | http://localhost:5000/api/health |
 | 管理 API 健康檢查 | http://localhost:5001/api/admin/health |
@@ -198,7 +212,7 @@ NEXT_PUBLIC_FRONTEND_URL=https://your-domain.com
 Docker 環境下 `tenants.json` 透過 volume 掛載在 `backend/data/`：
 
 ```bash
-mkdir -p backend/data
+mkdir -p backend/data backend/data/images/tenants
 cp backend/config/tenants.json backend/data/tenants.json
 ```
 
@@ -212,11 +226,22 @@ docker-compose up -d --build
 
 ```
 Client → Nginx (:80)
-           ├── /api/admin/*  → admin-backend (:5001)
-           ├── /api/*        → backend (:5000)
-           └── /*            → frontend (:3000)
-                                    └── Redis
+           ├── /images/tenants/*  → 靜態檔案 (Nginx 直接 serve)
+           ├── /api/admin/*       → admin-backend (:5001, Gunicorn 2w)
+           ├── /api/*             → backend (:5000, Gunicorn 4w)
+           └── /*                 → frontend (:3000)
+                                         └── Redis (內部網路)
 ```
+
+### Docker Compose 服務
+
+| 服務 | 容器名稱 | 說明 |
+|------|----------|------|
+| redis | ai-genie-redis | Redis 資料庫，啟用 AOF 持久化 |
+| backend | ai-genie-backend | 主 API，掛載 prompts + translations |
+| admin-backend | ai-genie-admin-backend | 管理 API，掛載 prompts + translations + images |
+| frontend | ai-genie-frontend | Next.js 前端 |
+| nginx | ai-genie-nginx | 反向代理 + 靜態檔案 |
 
 ### 常用指令
 
@@ -231,12 +256,16 @@ docker-compose up -d --build  # 重新建置並啟動
 
 ### 聊天 API（app.py — port 5000）
 
+所有聊天 API 需要 `X-Tenant-ID` header。
+
 | 方法 | 端點 | 說明 |
 |------|------|------|
 | GET | `/api/health` | 健康檢查 |
-| POST | `/api/chat` | 聊天（需 `X-Tenant-ID` header） |
-| GET | `/api/tenant/config` | 取得租戶前端設定（需 `X-Tenant-ID`） |
-| GET | `/api/query/data` | 查詢資料（需 `X-Tenant-ID`） |
+| POST | `/api/detect-language` | 語言偵測 |
+| POST | `/api/chat/intent` | AI 意圖判斷 |
+| POST | `/api/chat` | 聊天（支援 mode 指定服務） |
+| GET | `/api/tenant/config` | 取得租戶前端設定（支援 `?lang=` 多語系） |
+| GET | `/api/query/data` | 查詢資料（支援 `?service=` 指定服務） |
 
 **聊天請求範例**：
 
@@ -244,7 +273,16 @@ docker-compose up -d --build  # 重新建置並啟動
 curl -X POST http://localhost:5000/api/chat \
   -H "Content-Type: application/json" \
   -H "X-Tenant-ID: demo" \
-  -d '{"message": "你好", "mode": "general"}'
+  -d '{"message": "你好", "mode": "general", "user_id": "user123", "lang": "en"}'
+```
+
+**意圖判斷範例**：
+
+```bash
+curl -X POST http://localhost:5000/api/chat/intent \
+  -H "Content-Type: application/json" \
+  -H "X-Tenant-ID: demo" \
+  -d '{"message": "怎麼去停車場"}'
 ```
 
 ### 管理後台 API（admin_app.py — port 5001）
@@ -255,6 +293,7 @@ curl -X POST http://localhost:5000/api/chat \
 
 | 方法 | 端點 | 說明 |
 |------|------|------|
+| GET | `/api/admin/health` | 健康檢查 |
 | GET | `/api/admin/tenants` | 列出所有租戶 |
 | GET | `/api/admin/tenants/{id}` | 取得租戶詳情 |
 | POST | `/api/admin/tenants` | 建立租戶 |
@@ -265,12 +304,12 @@ curl -X POST http://localhost:5000/api/chat \
 
 | 方法 | 端點 | 說明 |
 |------|------|------|
+| GET | `/api/admin/service-classes` | 取得可用服務類別 |
 | GET | `/api/admin/tenants/{id}/services` | 列出服務 |
 | GET | `/api/admin/tenants/{id}/services/{service}` | 取得服務（含提示詞） |
 | POST | `/api/admin/tenants/{id}/services` | 新增服務 |
 | PUT | `/api/admin/tenants/{id}/services/{service}` | 更新服務 |
 | DELETE | `/api/admin/tenants/{id}/services/{service}` | 刪除服務 |
-| GET | `/api/admin/service-classes` | 取得可用服務類別 |
 
 **Quick Actions**：
 
@@ -286,6 +325,13 @@ curl -X POST http://localhost:5000/api/chat \
 | GET | `/api/admin/tenants/{id}/appearance` | 取得外觀設定 |
 | PUT | `/api/admin/tenants/{id}/appearance` | 更新外觀設定 |
 | POST | `/api/admin/tenants/{id}/appearance/upload-icon` | 上傳聊天圖示 |
+
+**翻譯管理**：
+
+| 方法 | 端點 | 說明 |
+|------|------|------|
+| GET | `/api/admin/tenants/{id}/translations` | 查詢翻譯狀態（含過期偵測） |
+| POST | `/api/admin/tenants/{id}/translations` | 生成指定語言翻譯 |
 
 ## 嵌入聊天機器人
 
@@ -314,8 +360,16 @@ curl -X POST http://localhost:5000/api/chat \
 | 類別 | 說明 |
 |------|------|
 | `ChatService` | 通用對話問答 |
-| `QueryService` | 資料查詢（支援 grounding 搜尋） |
-| `SmartRouteService` | 路線導航規劃 |
+| `QueryService` | 資料查詢（支援 grounding 搜尋 + 快取） |
+| `SmartRouteService` | 路線導航規劃（支援 Google Maps 工具） |
+
+### BaseGeminiService 提供的功能
+
+- Redis 基礎的使用者 session 管理（TTL 1 小時）
+- 並行 URL 處理以取得 grounding 參考資料
+- 可設定的 temperature、grounding、search_keyword
+- 每個服務可自訂 system prompt（從 Markdown 檔案載入）
+- 多語言回覆支援
 
 ## 測試
 
@@ -334,6 +388,21 @@ python test/test_admin_api.py
 python test/test_admin_prompts.py
 python test/test_admin_services.py
 python test/test_integration.py
+```
+
+## 常用開發指令
+
+```bash
+# 前端
+npm run dev              # 啟動 Next.js 開發伺服器 (port 3000)
+npm run build            # 正式環境建置
+npm start                # 啟動正式環境伺服器
+npm run lint             # 執行 ESLint
+
+# Docker
+docker-compose up -d     # 啟動所有服務
+docker-compose down      # 停止所有服務
+docker-compose logs -f   # 查看日誌
 ```
 
 ## 授權
