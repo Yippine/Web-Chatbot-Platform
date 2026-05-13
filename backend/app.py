@@ -5,11 +5,14 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
 import json
+import time
+from concurrent.futures import ThreadPoolExecutor
 from dotenv import load_dotenv
 
 from config.tenant_manager import TenantManager
 from config.service_factory import ServiceFactory
 from middleware.tenant_auth import require_tenant
+from db import init_db, log_message as db_log
 
 load_dotenv()
 
@@ -19,6 +22,10 @@ CORS(app)
 # 初始化多租戶管理
 tenant_manager = TenantManager()
 service_factory = ServiceFactory(tenant_manager)
+
+# 初始化 DB + 非同步 log pool
+init_db()
+_log_pool = ThreadPoolExecutor(max_workers=4)
 
 @app.route("/api/health", methods=["GET"])
 def health():
@@ -236,8 +243,14 @@ def chat():
         from services.chat_service import ChatService
         from services.smart_route_service import SmartRouteService
         
+        t0 = time.time()
+        
         if isinstance(service, QueryService):
             result = service.query_data(message, user_id=user_id, response_language=response_language)
+            response_ms = int((time.time() - t0) * 1000)
+            _log_pool.submit(db_log, tenant_id=tenant_id, session_id=user_id,
+                             direction="bot", service_name=service_name,
+                             response_ms=response_ms, lang=lang or "zh-TW")
             return jsonify({
                 "type": "query",
                 "response": result["response"],
@@ -246,6 +259,10 @@ def chat():
         
         elif isinstance(service, SmartRouteService):
             result = service.plan_route(message=message, user_id=user_id, response_language=response_language, lat_lng=lat_lng)
+            response_ms = int((time.time() - t0) * 1000)
+            _log_pool.submit(db_log, tenant_id=tenant_id, session_id=user_id,
+                             direction="bot", service_name=service_name,
+                             response_ms=response_ms, lang=lang or "zh-TW")
             return jsonify({
                 "type": "route",
                 "response": result["route"],
@@ -255,6 +272,10 @@ def chat():
         
         elif isinstance(service, ChatService):
             result = service.chat(message, user_id=user_id, response_language=response_language)
+            response_ms = int((time.time() - t0) * 1000)
+            _log_pool.submit(db_log, tenant_id=tenant_id, session_id=user_id,
+                             direction="bot", service_name=service_name,
+                             response_ms=response_ms, lang=lang or "zh-TW")
             return jsonify({
                 "type": "chat",
                 "response": result["response"],
@@ -265,6 +286,10 @@ def chat():
             # 預設：嘗試呼叫 chat() 方法
             if hasattr(service, 'chat'):
                 result = service.chat(message, user_id=user_id, response_language=response_language)
+                response_ms = int((time.time() - t0) * 1000)
+                _log_pool.submit(db_log, tenant_id=tenant_id, session_id=user_id,
+                                 direction="bot", service_name=service_name,
+                                 response_ms=response_ms, lang=lang or "zh-TW")
                 return jsonify({
                     "type": "general",
                     "response": result.get("response") or result.get("text"),
@@ -394,8 +419,14 @@ def query_data():
             return jsonify({"error": "此服務不支援 get_data() 方法"}), 400
         
         # 呼叫 get_data()
+        t0 = time.time()
         result = service.get_data(response_language=lang)
-        
+        response_ms = int((time.time() - t0) * 1000)
+
+        _log_pool.submit(db_log, tenant_id=tenant_id, session_id="query",
+                         direction="bot", service_name=service_name,
+                         response_ms=response_ms, lang=lang or "zh-TW")
+
         return jsonify({
             "type": "query",
             "response": result["data"],

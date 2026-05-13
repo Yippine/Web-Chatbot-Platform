@@ -8,8 +8,12 @@ import json
 import os
 from PIL import Image
 import io
+from dotenv import load_dotenv
+load_dotenv()
+
 from config.tenant_manager import TenantManager
 from config.service_factory import ServiceFactory
+from db import init_db, get_dashboard_stats, get_all_tenants_summary, get_service_distribution, get_hourly_distribution, get_lang_distribution
 
 app = Flask(__name__)
 CORS(app)
@@ -17,6 +21,7 @@ CORS(app)
 # 初始化
 tenant_manager = TenantManager()
 service_factory = ServiceFactory(tenant_manager)
+init_db()
 
 # 簡單的 API Key 驗證
 ADMIN_API_KEY = os.getenv('ADMIN_API_KEY', 'admin_secret_key')
@@ -88,6 +93,47 @@ def check_admin():
 @app.route("/api/admin/health", methods=["GET"])
 def health():
     return jsonify({"status": "healthy"})
+
+# ==================== 數據統計 ====================
+
+@app.route("/api/admin/stats/dashboard", methods=["GET"])
+def admin_dashboard_stats():
+    """所有 tenant 彙總統計"""
+    try:
+        tenants = tenant_manager.list_tenants()
+        summary = get_all_tenants_summary()
+        stats_map = {r["tenant_id"]: r for r in summary}
+
+        tenant_stats = []
+        for tid, t in tenants.items():
+            s = stats_map.get(tid, {})
+            tenant_stats.append({
+                "id": tid,
+                "name": t.get("name", tid),
+                "messages_today": s.get("messages_today", 0),
+                "sessions_today": s.get("sessions_today", 0),
+            })
+
+        return jsonify({
+            "total_tenants": len(tenants),
+            "tenant_stats": tenant_stats,
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/admin/stats/<tenant_id>/daily", methods=["GET"])
+def tenant_daily_stats(tenant_id):
+    """單一租戶的每日統計"""
+    try:
+        days = int(request.args.get("days", 7))
+        stats = get_dashboard_stats(tenant_id, days=days)
+        stats["service_distribution"] = get_service_distribution(tenant_id, days=days)
+        stats["hourly_distribution"] = get_hourly_distribution(tenant_id, days=days)
+        stats["lang_distribution"] = get_lang_distribution(tenant_id, days=days)
+        return jsonify(stats)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 # ==================== 租戶管理 ====================
 

@@ -164,6 +164,24 @@ class AdminAPIClient {
       body: JSON.stringify({ language: lang }),
     });
   }
+
+  // ==================== 數據統計 ====================
+
+  async getDashboardStats() {
+    return this.request<{ total_tenants: number; tenant_stats: any[] }>('/api/admin/stats/dashboard');
+  }
+
+  async getTenantStats(tenantId: string, days: number = 7) {
+    return this.request<{
+      messages_today: number;
+      sessions_today: number;
+      active_sessions_now: number;
+      daily: any[];
+      service_distribution: any[];
+      hourly_distribution: any[];
+      lang_distribution: any[];
+    }>(`/api/admin/stats/${tenantId}/daily?days=${days}`);
+  }
 }
 
 export default AdminAPIClient;

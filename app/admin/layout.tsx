@@ -18,6 +18,12 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           >
             品牌管理
           </Link>
+          <Link
+            href="/admin/stats"
+            className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition"
+          >
+            品牌數據
+          </Link>
         </nav>
       </aside>
 
