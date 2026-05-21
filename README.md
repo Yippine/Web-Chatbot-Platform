@@ -24,6 +24,7 @@
 | 後端框架 | Flask 3.0 (Python 3.11+) |
 | AI 服務 | Google Gemini 2.5 Flash (google-genai SDK) |
 | Session 管理 | Redis 5.0 |
+| 資料庫 | PostgreSQL 16 (數據統計) |
 | 圖片處理 | Pillow |
 | 容器化 | Docker + Docker Compose + Nginx 反向代理 |
 | 生產部署 | Gunicorn (WSGI) |
@@ -362,6 +363,7 @@ curl -X POST http://localhost:5000/api/chat/intent \
 | `ChatService` | 通用對話問答 |
 | `QueryService` | 資料查詢（支援 grounding 搜尋 + 快取） |
 | `SmartRouteService` | 路線導航規劃（支援 Google Maps 工具） |
+| `FrappeQueryService` | ERP 資料查詢（支援 Frappe REST API + AI 模糊配對） |
 
 ### BaseGeminiService 提供的功能
 

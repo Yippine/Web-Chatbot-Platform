@@ -4,5 +4,6 @@ google-genai
 python-dotenv~=1.0
 redis~=5.0
 pillow~=10.1
+requests~=2.31
 sqlalchemy~=2.0
 psycopg2-binary~=2.9
