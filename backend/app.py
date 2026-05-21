@@ -128,22 +128,26 @@ def detect_intent():
         for sid, sconfig in enabled_services.items():
             name = sconfig.get("name", sid)
             keyword = sconfig.get("search_keyword", "")
+            # FrappeQueryService 沒有 search_keyword，從 frappe queries 的 doctype 組合提示
+            if not keyword and sconfig.get("frappe"):
+                doctypes = [q.get("doctype", "") for q in sconfig["frappe"].get("queries", [])]
+                keyword = f"{name} {' '.join(doctypes)}"
             service_options.append(f'- "{sid}"：{name}（相關主題：{keyword}）')
         
         options_text = "\n".join(service_options)
         
         intent_prompt = f"""你是意圖分類器。根據使用者的問題，判斷最適合的服務 ID。
-                        可用服務：
-                        {options_text}
+可用服務：
+{options_text}
 
-                        規則：
-                        1. 用語意理解判斷，不要只看關鍵字是否完全吻合
-                        2. 只要問題的主題與某個服務相關，就選擇該服務
-                        3. 只有在問題完全無法歸類到任何服務時，才回答 "general"
-                        4. 只回答服務 ID，不要加任何說明
+規則：
+1. 用語意理解判斷，不要只看關鍵字是否完全吻合
+2. 只要問題的主題與某個服務「可能相關」，就選擇該服務
+3. 只有在問題完全無法歸類到任何服務時，才回答 "general"
+4. 只回答服務 ID，不要加任何說明
 
-                        問題：{message}
-                        回答："""
+問題：{message}
+回答："""
         
         # 用任一服務的 API key 做意圖判斷
         api_key = tenant.get("gemini_api_key")
@@ -164,13 +168,13 @@ def detect_intent():
             )
         )
         
-        intent_raw = response.text.strip().strip('「」').strip()
+        intent_raw = response.text.strip().strip('「」').strip().strip('"').strip("'")
 
         # 大小寫不敏感比對，還原為 enabled_services 的原始 key
         matched = next((k for k in enabled_services if k.lower() == intent_raw.lower()), None)
         intent = matched if matched else "general"
         
-        print(f"[Intent] 租戶={tenant_id}, 訊息={message[:30]}, 意圖={intent}")
+        print(f"[Intent] 租戶={tenant_id}, 訊息={message[:30]}, raw={intent_raw}, 意圖={intent}, 可用={list(enabled_services.keys())}")
         return jsonify({"intent": intent})
         
     except Exception as e:

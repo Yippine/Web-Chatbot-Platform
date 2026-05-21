@@ -348,13 +348,36 @@ def get_service_classes():
                 "description": {
                     "ChatService": "對話問答服務",
                     "QueryService": "資料查詢服務",
-                    "SmartRouteService": "路線導航服務"
-                }.get(class_name, "")
+                    "SmartRouteService": "路線導航服務",
+                    "FrappeQueryService": "ERP 資料查詢服務"
+                }.get(class_name, class_name)
             }
             for class_name in ServiceFactory.SERVICE_CLASSES.keys()
         ]
         
         return jsonify({"classes": classes})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/admin/frappe/templates", methods=["GET"])
+def get_frappe_templates():
+    """取得 Frappe 模組模板清單"""
+    try:
+        from config.frappe_templates import FRAPPE_MODULE_TEMPLATES
+
+        templates = [
+            {
+                "key": key,
+                "label": t["label"],
+                "icon": t["icon"],
+                "description": t["description"],
+                "default_prompt": t["default_prompt"],
+                "queries": t["queries"],
+            }
+            for key, t in FRAPPE_MODULE_TEMPLATES.items()
+        ]
+        return jsonify({"templates": templates})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -450,6 +473,8 @@ def update_service(tenant_id, service_name):
             service["loading_message"] = data["loading_message"]
         if "query_loading_message" in data:
             service["query_loading_message"] = data["query_loading_message"]
+        if "frappe" in data:
+            service["frappe"] = data["frappe"]
         
         # 更新提示詞內容 (如果有提供)
         if "prompt_content" in data:
@@ -514,6 +539,10 @@ def add_service(tenant_id):
             "mode_message": data.get("mode_message", ""),
             "show_mode_message": data.get("show_mode_message", False)
         }
+        
+        # FrappeQueryService 專屬設定
+        if data.get("frappe"):
+            new_service["frappe"] = data["frappe"]
         
         services[service_id] = new_service
         

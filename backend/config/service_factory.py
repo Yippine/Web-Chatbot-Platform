@@ -7,6 +7,7 @@ from services.base_gemini_service import BaseGeminiService
 from services.query_service import QueryService
 from services.chat_service import ChatService
 from services.smart_route_service import SmartRouteService
+from services.frappe_query_service import FrappeQueryService
 
 class ServiceFactory:
     """服務工廠類別"""
@@ -15,7 +16,8 @@ class ServiceFactory:
     SERVICE_CLASSES = {
         'QueryService': QueryService,
         'ChatService': ChatService,
-        'SmartRouteService': SmartRouteService
+        'SmartRouteService': SmartRouteService,
+        'FrappeQueryService': FrappeQueryService
     }
     
     def __init__(self, tenant_manager):

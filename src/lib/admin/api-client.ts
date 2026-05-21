@@ -29,6 +29,10 @@ class AdminAPIClient {
     return response.json();
   }
 
+  async get<T = any>(endpoint: string): Promise<T> {
+    return this.request<T>(endpoint);
+  }
+
   // ==================== 租戶管理 ====================
 
   async listTenants() {

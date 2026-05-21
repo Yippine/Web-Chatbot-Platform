@@ -15,6 +15,9 @@ export default function ServiceEditPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [serviceClasses, setServiceClasses] = useState<any[]>([]);
+  const [frappeTemplates, setFrappeTemplates] = useState<any[]>([]);
+  const [selectedFrappeTemplate, setSelectedFrappeTemplate] = useState<string>('');
+  const [frappeJsonText, setFrappeJsonText] = useState<string>('');
   
   const [formData, setFormData] = useState({
     name: '',
@@ -30,11 +33,13 @@ export default function ServiceEditPage() {
     mode_message: '',
     show_mode_message: false,
     loading_message: '處理中',
-    query_loading_message: '查詢資料中'
+    query_loading_message: '查詢資料中',
+    frappe: null as any
   });
 
   useEffect(() => {
     loadServiceClasses();
+    loadFrappeTemplates();
     if (serviceName !== 'new') {
       loadService();
     } else {
@@ -52,6 +57,36 @@ export default function ServiceEditPage() {
       setServiceClasses(data.classes);
     } catch (err: any) {
       console.error('載入服務類別失敗:', err);
+    }
+  };
+
+  const loadFrappeTemplates = async () => {
+    try {
+      const apiKey = localStorage.getItem('admin_api_key');
+      if (!apiKey) return;
+
+      const client = new AdminAPIClient(apiKey);
+      const data = await client.get('/api/admin/frappe/templates');
+      setFrappeTemplates(data.templates || []);
+    } catch (err: any) {
+      console.error('載入 Frappe 模板失敗:', err);
+    }
+  };
+
+  const handleSelectFrappeTemplate = (template: any) => {
+    setSelectedFrappeTemplate(template.key);
+    if (template.key === 'custom') {
+      // 自訂模式：保留現有 frappe 或給空結構
+      const current = formData.frappe || { queries: [] };
+      setFrappeJsonText(JSON.stringify(current, null, 2));
+    } else {
+      // 預設模板：自動帶入 queries 和提示詞
+      const frappe = { queries: template.queries };
+      setFormData({
+        ...formData,
+        frappe,
+        prompt_content: formData.prompt_content || template.default_prompt,
+      });
     }
   };
 
@@ -80,8 +115,26 @@ export default function ServiceEditPage() {
         mode_message: data.service.mode_message || '',
         show_mode_message: data.service.show_mode_message !== false,
         loading_message: data.service.loading_message,
-        query_loading_message: data.service.query_loading_message
+        query_loading_message: data.service.query_loading_message,
+        frappe: data.service.frappe || null
       });
+
+      // 反推已選的 Frappe 模板
+      if (data.service.frappe && data.service.class === 'FrappeQueryService') {
+        const queries = data.service.frappe.queries || [];
+        // 比對第一個 doctype 判斷是哪個模板
+        const firstDoctype = queries[0]?.doctype;
+        const templateMap: Record<string, string> = {
+          'Item': 'drug_inventory',
+          'Purchase Order': 'purchase',
+          'Sales Order': 'sales',
+          'Stock Entry': 'stock_entry',
+        };
+        setSelectedFrappeTemplate(templateMap[firstDoctype] || 'custom');
+        if (!templateMap[firstDoctype]) {
+          setFrappeJsonText(JSON.stringify(data.service.frappe, null, 2));
+        }
+      }
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -289,45 +342,49 @@ export default function ServiceEditPage() {
             </div>
           </div>
 
-          <div className="flex items-center mb-4">
-            <input
-              type="checkbox"
-              id="use_grounding"
-              checked={formData.use_grounding}
-              onChange={(e) => setFormData({ ...formData, use_grounding: e.target.checked })}
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-            />
-            <label htmlFor="use_grounding" className="ml-2 block text-sm text-gray-700">
-              使用 Google Search Grounding
-            </label>
-          </div>
+          {formData.class !== 'FrappeQueryService' && (
+            <>
+              <div className="flex items-center mb-4">
+                <input
+                  type="checkbox"
+                  id="use_grounding"
+                  checked={formData.use_grounding}
+                  onChange={(e) => setFormData({ ...formData, use_grounding: e.target.checked })}
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                />
+                <label htmlFor="use_grounding" className="ml-2 block text-sm text-gray-700">
+                  使用 Google Search Grounding
+                </label>
+              </div>
 
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              搜尋關鍵字
-            </label>
-            <input
-              type="text"
-              value={formData.search_keyword}
-              onChange={(e) => setFormData({ ...formData, search_keyword: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-              placeholder="例如: 三創"
-            />
-          </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  搜尋關鍵字
+                </label>
+                <input
+                  type="text"
+                  value={formData.search_keyword}
+                  onChange={(e) => setFormData({ ...formData, search_keyword: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  placeholder="例如: 三創"
+                />
+              </div>
 
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              允許的網域
-            </label>
-            <input
-              type="text"
-              value={formData.allowed_domains}
-              onChange={(e) => setFormData({ ...formData, allowed_domains: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-              placeholder="例如: leosys.com, syntrend.com.tw"
-            />
-            <p className="text-xs text-gray-500 mt-1">限制參考資料來源網域，多個用逗號分隔</p>
-          </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  允許的網域
+                </label>
+                <input
+                  type="text"
+                  value={formData.allowed_domains}
+                  onChange={(e) => setFormData({ ...formData, allowed_domains: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  placeholder="例如: leosys.com, syntrend.com.tw"
+                />
+                <p className="text-xs text-gray-500 mt-1">限制參考資料來源網域，多個用逗號分隔</p>
+              </div>
+            </>
+          )}
 
           {/* ChatService 專用設定 */}
           {formData.class === 'ChatService' && (
@@ -393,6 +450,72 @@ export default function ServiceEditPage() {
             </div>
           )}
         </div>
+
+        {/* FrappeQueryService 專屬設定 */}
+        {formData.class === 'FrappeQueryService' && (
+          <div className="bg-white rounded-lg shadow p-6">
+            <h2 className="text-xl font-semibold mb-4">ERP 查詢設定</h2>
+            <p className="text-sm text-gray-500 mb-4">
+              選擇要查詢的模組類型
+            </p>
+
+            {/* 模組選擇卡片 */}
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-3">
+                查詢模組
+              </label>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+                {frappeTemplates.map((t) => (
+                  <button
+                    key={t.key}
+                    type="button"
+                    onClick={() => handleSelectFrappeTemplate(t)}
+                    className={`p-4 rounded-lg border-2 text-center transition cursor-pointer
+                      ${selectedFrappeTemplate === t.key
+                        ? 'border-blue-500 bg-blue-50'
+                        : 'border-gray-200 hover:border-gray-400'}`}
+                  >
+                    <div className="text-2xl mb-1">{t.icon}</div>
+                    <div className="text-sm font-medium">{t.label}</div>
+                  </button>
+                ))}
+              </div>
+              {selectedFrappeTemplate && selectedFrappeTemplate !== 'custom' && (
+                <div className="mt-3 bg-gray-50 rounded-lg p-3 text-sm text-gray-600">
+                  <span className="font-medium">查詢對象：</span>
+                  {frappeTemplates.find(t => t.key === selectedFrappeTemplate)?.queries
+                    .map((q: any) => q.doctype).join(' → ')}
+                </div>
+              )}
+            </div>
+
+            {/* 自訂模式才顯示 JSON 編輯 */}
+            {selectedFrappeTemplate === 'custom' && (
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  查詢定義 (JSON)
+                </label>
+                <textarea
+                  value={frappeJsonText}
+                  onChange={(e) => {
+                    setFrappeJsonText(e.target.value);
+                    try {
+                      const parsed = JSON.parse(e.target.value);
+                      setFormData({ ...formData, frappe: parsed });
+                    } catch {
+                      // 格式錯誤時不更新
+                    }
+                  }}
+                  className="w-full h-64 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 font-mono text-sm"
+                  placeholder='{"queries": [...]}'
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  定義主 DocType 和關聯 DocType 的查詢方式。第一個 query 為主資料，後續為關聯資料。
+                </p>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* 提示詞編輯 */}
         <div className="bg-white rounded-lg shadow p-6">
