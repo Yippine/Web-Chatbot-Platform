@@ -407,6 +407,13 @@ docker-compose down      # 停止所有服務
 docker-compose logs -f   # 查看日誌
 ```
 
+## 貢獻與溝通準則
+
+本專案歡迎任何形式的技術交流與改進建議。若您發現程式架構有需要改進之處，歡迎透過 [Issue](https://github.com/YwY170/Web-Chatbot-Platform/issues) 或 [Pull Request](https://github.com/YwY170/Web-Chatbot-Platform/pulls) 提出公開、具體、建設性的反饋。
+
+> ⚠️ **本專案明確拒絕任何以私下或公開方式貶低、嘲諷原創作者開發瑕疵的行為。**  
+> 每一段程式碼都是作者投入心力的成果，技術本就是在迭代中進步的。請以尊重與善意的方式進行交流，共同維護良好的開源協作環境。
+
 ## 授權
 
 本專案採用 [GNU Affero General Public License v3.0](LICENSE) 授權，附帶額外條款（依據 AGPL-3.0 第 7 條）。
