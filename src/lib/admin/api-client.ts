@@ -186,6 +186,60 @@ class AdminAPIClient {
       lang_distribution: any[];
     }>(`/api/admin/stats/${tenantId}/daily?days=${days}`);
   }
+
+  // ==================== 驗收報表 ====================
+
+  async getAcceptanceReport(tenantId: string, params?: {
+    months?: number;
+    pre_decision_min?: number;
+    post_manual_min?: number;
+    pre_service_per_hour?: number;
+    daily_work_hours?: number;
+    staff_count?: number;
+  }) {
+    const query = new URLSearchParams();
+    if (params) {
+      Object.entries(params).forEach(([k, v]) => {
+        if (v !== undefined) query.set(k, String(v));
+      });
+    }
+    const qs = query.toString() ? `?${query.toString()}` : '';
+    return this.request<{
+      tenant_id: string;
+      months: number;
+      monthly_summary: any[];
+      kpi: {
+        decision_time: {
+          pre_minutes: number;
+          post_minutes: number;
+          saved_minutes: number;
+          ai_response_minutes: number;
+          manual_minutes: number;
+        };
+        service_efficiency: {
+          pre_per_hour: number;
+          post_per_hour: number;
+          improvement_percent: number;
+          total_sessions: number;
+          active_days: number;
+          daily_work_hours: number;
+          staff_count: number;
+        };
+        performance: {
+          avg_response_ms: number;
+        };
+      };
+      params: any;
+    }>(`/api/admin/stats/${tenantId}/acceptance${qs}`);
+  }
+
+  getExportUrl(tenantId: string, startDate?: string, endDate?: string) {
+    const query = new URLSearchParams();
+    if (startDate) query.set('start_date', startDate);
+    if (endDate) query.set('end_date', endDate);
+    const qs = query.toString() ? `?${query.toString()}` : '';
+    return `${ADMIN_API_URL}/api/admin/stats/${tenantId}/export${qs}`;
+  }
 }
 
 export default AdminAPIClient;

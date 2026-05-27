@@ -31,10 +31,53 @@ export default function TenantDashboardPage() {
   const [serviceNames, setServiceNames] = useState<Record<string, string>>({});
   const [days, setDays] = useState(7);
   const [loading, setLoading] = useState(true);
+  const [acceptance, setAcceptance] = useState<any>(null);
+  const [acceptanceParams, setAcceptanceParams] = useState({
+    pre_decision_min: 90,
+    post_manual_min: 25,
+    pre_service_per_hour: 1,
+    daily_work_hours: 8,
+    staff_count: 1,
+    months: 4,
+  });
 
   useEffect(() => {
     loadData();
+    loadAcceptance();
   }, [tenantId, days]);
+
+  useEffect(() => {
+    loadAcceptance();
+  }, [acceptanceParams]);
+
+  const loadAcceptance = async () => {
+    try {
+      const apiKey = localStorage.getItem('admin_api_key');
+      if (!apiKey) return;
+      const client = new AdminAPIClient(apiKey);
+      const res = await client.getAcceptanceReport(tenantId, acceptanceParams);
+      setAcceptance(res);
+    } catch (e) {
+      console.error('驗收報表載入失敗:', e);
+    }
+  };
+
+  const handleExportCSV = () => {
+    const apiKey = localStorage.getItem('admin_api_key');
+    if (!apiKey) return;
+    const client = new AdminAPIClient(apiKey);
+    const url = client.getExportUrl(tenantId);
+    // 用 fetch 帶 header 下載
+    fetch(url, { headers: { 'X-Admin-Key': apiKey } })
+      .then(res => res.blob())
+      .then(blob => {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `${tenantId}_usage_report.csv`;
+        a.click();
+        URL.revokeObjectURL(a.href);
+      });
+  };
 
   const loadData = async () => {
     try {
@@ -291,6 +334,191 @@ export default function TenantDashboardPage() {
               })}
             </div>
           )}
+        </div>
+      </div>
+
+      {/* ==================== 驗收報表區塊 ==================== */}
+      <div className="mt-8">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-bold text-gray-900">📋 專案驗收報表</h2>
+          <button
+            onClick={handleExportCSV}
+            className="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition"
+          >
+            📥 匯出 CSV（近 4 個月）
+          </button>
+        </div>
+
+        {!acceptance ? (
+          <div className="bg-white rounded-2xl p-8 shadow-sm border text-center text-gray-400">
+            <p className="text-lg mb-2">尚無使用數據</p>
+            <p className="text-sm">開始使用聊天機器人後，驗收指標將自動計算</p>
+          </div>
+        ) : (
+          <>
+            {/* KPI 指標卡片 */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+              {/* 縮短決策時間 */}
+              <div className="bg-white rounded-2xl p-6 shadow-sm border">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="text-2xl">⏱️</span>
+                  <h3 className="font-semibold text-gray-900">縮短決策時間</h3>
+                </div>
+                <div className="text-center mb-4">
+                  <span className="text-4xl font-bold text-blue-600">
+                    {acceptance.kpi.decision_time.saved_minutes}
+                  </span>
+                  <span className="text-lg text-gray-500 ml-1">分鐘</span>
+                </div>
+                <div className="bg-gray-50 rounded-lg p-3 text-sm space-y-1">
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">導入前決策時間</span>
+                    <span className="font-medium">{acceptance.kpi.decision_time.pre_minutes} 分鐘</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">導入後決策時間</span>
+                    <span className="font-medium">{acceptance.kpi.decision_time.post_minutes} 分鐘</span>
+                  </div>
+                  <div className="flex justify-between text-xs text-gray-400 pt-1 border-t">
+                    <span>其中 AI 回應</span>
+                    <span>{acceptance.kpi.decision_time.ai_response_minutes} 分鐘</span>
+                  </div>
+                  <div className="flex justify-between text-xs text-gray-400">
+                    <span>人工處理</span>
+                    <span>{acceptance.kpi.decision_time.manual_minutes} 分鐘</span>
+                  </div>
+                </div>
+                <p className="text-xs text-gray-400 mt-3">
+                  公式：{acceptance.kpi.decision_time.pre_minutes}min − {acceptance.kpi.decision_time.post_minutes}min = {acceptance.kpi.decision_time.saved_minutes}min
+                </p>
+              </div>
+
+              {/* 服務效率提升 */}
+              <div className="bg-white rounded-2xl p-6 shadow-sm border">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="text-2xl">📈</span>
+                  <h3 className="font-semibold text-gray-900">服務效率提升</h3>
+                </div>
+                <div className="text-center mb-4">
+                  <span className={`text-4xl font-bold ${acceptance.kpi.service_efficiency.improvement_percent > 0 ? 'text-green-600' : 'text-gray-400'}`}>
+                    {acceptance.kpi.service_efficiency.improvement_percent > 0 ? '+' : ''}
+                    {acceptance.kpi.service_efficiency.improvement_percent}%
+                  </span>
+                </div>
+                <div className="bg-gray-50 rounded-lg p-3 text-sm space-y-1">
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">導入前（每小時服務人數）</span>
+                    <span className="font-medium">{acceptance.kpi.service_efficiency.pre_per_hour} 位</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">導入後（每小時服務人數）</span>
+                    <span className="font-medium">{acceptance.kpi.service_efficiency.post_per_hour} 位</span>
+                  </div>
+                  <div className="flex justify-between text-xs text-gray-400 pt-1 border-t">
+                    <span>總對話數</span>
+                    <span>{acceptance.kpi.service_efficiency.total_sessions} 次</span>
+                  </div>
+                  <div className="flex justify-between text-xs text-gray-400">
+                    <span>活躍天數</span>
+                    <span>{acceptance.kpi.service_efficiency.active_days} 天</span>
+                  </div>
+                </div>
+                <p className="text-xs text-gray-400 mt-3">
+                  公式：({acceptance.kpi.service_efficiency.post_per_hour} − {acceptance.kpi.service_efficiency.pre_per_hour}) / {acceptance.kpi.service_efficiency.pre_per_hour} × 100%
+                </p>
+              </div>
+            </div>
+
+            {/* 月度彙總表格 */}
+            <div className="bg-white rounded-2xl p-6 shadow-sm border mb-6">
+              <h3 className="font-semibold text-gray-900 mb-4">月度使用彙總</h3>
+              {acceptance.monthly_summary.length === 0 ? (
+                <p className="text-gray-400 text-sm">尚無月度數據</p>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b text-left text-gray-500">
+                        <th className="pb-2 pr-4">月份</th>
+                        <th className="pb-2 pr-4">AI 回覆數</th>
+                        <th className="pb-2 pr-4">使用者訊息</th>
+                        <th className="pb-2 pr-4">對話數</th>
+                        <th className="pb-2 pr-4">平均回應(ms)</th>
+                        <th className="pb-2 pr-4">P95 回應(ms)</th>
+                        <th className="pb-2">活躍天數</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {acceptance.monthly_summary.map((m: any, i: number) => (
+                        <tr key={i} className="border-b last:border-0">
+                          <td className="py-2 pr-4 font-medium">{m.month}</td>
+                          <td className="py-2 pr-4">{m.bot_messages}</td>
+                          <td className="py-2 pr-4">{m.user_messages}</td>
+                          <td className="py-2 pr-4">{m.sessions}</td>
+                          <td className="py-2 pr-4">{m.avg_response_ms}</td>
+                          <td className="py-2 pr-4">{m.p95_response_ms}</td>
+                          <td className="py-2">{m.active_days}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          </>
+        )}
+
+        {/* 參數設定（永遠顯示） */}
+        <div className="bg-white rounded-2xl p-6 shadow-sm border">
+          <h3 className="font-semibold text-gray-900 mb-4">⚙️ 驗收參數設定</h3>
+          <p className="text-xs text-gray-400 mb-4">調整基準值後 KPI 會即時重新計算</p>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <div>
+              <label className="block text-xs text-gray-500 mb-1">導入前決策時間(分)</label>
+              <input
+                type="number"
+                value={acceptanceParams.pre_decision_min}
+                onChange={e => setAcceptanceParams(p => ({ ...p, pre_decision_min: +e.target.value }))}
+                className="w-full border rounded-lg px-3 py-2 text-sm"
+              />
+            </div>
+            <div>
+              <label className="block text-xs text-gray-500 mb-1">導入後人工處理(分)</label>
+              <input
+                type="number"
+                value={acceptanceParams.post_manual_min}
+                onChange={e => setAcceptanceParams(p => ({ ...p, post_manual_min: +e.target.value }))}
+                className="w-full border rounded-lg px-3 py-2 text-sm"
+              />
+            </div>
+            <div>
+              <label className="block text-xs text-gray-500 mb-1">導入前服務人數/hr</label>
+              <input
+                type="number"
+                value={acceptanceParams.pre_service_per_hour}
+                onChange={e => setAcceptanceParams(p => ({ ...p, pre_service_per_hour: +e.target.value }))}
+                className="w-full border rounded-lg px-3 py-2 text-sm"
+              />
+            </div>
+            <div>
+              <label className="block text-xs text-gray-500 mb-1">每日營業時數</label>
+              <input
+                type="number"
+                value={acceptanceParams.daily_work_hours}
+                onChange={e => setAcceptanceParams(p => ({ ...p, daily_work_hours: +e.target.value }))}
+                className="w-full border rounded-lg px-3 py-2 text-sm"
+              />
+            </div>
+            <div>
+              <label className="block text-xs text-gray-500 mb-1">服務人員數</label>
+              <input
+                type="number"
+                value={acceptanceParams.staff_count}
+                onChange={e => setAcceptanceParams(p => ({ ...p, staff_count: +e.target.value }))}
+                className="w-full border rounded-lg px-3 py-2 text-sm"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

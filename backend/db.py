@@ -206,3 +206,119 @@ def get_lang_distribution(tenant_id: str, days: int = 7) -> list:
             ORDER BY count DESC
         """), {"tid": tenant_id, "days": days}).mappings().all()
     return [dict(r) for r in rows]
+
+
+# ==================== 驗收報表查詢 ====================
+
+def get_monthly_summary(tenant_id: str, months: int = 4) -> list:
+    """月度彙總：訊息數、對話數、平均回應時間、P95"""
+    eng = get_engine()
+    if not eng:
+        return []
+    with eng.connect() as conn:
+        rows = conn.execute(text("""
+            SELECT
+                TO_CHAR(created_at, 'YYYY-MM') AS month,
+                COUNT(*) FILTER (WHERE direction = 'bot') AS bot_messages,
+                COUNT(*) FILTER (WHERE direction = 'user') AS user_messages,
+                COUNT(DISTINCT session_id) AS sessions,
+                COALESCE(ROUND(AVG(response_ms) FILTER (WHERE direction = 'bot'))::int, 0) AS avg_response_ms,
+                COALESCE(ROUND((PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY response_ms) FILTER (WHERE direction = 'bot'))::numeric)::int, 0) AS p95_response_ms,
+                COUNT(DISTINCT created_at::date) AS active_days
+            FROM message_logs
+            WHERE tenant_id = :tid
+              AND created_at >= DATE_TRUNC('month', NOW()) - make_interval(months => :months - 1)
+            GROUP BY TO_CHAR(created_at, 'YYYY-MM')
+            ORDER BY month
+        """), {"tid": tenant_id, "months": months}).mappings().all()
+    return [dict(r) for r in rows]
+
+
+def get_daily_usage_detail(tenant_id: str, start_date: str, end_date: str) -> list:
+    """每日使用明細（CSV 匯出用）"""
+    eng = get_engine()
+    if not eng:
+        return []
+    with eng.connect() as conn:
+        rows = conn.execute(text("""
+            SELECT
+                created_at::date AS date,
+                COUNT(*) FILTER (WHERE direction = 'bot') AS bot_messages,
+                COUNT(*) FILTER (WHERE direction = 'user') AS user_messages,
+                COUNT(DISTINCT session_id) AS sessions,
+                COALESCE(ROUND(AVG(response_ms) FILTER (WHERE direction = 'bot'))::int, 0) AS avg_response_ms,
+                COALESCE(MAX(response_ms) FILTER (WHERE direction = 'bot'), 0) AS max_response_ms
+            FROM message_logs
+            WHERE tenant_id = :tid
+              AND created_at::date >= CAST(:start_date AS date)
+              AND created_at::date <= CAST(:end_date AS date)
+            GROUP BY created_at::date
+            ORDER BY date
+        """), {"tid": tenant_id, "start_date": start_date, "end_date": end_date}).mappings().all()
+    return [dict(r) for r in rows]
+
+
+def get_acceptance_kpi(tenant_id: str, months: int = 4,
+                       pre_decision_min: float = 90,
+                       post_manual_min: float = 25,
+                       pre_service_per_hour: float = 1,
+                       daily_work_hours: float = 8,
+                       staff_count: int = 1) -> dict:
+    """
+    計算驗收 KPI：
+    1. 縮短決策時間 = 導入前 - 導入後
+    2. 服務效率提升 = (導入後 - 導入前) / 導入前 × 100%
+    """
+    eng = get_engine()
+    if not eng:
+        return {}
+    with eng.connect() as conn:
+        # 整體統計
+        row = conn.execute(text("""
+            SELECT
+                COUNT(DISTINCT session_id) AS total_sessions,
+                COUNT(DISTINCT created_at::date) AS active_days,
+                COALESCE(ROUND(AVG(response_ms) FILTER (WHERE direction = 'bot'))::int, 0) AS avg_response_ms
+            FROM message_logs
+            WHERE tenant_id = :tid
+              AND created_at >= DATE_TRUNC('month', NOW()) - make_interval(months => :months - 1)
+        """), {"tid": tenant_id, "months": months}).mappings().one()
+
+    total_sessions = row["total_sessions"] or 0
+    active_days = row["active_days"] or 1
+    avg_response_ms = row["avg_response_ms"] or 0
+
+    # 導入後決策時間 = 人工處理時間 + AI 回應時間（秒→分鐘）
+    ai_response_min = (avg_response_ms / 1000) / 60  # ms → min
+    post_decision_min = post_manual_min + ai_response_min
+
+    # 決策時間縮短
+    decision_time_saved = pre_decision_min - post_decision_min
+
+    # 服務效率：導入後每小時服務人數
+    post_service_per_hour = (total_sessions / active_days / daily_work_hours / staff_count) if active_days > 0 else 0
+
+    # 服務效率提升百分比
+    efficiency_improvement = ((post_service_per_hour - pre_service_per_hour) / pre_service_per_hour * 100) if pre_service_per_hour > 0 else 0
+
+    return {
+        "decision_time": {
+            "pre_minutes": pre_decision_min,
+            "post_minutes": round(post_decision_min, 1),
+            "saved_minutes": round(decision_time_saved, 1),
+            "ai_response_minutes": round(ai_response_min, 3),
+            "manual_minutes": post_manual_min,
+        },
+        "service_efficiency": {
+            "pre_per_hour": pre_service_per_hour,
+            "post_per_hour": round(post_service_per_hour, 2),
+            "improvement_percent": round(efficiency_improvement, 1),
+            "total_sessions": total_sessions,
+            "active_days": active_days,
+            "daily_work_hours": daily_work_hours,
+            "staff_count": staff_count,
+        },
+        "performance": {
+            "avg_response_ms": avg_response_ms,
+        }
+    }

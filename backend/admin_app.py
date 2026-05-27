@@ -13,7 +13,9 @@ load_dotenv()
 
 from config.tenant_manager import TenantManager
 from config.service_factory import ServiceFactory
-from db import init_db, get_dashboard_stats, get_all_tenants_summary, get_service_distribution, get_hourly_distribution, get_lang_distribution
+from db import (init_db, get_dashboard_stats, get_all_tenants_summary,
+                get_service_distribution, get_hourly_distribution, get_lang_distribution,
+                get_monthly_summary, get_daily_usage_detail, get_acceptance_kpi)
 
 app = Flask(__name__)
 CORS(app)
@@ -132,6 +134,83 @@ def tenant_daily_stats(tenant_id):
         stats["hourly_distribution"] = get_hourly_distribution(tenant_id, days=days)
         stats["lang_distribution"] = get_lang_distribution(tenant_id, days=days)
         return jsonify(stats)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# ==================== 驗收報表 ====================
+
+@app.route("/api/admin/stats/<tenant_id>/acceptance", methods=["GET"])
+def tenant_acceptance_report(tenant_id):
+    """驗收報表：月度彙總 + KPI 指標"""
+    auth_err = require_admin()
+    if auth_err:
+        return auth_err
+    try:
+        months = int(request.args.get("months", 4))
+        pre_decision_min = float(request.args.get("pre_decision_min", 90))
+        post_manual_min = float(request.args.get("post_manual_min", 25))
+        pre_service_per_hour = float(request.args.get("pre_service_per_hour", 1))
+        daily_work_hours = float(request.args.get("daily_work_hours", 8))
+        staff_count = int(request.args.get("staff_count", 1))
+
+        monthly = get_monthly_summary(tenant_id, months=months)
+        kpi = get_acceptance_kpi(
+            tenant_id, months=months,
+            pre_decision_min=pre_decision_min,
+            post_manual_min=post_manual_min,
+            pre_service_per_hour=pre_service_per_hour,
+            daily_work_hours=daily_work_hours,
+            staff_count=staff_count,
+        )
+
+        return jsonify({
+            "tenant_id": tenant_id,
+            "months": months,
+            "monthly_summary": monthly,
+            "kpi": kpi,
+            "params": {
+                "pre_decision_min": pre_decision_min,
+                "post_manual_min": post_manual_min,
+                "pre_service_per_hour": pre_service_per_hour,
+                "daily_work_hours": daily_work_hours,
+                "staff_count": staff_count,
+            }
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/admin/stats/<tenant_id>/export", methods=["GET"])
+def tenant_export_csv(tenant_id):
+    """匯出每日使用紀錄 CSV"""
+    auth_err = require_admin()
+    if auth_err:
+        return auth_err
+    try:
+        from datetime import datetime, timedelta
+        start_date = request.args.get("start_date", (datetime.now() - timedelta(days=120)).strftime("%Y-%m-%d"))
+        end_date = request.args.get("end_date", datetime.now().strftime("%Y-%m-%d"))
+
+        rows = get_daily_usage_detail(tenant_id, start_date, end_date)
+
+        import csv as csv_mod
+        from io import StringIO
+        output = StringIO()
+        writer = csv_mod.writer(output)
+        writer.writerow(["日期", "AI回覆數", "使用者訊息數", "對話數(Sessions)", "平均回應時間(ms)", "最大回應時間(ms)"])
+        for r in rows:
+            writer.writerow([str(r["date"]), r["bot_messages"], r["user_messages"], r["sessions"], r["avg_response_ms"], r["max_response_ms"]])
+
+        from flask import Response
+        return Response(
+            "\ufeff" + output.getvalue(),
+            mimetype="text/csv",
+            headers={
+                "Content-Disposition": f"attachment; filename={tenant_id}_usage_{start_date}_{end_date}.csv",
+                "Content-Type": "text/csv; charset=utf-8-sig",
+            }
+        )
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
