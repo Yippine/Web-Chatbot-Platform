@@ -199,10 +199,10 @@ export default function AppearanceEditPage() {
     <div className="max-w-6xl mx-auto">
       <div className="mb-6">
         <button
-          onClick={() => router.push(`/admin/tenants/${tenantId}`)}
+          onClick={() => router.push('/admin/tenants')}
           className="text-blue-600 hover:text-blue-800 mb-4"
         >
-          ← 返回品牌設定
+          ← 返回品牌列表
         </button>
         <h1 className="text-3xl font-bold text-gray-900">外觀設定</h1>
         <p className="text-gray-600 mt-2">客製化聊天視窗的外觀與樣式</p>
@@ -536,7 +536,7 @@ export default function AppearanceEditPage() {
               </button>
               <button
                 type="button"
-                onClick={() => router.push(`/admin/tenants/${tenantId}`)}
+                onClick={() => router.push('/admin/tenants')}
                 className="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50"
               >
                 取消

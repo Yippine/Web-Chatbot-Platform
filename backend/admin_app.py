@@ -318,7 +318,8 @@ def create_tenant():
             }
         }
         
-        # 更新設定檔
+        # 更新設定檔（先重載確保多 worker 下不會覆蓋）
+        tenant_manager.reload()
         tenants = tenant_manager.list_tenants()
         tenants[tenant_id] = new_tenant
         
