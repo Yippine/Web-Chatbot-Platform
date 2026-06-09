@@ -318,6 +318,21 @@ class FrappeQueryService(ChatService):
             model="gemini-2.5-flash",
             contents=prompt,
         )
+        # 空白訊息調查 log
+        if not resp.text or not resp.text.strip():
+            print(f"[FrappeQueryService] 🚨 空白訊息調查: _generate_answer 回傳空白! tenant={self.tenant_id}, msg='{message[:50]}'")
+            print(f"  - candidates: {bool(resp.candidates)}")
+            if resp.candidates:
+                print(f"  - finish_reason: {getattr(resp.candidates[0], 'finish_reason', None)}")
+            # 自動 retry 一次
+            print(f"[FrappeQueryService] ⚠️ 回應為空，自動 retry...")
+            resp = client.models.generate_content(
+                model="gemini-2.5-flash",
+                contents=prompt,
+            )
+            if not resp.text or not resp.text.strip():
+                print(f"[FrappeQueryService] ⚠️ retry 仍為空，使用 fallback 訊息")
+                return {"response": "抱歉，AI 模型暫時無法回應，請稍後再試一次~~~", "references": []}
         return {
             "response": resp.text,
             "references": [],

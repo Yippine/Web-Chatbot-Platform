@@ -83,7 +83,15 @@ export const apiClient = {
       },
       body: JSON.stringify({ message, history, mode, user_id: getUserId(), lang, lat_lng: latLng })
     });
-    return res.json();
+    const data = await res.json();
+    // 空白訊息調查 log
+    if (!res.ok) {
+      console.warn('[api-client] 🚨 空白訊息調查: HTTP 非 200', { status: res.status, data });
+    }
+    if (!data.response || !data.response.trim()) {
+      console.warn('[api-client] 🚨 空白訊息調查: response 為空或空白', { status: res.status, data, message, mode });
+    }
+    return data;
   },
 
   // 取得租戶設定

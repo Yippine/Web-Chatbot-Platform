@@ -179,9 +179,11 @@ class BaseGeminiService:
         answer_text = self._extract_text_only(response)
         
         # 檢查 url_context 是否抓取失敗，自動 fallback 到純 google_search
-        if use_url_context and self._is_url_context_failed(response):
-            print(f"[{self.service_name}] ⚠️ url_context 抓取失敗，fallback 到 google_search")
-            # 移除帶 URL 的訊息，換成純關鍵字查詢
+        fell_back_to_search = False
+        if use_url_context and not answer_text.strip():
+            print(f"[{self.service_name}] ⚠️ 空白訊息調查: url_context 啟用但回應為空，可能是內容抓取問題")
+        if use_url_context and (self._is_url_context_failed(response) or not answer_text.strip()):
+            print(f"[{self.service_name}] ⚠️ url_context 失敗或空白，fallback 到 google_search")
             contents.pop()
             contents.append(types.Content(
                 role="user",
@@ -201,6 +203,34 @@ class BaseGeminiService:
             )
             api_call_time += time.time() - fallback_start
             answer_text = self._extract_text_only(response)
+            fell_back_to_search = True
+        
+        # 若仍為空（含非 url_context 場景），再 retry 一次
+        if not answer_text or not answer_text.strip():
+            print(f"[{self.service_name}] ⚠️ 回應為空，retry...")
+            if not fell_back_to_search:
+                contents.pop()
+                contents.append(types.Content(
+                    role="user",
+                    parts=[types.Part(text=search_query)]
+                ))
+            retry_config = types.GenerateContentConfig(
+                tools=[{"google_search": {}}] if use_grounding else None,
+                system_instruction=final_system_prompt,
+                temperature=temperature,
+                thinking_config=types.ThinkingConfig(thinking_budget=0)
+            )
+            retry_start = time.time()
+            response = self.client.models.generate_content(
+                model="gemini-2.5-flash",
+                contents=contents,
+                config=retry_config
+            )
+            api_call_time += time.time() - retry_start
+            answer_text = self._extract_text_only(response)
+            if not answer_text or not answer_text.strip():
+                print(f"[{self.service_name}] ⚠️ retry 仍為空，使用 fallback 訊息")
+                answer_text = "抱歉，我暫時無法回應，請再試一次。"
         
         # 更新對話歷史
         contents.append(types.Content(
@@ -249,6 +279,13 @@ class BaseGeminiService:
             except Exception:
                 pass
         
+        # 空白訊息調查 log
+        if not answer_text or not answer_text.strip():
+            print(f"[{self.service_name}] 🚨 空白訊息調查: generate_content 最終回傳空白!")
+            print(f"  - query: '{query[:80]}'")
+            print(f"  - use_grounding: {use_grounding}, use_url_context: {use_url_context}, use_maps: {use_maps}")
+            print(f"  - user_id: {user_id}, tenant_id: {self.tenant_id}")
+        
         return {
             "text": answer_text,
             "references": references,
@@ -258,7 +295,23 @@ class BaseGeminiService:
     def _extract_text_only(self, response) -> str:
         """從 response 中只提取非 thinking 的文字內容"""
         try:
-            parts = response.candidates[0].content.parts
+            # 檢查 candidates 是否為空（安全過濾等情況）
+            if not response.candidates:
+                print(f"[{self.service_name}] ⚠️ 空白訊息調查: candidates 為空! finish_reason={getattr(response, 'prompt_feedback', None)}")
+                return response.text or ""
+            
+            candidate = response.candidates[0]
+            # 檢查 finish_reason
+            finish_reason = getattr(candidate, 'finish_reason', None)
+            if finish_reason and str(finish_reason) not in ('STOP', 'FinishReason.STOP', '1'):
+                print(f"[{self.service_name}] ⚠️ 空白訊息調查: finish_reason={finish_reason}")
+            
+            # 檢查 content 是否存在
+            if not candidate.content or not candidate.content.parts:
+                print(f"[{self.service_name}] ⚠️ 空白訊息調查: content 或 parts 為空! finish_reason={finish_reason}")
+                return response.text or ""
+            
+            parts = candidate.content.parts
             text_parts = []
             for part in parts:
                 # 跳過 thought=True 的 parts（推理過程）
@@ -266,9 +319,24 @@ class BaseGeminiService:
                     continue
                 if hasattr(part, 'text') and part.text:
                     text_parts.append(part.text)
-            return ''.join(text_parts) if text_parts else response.text
-        except Exception:
-            return response.text
+            
+            result = ''.join(text_parts) if text_parts else response.text
+            
+            # 關鍵 log：如果最終結果為空
+            if not result or not result.strip():
+                print(f"[{self.service_name}] ⚠️ 空白訊息調查: _extract_text_only 結果為空!")
+                print(f"  - parts 數量: {len(parts)}")
+                print(f"  - thought parts: {sum(1 for p in parts if getattr(p, 'thought', False))}")
+                print(f"  - text parts (非空): {len(text_parts)}")
+                print(f"  - response.text: '{(response.text or '')[:100]}'")
+                print(f"  - finish_reason: {finish_reason}")
+            
+            return result or ""
+        except Exception as e:
+            print(f"[{self.service_name}] ⚠️ 空白訊息調查: _extract_text_only 異常: {e}")
+            fallback = response.text if hasattr(response, 'text') else ""
+            print(f"  - fallback response.text: '{(fallback or '')[:100]}'")
+            return fallback or ""
     
     def _is_url_context_failed(self, response) -> bool:
         """檢查 url_context 是否抓取失敗"""
@@ -407,7 +475,12 @@ class BaseGeminiService:
             history_json = self.redis_client.get(session_key)
             if history_json:
                 history_data = json.loads(history_json)
-                return [self._deserialize_content(c) for c in history_data]
+                contents = [self._deserialize_content(c) for c in history_data]
+                # 空白訊息調查：檢查是否有空的 session 資料
+                empty_parts = [i for i, c in enumerate(contents) if all(p.text == "..." for p in c.parts)]
+                if empty_parts:
+                    print(f"[{self.service_name}] ⚠️ 空白訊息調查: Redis session 含有佔位符 parts, indices={empty_parts}, key={session_key}")
+                return contents
             return []
         except Exception as e:
             print(f"[{self.service_name}] 載入 session 失敗: {e}")

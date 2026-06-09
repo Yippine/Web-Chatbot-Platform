@@ -252,6 +252,9 @@ def chat():
         if isinstance(service, QueryService):
             result = service.query_data(message, user_id=user_id, response_language=response_language)
             response_ms = int((time.time() - t0) * 1000)
+            # 空白訊息調查 log
+            if not result.get("response") or not result["response"].strip():
+                print(f"[Chat API] 🚨 空白訊息調查: QueryService 回傳空白! tenant={tenant_id}, service={service_name}, msg='{message[:50]}'")
             _log_pool.submit(db_log, tenant_id=tenant_id, session_id=user_id,
                              direction="bot", service_name=service_name,
                              response_ms=response_ms, lang=lang or "zh-TW")
@@ -264,6 +267,9 @@ def chat():
         elif isinstance(service, SmartRouteService):
             result = service.plan_route(message=message, user_id=user_id, response_language=response_language, lat_lng=lat_lng)
             response_ms = int((time.time() - t0) * 1000)
+            # 空白訊息調查 log
+            if not result.get("route") or not result["route"].strip():
+                print(f"[Chat API] 🚨 空白訊息調查: SmartRouteService 回傳空白! tenant={tenant_id}, service={service_name}, msg='{message[:50]}'")
             _log_pool.submit(db_log, tenant_id=tenant_id, session_id=user_id,
                              direction="bot", service_name=service_name,
                              response_ms=response_ms, lang=lang or "zh-TW")
@@ -277,6 +283,9 @@ def chat():
         elif isinstance(service, ChatService):
             result = service.chat(message, user_id=user_id, response_language=response_language)
             response_ms = int((time.time() - t0) * 1000)
+            # 空白訊息調查 log
+            if not result.get("response") or not result["response"].strip():
+                print(f"[Chat API] 🚨 空白訊息調查: ChatService 回傳空白! tenant={tenant_id}, service={service_name}, msg='{message[:50]}'")
             _log_pool.submit(db_log, tenant_id=tenant_id, session_id=user_id,
                              direction="bot", service_name=service_name,
                              response_ms=response_ms, lang=lang or "zh-TW")
@@ -291,6 +300,10 @@ def chat():
             if hasattr(service, 'chat'):
                 result = service.chat(message, user_id=user_id, response_language=response_language)
                 response_ms = int((time.time() - t0) * 1000)
+                # 空白訊息調查 log
+                response_text = result.get("response") or result.get("text")
+                if not response_text or not response_text.strip():
+                    print(f"[Chat API] 🚨 空白訊息調查: 預設服務回傳空白! tenant={tenant_id}, service={service_name}, msg='{message[:50]}'")
                 _log_pool.submit(db_log, tenant_id=tenant_id, session_id=user_id,
                                  direction="bot", service_name=service_name,
                                  response_ms=response_ms, lang=lang or "zh-TW")
