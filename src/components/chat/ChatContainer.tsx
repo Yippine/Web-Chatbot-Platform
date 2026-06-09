@@ -173,22 +173,20 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
             
             const result = await apiClient.chat(content, tenantId, conversationHistory.slice(-5), detectedIntent, currentLang !== 'zh-tw' ? currentLang : undefined, latLng ?? undefined);
             
-            // 空白訊息調查 log
-            if (!result.response || !result.response.trim()) {
-                console.warn('[ChatContainer] 🚨 空白訊息調查: 收到空白回應', { result, intent: detectedIntent, content: content.slice(0, 50) });
+            // API 錯誤或空白回應 → 進入 catch 顯示錯誤訊息
+            if (result.error || !result.response || !result.response.trim()) {
+                console.warn('[ChatContainer] 🚨 收到錯誤或空白回應', { result, intent: detectedIntent });
+                throw new Error(result.error || 'empty response');
             }
 
-            // 不渲染空白氣泡
-            if (result.response && result.response.trim()) {
-                const botMessage: MessageType = {
-                    id: `bot_${Date.now()}`,
-                    sender: 'bot',
-                    type: 'text',
-                    content: result.response,
-                    timestamp: new Date()
-                };
-                setMessages(prev => [...prev, botMessage]);
-            }
+            const botMessage: MessageType = {
+                id: `bot_${Date.now()}`,
+                sender: 'bot',
+                type: 'text',
+                content: result.response,
+                timestamp: new Date()
+            };
+            setMessages(prev => [...prev, botMessage]);
 
             if (result.references && result.references.length > 0) {
                 const refMessage: MessageType = {
@@ -231,17 +229,19 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
             try {
                 const result = await apiClient.queryData(tenantId, serviceId, language);
                 
-                // 不渲染空白氣泡
-                if (result.response && result.response.trim()) {
-                    const botMessage: MessageType = {
-                        id: `bot_${Date.now()}`,
-                        sender: 'bot',
-                        type: 'text',
-                        content: result.response,
-                        timestamp: new Date()
-                    };
-                    setMessages(prev => [...prev, botMessage]);
+                // API 錯誤或空白回應 → 進入 catch 顯示錯誤訊息
+                if (result.error || !result.response || !result.response.trim()) {
+                    throw new Error(result.error || 'empty response');
                 }
+
+                const botMessage: MessageType = {
+                    id: `bot_${Date.now()}`,
+                    sender: 'bot',
+                    type: 'text',
+                    content: result.response,
+                    timestamp: new Date()
+                };
+                setMessages(prev => [...prev, botMessage]);
                 
                 // 顯示參考資料
                 if (result.references && result.references.length > 0) {
@@ -318,22 +318,20 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
             // 直接使用傳入的 mode
             const result = await apiClient.chat(content, tenantId, conversationHistory.slice(-5), mode, language !== 'zh-tw' ? language : undefined, latLng ?? undefined);
             
-            // 空白訊息調查 log
-            if (!result.response || !result.response.trim()) {
-                console.warn('[ChatContainer/WithMode] 🚨 空白訊息調查: 收到空白回應', { result, mode, content: content.slice(0, 50) });
+            // API 錯誤或空白回應 → 進入 catch 顯示錯誤訊息
+            if (result.error || !result.response || !result.response.trim()) {
+                console.warn('[ChatContainer/WithMode] 🚨 收到錯誤或空白回應', { result, mode });
+                throw new Error(result.error || 'empty response');
             }
 
-            // 不渲染空白氣泡
-            if (result.response && result.response.trim()) {
-                const botMessage: MessageType = {
-                    id: `bot_${Date.now()}`,
-                    sender: 'bot',
-                    type: 'text',
-                    content: result.response,
-                    timestamp: new Date()
-                };
-                setMessages(prev => [...prev, botMessage]);
-            }
+            const botMessage: MessageType = {
+                id: `bot_${Date.now()}`,
+                sender: 'bot',
+                type: 'text',
+                content: result.response,
+                timestamp: new Date()
+            };
+            setMessages(prev => [...prev, botMessage]);
 
             if (result.references && result.references.length > 0) {
                 const refMessage: MessageType = {

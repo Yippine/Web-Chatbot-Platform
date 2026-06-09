@@ -167,13 +167,9 @@ class BaseGeminiService:
             thinking_config=types.ThinkingConfig(thinking_budget=0)
         )
         
-        # 呼叫 Gemini API
+        # 呼叫 Gemini API（含 503 retry）
         api_call_start = time.time()
-        response = self.client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=contents,
-            config=config
-        )
+        response = self._call_gemini_with_retry(contents, config)
         api_call_time = time.time() - api_call_start
         
         answer_text = self._extract_text_only(response)
@@ -196,11 +192,7 @@ class BaseGeminiService:
                 thinking_config=types.ThinkingConfig(thinking_budget=0)
             )
             fallback_start = time.time()
-            response = self.client.models.generate_content(
-                model="gemini-2.5-flash",
-                contents=contents,
-                config=config
-            )
+            response = self._call_gemini_with_retry(contents, config)
             api_call_time += time.time() - fallback_start
             answer_text = self._extract_text_only(response)
             fell_back_to_search = True
@@ -221,16 +213,12 @@ class BaseGeminiService:
                 thinking_config=types.ThinkingConfig(thinking_budget=0)
             )
             retry_start = time.time()
-            response = self.client.models.generate_content(
-                model="gemini-2.5-flash",
-                contents=contents,
-                config=retry_config
-            )
+            response = self._call_gemini_with_retry(contents, retry_config)
             api_call_time += time.time() - retry_start
             answer_text = self._extract_text_only(response)
             if not answer_text or not answer_text.strip():
                 print(f"[{self.service_name}] ⚠️ retry 仍為空，使用 fallback 訊息")
-                answer_text = "抱歉，我暫時無法回應，請再試一次。"
+                answer_text = "抱歉，AI 模型暫時無法回應，請稍後再試一次~~~"
         
         # 更新對話歷史
         contents.append(types.Content(
@@ -291,6 +279,25 @@ class BaseGeminiService:
             "references": references,
             "maps_widget_token": maps_widget_token
         }
+    
+    def _call_gemini_with_retry(self, contents, config, max_retries: int = 2):
+        """呼叫 Gemini API，遇到 503/429 自動 retry"""
+        for attempt in range(max_retries + 1):
+            try:
+                return self.client.models.generate_content(
+                    model="gemini-2.5-flash",
+                    contents=contents,
+                    config=config
+                )
+            except Exception as e:
+                error_str = str(e)
+                is_retryable = '503' in error_str or '429' in error_str or 'UNAVAILABLE' in error_str or 'RESOURCE_EXHAUSTED' in error_str
+                if is_retryable and attempt < max_retries:
+                    wait = (attempt + 1) * 2  # 2s, 4s
+                    print(f"[{self.service_name}] ⚠️ Gemini API {error_str[:80]}，{wait}s 後 retry ({attempt+1}/{max_retries})")
+                    time.sleep(wait)
+                    continue
+                raise
     
     def _extract_text_only(self, response) -> str:
         """從 response 中只提取非 thinking 的文字內容"""
