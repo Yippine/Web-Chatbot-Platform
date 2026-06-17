@@ -107,6 +107,13 @@ if [ -f "$TEMP_DIR/.sensitive-backup-temp/tenants.json" ]; then
   RESTORE_COUNT=$((RESTORE_COUNT + 1))
 fi
 
+# 恢復 nginx.conf
+if [ -f "$TEMP_DIR/.sensitive-backup-temp/nginx.conf" ]; then
+  echo "📝 恢復 nginx.conf"
+  cp "$TEMP_DIR/.sensitive-backup-temp/nginx.conf" nginx.conf
+  RESTORE_COUNT=$((RESTORE_COUNT + 1))
+fi
+
 echo ""
 echo "✅ 恢復完成！"
 echo "📊 恢復的項目：$RESTORE_COUNT"
@@ -118,6 +125,7 @@ echo "🔍 驗證恢復的檔案："
 [ -f ".env" ] && echo "   ✅ .env ($(wc -l < .env) 行)" || echo "   ❌ .env 不存在"
 [ -d "backend/data/images" ] && echo "   ✅ backend/data/images ($(find backend/data/images -type f | wc -l) 檔案)" || echo "   ❌ backend/data/images 不存在"
 [ -f "backend/data/tenants.json" ] && echo "   ✅ backend/data/tenants.json" || echo "   ❌ backend/data/tenants.json 不存在"
+[ -f "nginx.conf" ] && echo "   ✅ nginx.conf" || echo "   ❌ nginx.conf 不存在"
 
 echo ""
 echo "⚠️  重要提示："

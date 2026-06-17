@@ -15,7 +15,6 @@ env/
 
 # Multi-tenant Config
 config/tenants.json
-prompts/*/
 test/
 translations/*/
 

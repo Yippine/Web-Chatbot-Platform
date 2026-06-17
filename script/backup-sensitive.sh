@@ -83,6 +83,15 @@ else
   echo "⚠️  backend/data/tenants.json 不存在（跳過）"
 fi
 
+# 複製 nginx.conf（路由設定，不含機敏資訊，但不在 git 追蹤範圍時作為備援）
+if [ -f "nginx.conf" ]; then
+  echo "✅ 複製 nginx.conf"
+  cp nginx.conf $BACKUP_DIR/
+  COUNT=$((COUNT + 1))
+else
+  echo "⚠️  nginx.conf 不存在（跳過）"
+fi
+
 echo ""
 echo "📊 統計："
 echo "   - 打包的檔案數：$COUNT 項"

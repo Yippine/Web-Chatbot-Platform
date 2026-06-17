@@ -48,9 +48,6 @@ next-env.d.ts
 /.kiro
 /public/images/*
 
-# nginx
-nginx.conf
-
 # backend runtime data (images only; tenants.json is versioned)
 backend/data/images/
 
