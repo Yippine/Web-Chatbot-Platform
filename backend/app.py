@@ -45,6 +45,10 @@ def detect_language():
         tenant = request.tenant
         api_key = tenant.get("gemini_api_key")
         if not api_key:
+            _env_key = tenant.get("api_key_env")
+            if _env_key:
+                api_key = os.environ.get(_env_key)
+        if not api_key:
             return jsonify({"detected_language": {"language_code": "zh-TW", "language_name": "Traditional Chinese"}})
         
         from google import genai
@@ -151,6 +155,10 @@ def detect_intent():
         
         # 用任一服務的 API key 做意圖判斷
         api_key = tenant.get("gemini_api_key")
+        if not api_key:
+            _env_key = tenant.get("api_key_env")
+            if _env_key:
+                api_key = os.environ.get(_env_key)
         if not api_key:
             return jsonify({"intent": "general"})
         
@@ -336,6 +344,10 @@ def create_service_from_quick_action(tenant_id: str, tenant: dict, qa_config: di
     
     # 取得 API Key
     api_key = tenant.get('gemini_api_key')
+    if not api_key:
+        _env_key = tenant.get('api_key_env')
+        if _env_key:
+            api_key = os.environ.get(_env_key)
     if not api_key:
         return None
     

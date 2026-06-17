@@ -1,0 +1,1127 @@
+{
+  "second_hand_car": {
+    "id": "second_hand_car",
+    "name": "大成中古智慧購車精靈",
+    "api_key_env": "TENANT_SECOND_HAND_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "find_car": {
+        "name": "尋找車型",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/second_hand_car/find_car.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "車輛庫存 歷史買賣合約書 中古車法律條款",
+        "allowed_domains": "www.sum.com.tw",
+        "loading_message": "資料搜尋中，請稍等",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "find_car",
+        "query": ""
+      }
+    ],
+    "appearance": {
+      "pageTitle": "大成中古智慧購車",
+      "title": "大成中古智慧購車精靈",
+      "subtitle": "Dacheng AI Search",
+      "welcomeMessage": "你好",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#e53e3e",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#f2b1b1",
+        "type": "solid"
+      },
+      "chatIconUrl": "/images/tenants/second_hand_car/chat-icon-1774598557.png",
+      "textColor": "black"
+    }
+  },
+  "leosys": {
+    "id": "leosys",
+    "name": "智慧大獅",
+    "api_key_env": "TENANT_LEOSYS_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "aboutleo": {
+        "name": "關於國眾",
+        "icon": "🦁",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/leosys/aboutleo.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "國眾電腦 關於國眾",
+        "allowed_domains": "www.leosys.com",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想了解公司基本資料、投資人資訊，或是企業 IT 解決方案？\n請直接輸入您的問題，讓我為您解答！",
+        "show_mode_message": true
+      },
+      "solutions": {
+        "name": "服務方案",
+        "icon": "💼",
+        "enabled": true,
+        "class": "QueryService",
+        "prompt_file": "prompts/leosys/solutions.md",
+        "temperature": 0.6,
+        "use_grounding": true,
+        "search_keyword": "國眾電腦 服務方案",
+        "allowed_domains": "www.leosys.com",
+        "loading_message": "為您搜尋中，請稍後",
+        "query_loading_message": "正在為您準備相關資訊",
+        "mode_message": "",
+        "show_mode_message": true
+      },
+      "successfulcase_leo": {
+        "name": "成功案例",
+        "icon": "💯",
+        "enabled": true,
+        "class": "QueryService",
+        "prompt_file": "prompts/leosys/successfulcase_leo.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "國眾電腦 成功案例",
+        "allowed_domains": "www.leosys.com",
+        "loading_message": "為您搜尋中，請稍後",
+        "query_loading_message": "正在為您準備相關資訊",
+        "mode_message": "",
+        "show_mode_message": true
+      },
+      "leonewsletter": {
+        "name": "電子報",
+        "icon": "📰",
+        "enabled": true,
+        "class": "QueryService",
+        "prompt_file": "prompts/leosys/leonewsletter.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "國眾電腦 電子報",
+        "allowed_domains": "www.leosys.com",
+        "loading_message": "為您搜尋中，請稍後",
+        "query_loading_message": "正在為您準備相關資訊",
+        "mode_message": "",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "aboutleo",
+        "query": ""
+      },
+      {
+        "service_id": "solutions",
+        "query": ""
+      },
+      {
+        "service_id": "successfulcase_leo",
+        "query": ""
+      },
+      {
+        "service_id": "leonewsletter",
+        "query": ""
+      }
+    ],
+    "appearance": {
+      "pageTitle": "國眾領航員 - Leosys AI",
+      "title": "國眾領航員",
+      "subtitle": "Leosys Web AI Assistant",
+      "welcomeMessage": "您好！我是國眾電腦解決方案顧問 🤝\n致力於為您提供最佳資通訊服務，我可以：\n🚀 評估專案需求\n 🔍 尋找解決方案\n🛠️ 查詢維運服務\n📄 索取產品簡介",
+      "placeholder": "請輸入想要詢問的問題?",
+      "header": {
+        "colors": [
+          "#1c40f2",
+          "#a6e4e8"
+        ],
+        "direction": "to right",
+        "type": "gradient"
+      },
+      "button": {
+        "color": "#4154e1",
+        "type": "solid"
+      },
+      "chatIconUrl": "/images/tenants/leosys/chat-icon-1774597294.png",
+      "textColor": "white"
+    }
+  },
+  "dawho": {
+    "id": "dawho",
+    "name": "永豐智慧精靈",
+    "api_key_env": "TENANT_DAWHO_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "ibrain": {
+        "name": "數位金融",
+        "icon": "💰",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/dawho/ibrain.md",
+        "temperature": 0.6,
+        "use_grounding": true,
+        "search_keyword": "永豐銀行 數位金融 數位網銀 大戶常見問題 DAWHO",
+        "allowed_domains": " https://dawho.tw/,https://bank.sinopac.com/sinopacBT/webevents/ibrain/,dawho.tw,bank.sinopac.com",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "您可以直接輸入以下熱門主題讓我為您解答：\n【我想開戶】 了解 DAWHO 數位帳戶與線上申辦步驟\n【我想投資】 了解 ibrAin 智能理財與 0 元帳管費優惠\n【了解回饋】 查詢最新的 DAWHO 專屬優惠與存款資訊",
+        "show_mode_message": true
+      },
+      "Wealth": {
+        "name": "財富管理",
+        "icon": "🪙",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/dawho/Wealth.md",
+        "temperature": 0.6,
+        "use_grounding": true,
+        "search_keyword": "永豐銀行 財富管理 理財 金融商品 金融情報 定期投資 ",
+        "allowed_domains": "wm.sinopac.com,https://wm.sinopac.com/,https://wm.sinopac.com/fund/theme,https://wm.sinopac.com/stock/theme,https://wm.sinopac.com/etf/assetclass,https://wm.sinopac.com/bond/issuer",
+        "loading_message": "為您查詢中，請稍等",
+        "query_loading_message": "正在找尋最新金融商品資訊",
+        "mode_message": "",
+        "show_mode_message": true
+      },
+      "wealth_vip": {
+        "name": "尊榮理財",
+        "icon": "🏆",
+        "enabled": true,
+        "class": "QueryService",
+        "prompt_file": "prompts/dawho/wealth_vip.md",
+        "temperature": 0.6,
+        "use_grounding": true,
+        "search_keyword": "永豐銀行 尊榮理財 會員制度 尊榮理財服務 資產 信託 ",
+        "allowed_domains": "bank.sinopac.com,https://bank.sinopac.com/sinopacBT/webevents/wealth_vip/member-01.html,https://bank.sinopac.com/sinopacBT/webevents/wealth_vip/member-02.html,https://bank.sinopac.com/sinopacBT/webevents/wealth_vip/member-03.html,https://bank.sinopac.com/sinopacBT/webevents/RetireChannel/product/elder-protection.html,https://bank.sinopac.com/sinopacBT/webevents/trustcheckup-overview/article/family-trust.html",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "正在查詢各項尊榮理財服務，請稍等",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "ibrain",
+        "query": ""
+      },
+      {
+        "service_id": "Wealth",
+        "query": ""
+      },
+      {
+        "service_id": "wealth_vip",
+        "query": ""
+      }
+    ],
+    "appearance": {
+      "pageTitle": "小豐理財專員",
+      "title": "小豐理財專員",
+      "subtitle": "DAWHO & ibrAin Assistant",
+      "welcomeMessage": "哈囉！👋 我是永豐銀行的**「小豐理財專員」**！很高興為您服務。\n從日常刷卡消費、存錢理財，到買車買房的人生圓夢計畫，小豐都能為您解答！💼\n請問今天想了解哪方面的資訊呢？您可以直接輸入下方熱門服務：\n💳 信用卡服務\n💰 存款與理財\n📱 數位與開戶 \n🆘 常用與客服 ",
+      "placeholder": "請輸入您的問題",
+      "header": {
+        "colors": [
+          "#000000",
+          "#a37000",
+          "#fdde6d"
+        ],
+        "direction": "135deg",
+        "type": "gradient"
+      },
+      "button": {
+        "colors": [
+          "#753900",
+          "#c87837"
+        ],
+        "direction": "to right",
+        "type": "gradient"
+      },
+      "chatIconUrl": "/images/tenants/dawho/chat-icon-1775628995.png",
+      "textColor": "white"
+    }
+  },
+  "Emperor_Chemical_co_ltd": {
+    "id": "Emperor_Chemical_co_ltd",
+    "name": "帝一化工",
+    "api_key_env": "TENANT_EMPEROR_CHEMICAL_CO_LTD_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "FAQ": {
+        "name": "購物與會員常見問題 FAQ",
+        "icon": "?",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/Emperor_Chemical_co_ltd/FAQ.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "運費, 免運, 配送, 外島, 運送,營業時間,門市地址",
+        "allowed_domains": "https://shop.dechemical.com.tw/",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "您好！我是帝一化工的購物小幫手。\n關於官網下單、會員紅利、運費計算、天水路門市位置或退換貨流程，我都能為您解答。\n請問您想了解哪方面的購物資訊呢？",
+        "show_mode_message": true,
+        "frappe": null
+      },
+      "DIY": {
+        "name": "專業原料與 DIY 配方諮詢",
+        "icon": "📄",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/Emperor_Chemical_co_ltd/DIY.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "美白,化學原料, DIY配方, 手工皂, 保養品製作, SDS, 安全資料表, 濃度稀釋, 原料特性, 帝一化工產品",
+        "allowed_domains": "https://shop.dechemical.com.tw/",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "您好！我是您的專業化工與 DIY 顧問。\n不論您是想查詢原料特性，或是正在研究手工皂與保養品的配方比例，都可以直接問我喔！\n請問今天想了解哪方面的專業資訊呢？",
+        "show_mode_message": true
+      },
+      "contact_us": {
+        "name": "企業採購與大宗批發諮詢",
+        "icon": "👤",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/Emperor_Chemical_co_ltd/contact_us.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "大宗採購, 批發, 企業合作, 詢價, 大包裝, 桶裝原料, 報價單, 試劑批發, 實驗室供應, 長期配合",
+        "allowed_domains": "https://shop.dechemical.com.tw/",
+        "loading_message": "處理中",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "您好！這裡是帝一化工企業服務窗口。\n我們提供各式化學原料、實驗器材的大宗採購與長期批發服務。\n不論您需要的是大規格桶裝原料或是專案詢價，請直接告訴我您的**「產品名稱」與「預計需求量」**，\n或詢問如何取得正式報價單。",
+        "show_mode_message": true
+      },
+      "general": {
+        "name": "通用對話",
+        "icon": "⚙️",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/Emperor_Chemical_co_ltd/general.md",
+        "temperature": 0.2,
+        "use_grounding": false,
+        "search_keyword": "帝一化工原料",
+        "allowed_domains": "https://shop.dechemical.com.tw/pages?website_module_classify_sn=73,dechemical.com.tw",
+        "loading_message": "請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "FAQ",
+        "query": ""
+      },
+      {
+        "service_id": "DIY",
+        "query": ""
+      },
+      {
+        "service_id": "contact_us",
+        "query": ""
+      }
+    ],
+    "appearance": {
+      "pageTitle": "帝一化工",
+      "title": "帝一化工",
+      "subtitle": "",
+      "welcomeMessage": "您好！歡迎來到帝一化工。不論您是需要大宗化學原料、實驗器材，還是想要尋找 DIY 手作保養品與手工皂的配方建議，我都能為您服務。請問今天想尋找哪一類的產品或知識呢？",
+      "placeholder": "請輸入想要詢問的問題?",
+      "header": {
+        "type": "solid",
+        "color": "#11bde8"
+      },
+      "button": {
+        "color": "#0602f2",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "CLASSIC": {
+    "id": "CLASSIC",
+    "name": "屹閎有限公司",
+    "api_key_env": "TENANT_CLASSIC_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "服務項目",
+        "icon": "⚙️",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/CLASSIC/general.md",
+        "temperature": 0.6,
+        "use_grounding": true,
+        "search_keyword": "經典汽車美容 汽車鍍膜 汽車美容 汽車包膜 洗車服務 汽車除蟲 汽車內裝清潔 洗車打蠟",
+        "allowed_domains": "https://classic190.com/,https://classic190.com/about/,https://classic190.com/services/,https://classic190.com/coating/,https://classic190.com/deinsectization/",
+        "loading_message": "為您查詢中，請稍等",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "請問有甚麼可以幫助您的?",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "",
+      "title": "",
+      "subtitle": "",
+      "welcomeMessage": "",
+      "placeholder": "",
+      "header": {
+        "type": "solid",
+        "color": "#000000"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#000000"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "caesarpark": {
+    "id": "caesarpark",
+    "name": "凱薩大飯店",
+    "api_key_env": "TENANT_CAESARPARK_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/caesarpark/general.md",
+        "temperature": 0.4,
+        "use_grounding": false,
+        "search_keyword": "凱薩連鎖大飯店",
+        "allowed_domains": "",
+        "loading_message": "處理中",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false,
+        "frappe": null
+      },
+      "attractions": {
+        "name": "周邊景點",
+        "icon": "🏖",
+        "enabled": true,
+        "class": "SmartRouteService",
+        "prompt_file": "prompts/caesarpark/attractions.md",
+        "temperature": 0.6,
+        "use_grounding": true,
+        "search_keyword": "凱薩大飯店 附近景點 附近美食 交通",
+        "allowed_domains": "caesarpark.com.tw",
+        "loading_message": "為您查詢中，請稍等",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false,
+        "frappe": null
+      },
+      "location": {
+        "name": "各飯店介紹",
+        "icon": "🛏",
+        "enabled": true,
+        "class": "QueryService",
+        "prompt_file": "prompts/caesarpark/location.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "凱薩連鎖大飯店 介紹 特色",
+        "allowed_domains": "https://www.caesarpark.com.tw/location/,caesarpark.com.tw,https://www.caesarpark.com.tw/location/star-hotel/,https://www.caesarpark.com.tw/location/boutique-hotel/,https://www.caesarpark.com.tw/location/fashion/,https://www.caesarpark.com.tw/location/japan-hotel/",
+        "loading_message": "為您搜尋中",
+        "query_loading_message": "正在查詢中，請稍等",
+        "mode_message": "",
+        "show_mode_message": false
+      },
+      "notification": {
+        "name": "最新優惠",
+        "icon": "🎫",
+        "enabled": true,
+        "class": "QueryService",
+        "prompt_file": "prompts/caesarpark/notification.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "墾丁凱薩大飯店 最新 住房優惠 餐飲優惠 限定活動 ",
+        "allowed_domains": "caesarpark.com.tw,https://www.caesarpark.com.tw/news/,https://www.caesarpark.com.tw/news/12/,https://www.caesarpark.com.tw/news/notification/,https://www.caesarpark.com.tw/news/28/",
+        "loading_message": "正在搜尋中，請稍等",
+        "query_loading_message": "正為您查詢最新優惠中",
+        "mode_message": "",
+        "show_mode_message": false,
+        "frappe": null
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "attractions",
+        "query": ""
+      },
+      {
+        "service_id": "location",
+        "query": ""
+      },
+      {
+        "service_id": "notification",
+        "query": ""
+      }
+    ],
+    "appearance": {
+      "pageTitle": "凱撒飯店 | 智慧旅遊管家",
+      "title": "凱撒旅遊管家",
+      "subtitle": "Caesar Park Hotel Concierge",
+      "welcomeMessage": "歡迎蒞臨凱撒飯店 ✨\n我是您的專屬旅遊管家，很高興為您服務。\n我可以協助您：\n🏨 客房預訂與房型介紹\n🍽️ 餐廳訂位與美食推薦\n🗺️ 在地旅遊行程規劃\n💆 休閒設施與 SPA 預約\n\n請問有什麼可以為您效勞的嗎？",
+      "placeholder": "請問有什麼可以為您服務的？",
+      "header": {
+        "type": "solid",
+        "color": "#bb0707"
+      },
+      "button": {
+        "color": "#ad0101",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "xiyuantang": {
+    "id": "xiyuantang",
+    "name": "禧元堂",
+    "api_key_env": "TENANT_XIYUANTANG_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/xiyuantang/general.md",
+        "temperature": 0.2,
+        "use_grounding": false,
+        "search_keyword": "",
+        "allowed_domains": "",
+        "loading_message": "處理中",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      },
+      "product": {
+        "name": "產品介紹",
+        "icon": "🎁",
+        "enabled": true,
+        "class": "QueryService",
+        "prompt_file": "prompts/xiyuantang/product.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "禧元堂 滴雞精 燕窩 養生",
+        "allowed_domains": "www.xiyuantang.com,https://www.xiyuantang.com/tw/product/bird-nest-all,https://www.xiyuantang.com/tw/product/pearl-powder-all,https://www.xiyuantang.com/tw/product/hashima-all,https://www.xiyuantang.com/tw/product/health-beauty-all,https://www.xiyuantang.com/tw/product/health-all,https://www.xiyuantang.com/tw/product/birds-nest-gift-set-all",
+        "loading_message": "正在為您查閱養生典籍，請稍候片刻 🍵",
+        "query_loading_message": "搜尋禧元堂最新產品資訊中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "product",
+        "query": ""
+      }
+    ],
+    "appearance": {
+      "pageTitle": "禧元堂 — 智慧養生顧問",
+      "title": "禧元堂養生顧問",
+      "subtitle": "Xi Yuan Tang AI Assistant",
+      "welcomeMessage": "您好！歡迎來到禧元堂 🏮\n傳承百年養生智慧，為您嚴選天然滋補珍品。\n我是您的專屬養生顧問，可以為您：\n🏺 介紹滴雞精、燕窩等明星商品\n🥄 提供食用方式與養生建議\n🎁 推薦送禮與調理組合\n\n請問今天想了解什麼呢？",
+      "placeholder": "請問您想了解哪款養生產品？",
+      "header": {
+        "type": "gradient",
+        "colors": [
+          "#8b1a1a",
+          "#b22222",
+          "#d4a017"
+        ],
+        "direction": "to right"
+      },
+      "button": {
+        "type": "gradient",
+        "colors": [
+          "#8b1a1a",
+          "#c41e3a"
+        ],
+        "direction": "to right"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "tpe_policy": {
+    "id": "tpe_policy",
+    "name": "台北政策幫手",
+    "api_key_env": "TENANT_TPE_POLICY_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/tpe_policy/general.md",
+        "temperature": 0.6,
+        "use_grounding": true,
+        "search_keyword": "台北市 新北市",
+        "allowed_domains": "www.gov.taipei,www.ntpc.gov.tw",
+        "loading_message": "處理中",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      },
+      "service_elderly_welfare": {
+        "name": "敬老小幫手",
+        "icon": "🧓",
+        "enabled": true,
+        "class": "QueryService",
+        "prompt_file": "prompts/tpe_policy/service_elderly_welfare.md",
+        "temperature": 0.6,
+        "use_grounding": true,
+        "search_keyword": "新北市 台北市 敬老愛心卡點數 敬老卡使用範圍  敬老卡掛號費 敬老卡申請資格 敬老卡展期 日間照護 長照服務 長者活動",
+        "allowed_domains": "",
+        "loading_message": "為您查詢中",
+        "query_loading_message": "正在整理最新資訊中",
+        "mode_message": "",
+        "show_mode_message": false
+      },
+      "service_birth_subsidy": {
+        "name": " 好孕助理",
+        "icon": "👶",
+        "enabled": true,
+        "class": "QueryService",
+        "prompt_file": "prompts/tpe_policy/service_birth_subsidy.md",
+        "temperature": 0.6,
+        "use_grounding": true,
+        "search_keyword": "最新 新北市 台北市 生育獎勵金 生育補助 每胎補助 祝您好孕 袋鼠方案 育兒補助設籍 托育補助申請",
+        "allowed_domains": "",
+        "loading_message": "為您查詢中",
+        "query_loading_message": "正在整理最新資訊，請稍等",
+        "mode_message": "",
+        "show_mode_message": false
+      },
+      "service_traffic_guide": {
+        "name": "通勤導航站",
+        "icon": "🚇",
+        "enabled": true,
+        "class": "QueryService",
+        "prompt_file": "prompts/tpe_policy/service_traffic_guide.md",
+        "temperature": 0.6,
+        "use_grounding": true,
+        "search_keyword": "新北市 台北市 捷運路線 公車路線 捷運進出站步驟 捷運公車支付服務 youbike租借方法",
+        "allowed_domains": "",
+        "loading_message": "為您查詢中",
+        "query_loading_message": "正在整理最新資訊中",
+        "mode_message": "",
+        "show_mode_message": false
+      },
+      "service_housing_renewal": {
+        "name": "舊宅新生顧問",
+        "icon": "🏠",
+        "enabled": true,
+        "class": "QueryService",
+        "prompt_file": "prompts/tpe_policy/service_housing_renewal.md",
+        "temperature": 0.5,
+        "use_grounding": true,
+        "search_keyword": "新北市 台北市 危老重建申請 危老條例資格 簡易都更申請 老屋健檢補助 防災都更 容積獎勵 租屋補助 租屋規定",
+        "allowed_domains": "",
+        "loading_message": "為您查詢中",
+        "query_loading_message": "正在整理最新資訊中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "service_elderly_welfare",
+        "query": ""
+      },
+      {
+        "service_id": "service_birth_subsidy",
+        "query": ""
+      },
+      {
+        "service_id": "service_traffic_guide",
+        "query": ""
+      },
+      {
+        "service_id": "service_housing_renewal",
+        "query": ""
+      }
+    ],
+    "appearance": {
+      "pageTitle": "雙北 AI 助理",
+      "title": "雙北市民 AI 助理",
+      "subtitle": "台北市 × 新北市 智慧服務",
+      "welcomeMessage": "您好！我是結合台北市與新北市的雙北 AI 助理 👋\n我可以幫您查詢敬老卡、生育補助、交通資訊、都更申請等雙北市政服務，請問有什麼需要協助的嗎？",
+      "placeholder": "請輸入您的問題",
+      "header": {
+        "type": "gradient",
+        "colors": [
+          "#01a0e4",
+          "#bffb83",
+          "#f56a47"
+        ],
+        "direction": "to right"
+      },
+      "button": {
+        "type": "gradient",
+        "colors": [
+          "#6685ff",
+          "#6ec49c"
+        ],
+        "direction": "to right"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "leosys_ai_lab": {
+    "id": "leosys_ai_lab",
+    "name": "國眾 AI Lab",
+    "api_key_env": "TENANT_LEOSYS_AI_LAB_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/leosys_ai_lab/general.md",
+        "temperature": 0.6,
+        "use_grounding": true,
+        "search_keyword": "國眾電腦AI",
+        "allowed_domains": "https://ai-product.leopilot.com/about",
+        "loading_message": "正在處理中",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      },
+      "product_qa": {
+        "name": "產品諮詢",
+        "icon": "🤖",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/leosys_ai_lab/product_qa.md",
+        "temperature": 0.6,
+        "use_grounding": true,
+        "search_keyword": "國眾電腦AI產品+國眾AI-Lab產品",
+        "allowed_domains": "https://ai-product.leopilot.com/#products,https://ai-product.leopilot.com/contact",
+        "loading_message": "正在處理中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "歡迎詢問您有興趣領域的AI應用",
+        "show_mode_message": true
+      },
+      "solution_search": {
+        "name": "解決方案",
+        "icon": "🔍",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/leosys_ai_lab/solution_search.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "國眾電腦AI解決方案",
+        "allowed_domains": "https://ai-product.leopilot.com/#products",
+        "loading_message": "為您評估中",
+        "query_loading_message": "整理最新解決方案中",
+        "mode_message": "請問您的企業屬於哪個產業？目前面臨的核心痛點是什麼？\n我將根據您的需求，為您推薦最適合的 AI 解決方案組合\n",
+        "show_mode_message": true
+      },
+      "case_search": {
+        "name": "成果案例",
+        "icon": "📰",
+        "enabled": true,
+        "class": "QueryService",
+        "prompt_file": "prompts/leosys_ai_lab/case_search.md",
+        "temperature": 0.5,
+        "use_grounding": true,
+        "search_keyword": "國眾電腦+最新消息+AI",
+        "allowed_domains": "https://ai-product.leopilot.com/,https://ai-product.leopilot.com/news/2026si-ai-breakthrough,https://ai-product.leopilot.com/news/2026bestaiawards",
+        "loading_message": "正在搜尋中",
+        "query_loading_message": "為您查詢中，請稍後",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "product_qa",
+        "query": ""
+      },
+      {
+        "service_id": "solution_search",
+        "query": ""
+      },
+      {
+        "service_id": "case_search",
+        "query": ""
+      }
+    ],
+    "appearance": {
+      "pageTitle": "Leo AI 顧問",
+      "title": "國眾電腦 AI Lab",
+      "subtitle": "Leosys AI Lab",
+      "welcomeMessage": "國眾電腦為現代企業打造有溫度的 AI 解決方案\n將科技轉化為人與數位空間的直覺互動",
+      "placeholder": "請輸入您的問題",
+      "header": {
+        "colors": [
+          "#01696f",
+          "#cedcd8"
+        ],
+        "direction": "135deg",
+        "type": "gradient"
+      },
+      "button": {
+        "color": "#0081c2",
+        "type": "solid"
+      },
+      "chatIconUrl": "/images/tenants/leosys_ai_lab/chat-icon-1778124482.png",
+      "textColor": "white"
+    }
+  },
+  "everlight_chemical": {
+    "id": "everlight_chemical",
+    "name": "台灣永光化學",
+    "api_key_env": "TENANT_EVERLIGHT_CHEMICAL_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/everlight_chemical/general.md",
+        "temperature": 0.7,
+        "use_grounding": false,
+        "search_keyword": "",
+        "allowed_domains": "",
+        "loading_message": "處理中",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "",
+      "title": "",
+      "subtitle": "",
+      "welcomeMessage": "",
+      "placeholder": "",
+      "header": {
+        "type": "solid",
+        "color": "#000000"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#000000"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "taiwanglass": {
+    "id": "taiwanglass",
+    "name": "台灣玻璃",
+    "api_key_env": "TENANT_TAIWANGLASS_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/taiwanglass/general.md",
+        "temperature": 0.7,
+        "use_grounding": false,
+        "search_keyword": "",
+        "allowed_domains": "",
+        "loading_message": "處理中",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "",
+      "title": "",
+      "subtitle": "",
+      "welcomeMessage": "",
+      "placeholder": "",
+      "header": {
+        "type": "solid",
+        "color": "#000000"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#000000"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "Zoho": {
+    "id": "Zoho",
+    "name": "Zoho",
+    "api_key_env": "TENANT_ZOHO_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/Zoho/general.md",
+        "temperature": 0.7,
+        "use_grounding": false,
+        "search_keyword": "",
+        "allowed_domains": "",
+        "loading_message": "處理中",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "國眾電腦zoho服務智慧客服",
+      "title": "Zoho 智慧客服",
+      "subtitle": "Zoho Smart Support",
+      "welcomeMessage": "我是您的 Zoho 智慧商務管家，很高興為您服務！\n我可以協助您：\n💡 解答 Zoho 產品與功能疑問（如 CRM、專案管理、表單等）\n⚙️ 提供系統整合與自動化流程建議\n📈 優化您的企業數位轉型策略\n請問今天有什麼我可以為您服務的呢？",
+      "placeholder": "請問有什麼可以為您服務的？",
+      "header": {
+        "colors": [
+          "#d72231",
+          "#028b51",
+          "#008bd0",
+          "#f1c842"
+        ],
+        "direction": "135deg",
+        "type": "gradient"
+      },
+      "button": {
+        "color": "#000000",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "sandak": {
+    "id": "sandak",
+    "name": "向達企業股份有限公司",
+    "api_key_env": "TENANT_SANDAK_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/sandak/general.md",
+        "temperature": 0.7,
+        "use_grounding": false,
+        "search_keyword": "向達企業股份有限公司",
+        "allowed_domains": "http://www.sandak.com.tw/front/bin/home.phtml",
+        "loading_message": "處理中",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false,
+        "frappe": null
+      },
+      "recommend": {
+        "name": "產品介紹",
+        "icon": "⚙️",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/sandak/recommend.md",
+        "temperature": 0.5,
+        "use_grounding": true,
+        "search_keyword": "碎紙機 向達企業股份有限公司",
+        "allowed_domains": "http://www.sandak.com.tw/front/bin/home.phtml",
+        "loading_message": "處理中",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false,
+        "frappe": null
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "recommend",
+        "query": ""
+      }
+    ],
+    "appearance": {
+      "pageTitle": "向達企業 AI 助理",
+      "title": "向達智能助理",
+      "subtitle": "Sandak AI Assistant",
+      "welcomeMessage": "您好！我是向達企業的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#2e6b3e"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#2e6b3e"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "eoa168": {
+    "id": "eoa168",
+    "name": "百豐國際有限公司",
+    "api_key_env": "TENANT_EOA168_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/eoa168/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "百豐國際 影印機 印表機 碳粉 OA辦公設備 eoa168",
+        "allowed_domains": "https://www.eoa168.com.tw/",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "百豐國際 AI 助理",
+      "title": "百豐國際智能助理",
+      "subtitle": "BaiFeng AI Assistant",
+      "welcomeMessage": "您好！我是百豐國際的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1a3a8f"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1a3a8f"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "test": {
+    "id": "test",
+    "name": "test",
+    "api_key_env": "TENANT_TEST_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/test/general.md",
+        "temperature": 0.7,
+        "use_grounding": false,
+        "search_keyword": "",
+        "allowed_domains": "",
+        "loading_message": "處理中",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      },
+      "apple_intro": {
+        "name": "apple 導覽",
+        "icon": "⚙️",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/test/apple_intro.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "apple",
+        "allowed_domains": "https://www.apple.com",
+        "loading_message": "處理中",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "apple_intro",
+        "query": ""
+      }
+    ],
+    "appearance": {
+      "pageTitle": "",
+      "title": "",
+      "subtitle": "",
+      "welcomeMessage": "",
+      "placeholder": "",
+      "header": {
+        "type": "solid",
+        "color": "#000000"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#000000"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "demo_0": {
+    "id": "demo_0",
+    "name": "demo",
+    "api_key_env": "TENANT_DEMO_0_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "apple 介紹",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/demo_0/general.md",
+        "temperature": 0.7,
+        "use_grounding": false,
+        "search_keyword": "apple",
+        "allowed_domains": "https://www.apple.com",
+        "loading_message": "處理中",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false,
+        "frappe": null
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "demo_apple",
+      "title": "demo_apple_1",
+      "subtitle": "",
+      "welcomeMessage": "hi",
+      "placeholder": "hi",
+      "header": {
+        "color": "#606060",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#000000",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  }
+}
