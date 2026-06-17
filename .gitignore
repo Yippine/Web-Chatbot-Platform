@@ -34,6 +34,8 @@ yarn-error.log*
 .env
 .env.local
 .env.*.local
+backend/.env
+backend/.env.local
 
 # vercel
 .vercel
@@ -51,6 +53,10 @@ nginx.conf
 
 # backend runtime data (images only; tenants.json is versioned)
 backend/data/images/
+
+# sensitive backup archives
+sensitive-backup-*.tar.gz
+sensitive-backup-*.zip
 
 # --- BEGIN AI-CORE MANAGED (gitignore-sync) ---
 # ============================================================
