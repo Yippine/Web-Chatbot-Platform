@@ -226,9 +226,9 @@ class BaseGeminiService:
             parts=[types.Part(text=answer_text)]
         ))
         
-        # 限制歷史長度（保留最近2輪）
-        if len(contents) > 4:
-            contents = contents[-4:]
+        # 限制歷史長度（保留最近8輪，對應5條引導路線+確認來回）
+        if len(contents) > 16:
+            contents = contents[-16:]
         
         # 保存到 Redis
         session_save_start = time.time()

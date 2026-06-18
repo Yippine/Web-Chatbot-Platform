@@ -19,19 +19,38 @@
         "query_loading_message": "查詢資料中",
         "mode_message": "",
         "show_mode_message": true
+      },
+      "general": {
+        "name": "購車諮詢",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/second_hand_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "中古車 庫存 車款推薦",
+        "allowed_domains": "www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
       }
     },
     "quick_actions": [
       {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      },
+      {
         "service_id": "find_car",
-        "query": ""
+        "query": "I want to find a used car"
       }
     ],
     "appearance": {
       "pageTitle": "大成中古智慧購車",
       "title": "大成中古智慧購車精靈",
       "subtitle": "Dacheng AI Search",
-      "welcomeMessage": "你好",
+      "welcomeMessage": "歡迎來到大成中古！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
       "placeholder": "請輸入你的問題",
       "header": {
         "color": "#e53e3e",
@@ -1021,103 +1040,92 @@
       "textColor": "white"
     }
   },
-  "test": {
-    "id": "test",
-    "name": "test",
-    "api_key_env": "TENANT_TEST_GEMINI_API_KEY",
+  "hl_motor": {
+    "id": "hl_motor",
+    "name": "匯聯汽車智慧購車精靈",
+    "api_key_env": "TENANT_HL_MOTOR_GEMINI_API_KEY",
     "enabled": true,
     "services": {
       "general": {
-        "name": "通用對話",
-        "icon": "💬",
+        "name": "購車諮詢",
+        "icon": "🚗",
         "enabled": true,
         "class": "ChatService",
-        "prompt_file": "prompts/test/general.md",
-        "temperature": 0.7,
-        "use_grounding": false,
-        "search_keyword": "",
-        "allowed_domains": "",
-        "loading_message": "處理中",
-        "query_loading_message": "查詢資料中",
-        "mode_message": "",
-        "show_mode_message": false
-      },
-      "apple_intro": {
-        "name": "apple 導覽",
-        "icon": "⚙️",
-        "enabled": true,
-        "class": "ChatService",
-        "prompt_file": "prompts/test/apple_intro.md",
+        "prompt_file": "prompts/hl_motor/general.md",
         "temperature": 0.7,
         "use_grounding": true,
-        "search_keyword": "apple",
-        "allowed_domains": "https://www.apple.com",
-        "loading_message": "處理中",
+        "search_keyword": "中古車 庫存 車款推薦",
+        "allowed_domains": "www.hl-motor.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
         "query_loading_message": "查詢資料中",
-        "mode_message": "",
-        "show_mode_message": false
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
       }
     },
     "quick_actions": [
       {
-        "service_id": "apple_intro",
-        "query": ""
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
       }
     ],
     "appearance": {
-      "pageTitle": "",
-      "title": "",
-      "subtitle": "",
-      "welcomeMessage": "",
-      "placeholder": "",
+      "pageTitle": "匯聯汽車智慧購車",
+      "title": "匯聯汽車智慧購車精靈",
+      "subtitle": "HL Motor AI Assistant",
+      "welcomeMessage": "歡迎來到匯聯汽車！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
       "header": {
-        "type": "solid",
-        "color": "#000000"
+        "color": "#1a56db",
+        "type": "solid"
       },
       "button": {
-        "type": "solid",
-        "color": "#000000"
+        "color": "#3f83f8",
+        "type": "solid"
       },
       "chatIconUrl": "",
       "textColor": "white"
     }
   },
-  "demo_0": {
-    "id": "demo_0",
-    "name": "demo",
-    "api_key_env": "TENANT_DEMO_0_GEMINI_API_KEY",
+  "changyi_tyre": {
+    "id": "changyi_tyre",
+    "name": "昌一輪胎智慧選配精靈",
+    "api_key_env": "TENANT_CHANGYI_TYRE_GEMINI_API_KEY",
     "enabled": true,
     "services": {
       "general": {
-        "name": "apple 介紹",
-        "icon": "💬",
+        "name": "輪胎諮詢",
+        "icon": "🔧",
         "enabled": true,
         "class": "ChatService",
-        "prompt_file": "prompts/demo_0/general.md",
+        "prompt_file": "prompts/changyi_tyre/general.md",
         "temperature": 0.7,
-        "use_grounding": false,
-        "search_keyword": "apple",
-        "allowed_domains": "https://www.apple.com",
-        "loading_message": "處理中",
+        "use_grounding": true,
+        "search_keyword": "輪胎 輪框 汽車零件 品牌推薦",
+        "allowed_domains": "www.changyityre.com.tw",
+        "loading_message": "為您查詢最適合的輪胎，請稍候",
         "query_loading_message": "查詢資料中",
-        "mode_message": "",
-        "show_mode_message": false,
-        "frappe": null
+        "mode_message": "想換輪胎嗎？\n告訴我您的車型和需求，30 分鐘內幫您找到最合適的輪胎！",
+        "show_mode_message": true
       }
     },
-    "quick_actions": [],
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想幫我的車換輪胎"
+      }
+    ],
     "appearance": {
-      "pageTitle": "demo_apple",
-      "title": "demo_apple_1",
-      "subtitle": "",
-      "welcomeMessage": "hi",
-      "placeholder": "hi",
+      "pageTitle": "昌一輪胎智慧選配",
+      "title": "昌一輪胎智慧選配精靈",
+      "subtitle": "Changyi Tyre AI Assistant",
+      "welcomeMessage": "歡迎來到昌一輪胎！我是您的 AI 輪胎顧問，告訴我您的車型和需求，30 分鐘內幫您選到最合適的輪胎 🔧",
+      "placeholder": "請輸入你的問題",
       "header": {
-        "color": "#606060",
+        "color": "#0e9f6e",
         "type": "solid"
       },
       "button": {
-        "color": "#000000",
+        "color": "#31c48d",
         "type": "solid"
       },
       "chatIconUrl": "",
