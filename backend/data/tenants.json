@@ -17,7 +17,7 @@
         "allowed_domains": "www.sum.com.tw",
         "loading_message": "資料搜尋中，請稍等",
         "query_loading_message": "查詢資料中",
-        "mode_message": "",
+        "mode_message": "Looking for a used car in Taiwan? 🚗\nTell me your needs and budget — I'll help you find the right one within 30 minutes!",
         "show_mode_message": true
       },
       "general": {
@@ -43,7 +43,7 @@
       },
       {
         "service_id": "find_car",
-        "query": "I want to find a used car"
+        "query": "I'm looking for a used car"
       }
     ],
     "appearance": {
@@ -1126,6 +1126,2950 @@
       },
       "button": {
         "color": "#31c48d",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "hong_an_car": {
+    "id": "hong_an_car",
+    "name": "宏安汽車智慧購車精靈",
+    "api_key_env": "TENANT_HONG_AN_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/hong_an_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "宏安汽車 中古車 庫存 車款推薦",
+        "allowed_domains": "www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "宏安汽車智慧購車",
+      "title": "宏安汽車智慧購車精靈",
+      "subtitle": "Hong An Car AI Assistant",
+      "welcomeMessage": "歡迎來到宏安汽車！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#c0392b",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#e74c3c",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "yong_chun_car": {
+    "id": "yong_chun_car",
+    "name": "永春中古汽車智慧購車精靈",
+    "api_key_env": "TENANT_YONG_CHUN_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/yong_chun_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "永春中古汽車 中古車 庫存 車款推薦",
+        "allowed_domains": "www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "永春中古汽車智慧購車",
+      "title": "永春中古汽車智慧購車精靈",
+      "subtitle": "Yong Chun Car AI Assistant",
+      "welcomeMessage": "歡迎來到永春中古汽車！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "hui_xin_car": {
+    "id": "hui_xin_car",
+    "name": "匯新中古汽車智慧購車精靈",
+    "api_key_env": "TENANT_HUI_XIN_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/hui_xin_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "匯新中古汽車 中古車 庫存 車款推薦",
+        "allowed_domains": "www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "匯新中古汽車智慧購車",
+      "title": "匯新中古汽車智慧購車精靈",
+      "subtitle": "Hui Xin Car AI Assistant",
+      "welcomeMessage": "歡迎來到匯新中古汽車！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#0e9f6e",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#31c48d",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "yong_hao_car": {
+    "id": "yong_hao_car",
+    "name": "永濠中古汽車智慧購車精靈",
+    "api_key_env": "TENANT_YONG_HAO_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/yong_hao_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "永濠中古汽車 中古車 庫存 車款推薦",
+        "allowed_domains": "www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "永濠中古汽車智慧購車",
+      "title": "永濠中古汽車智慧購車精靈",
+      "subtitle": "Yong Hao Car AI Assistant",
+      "welcomeMessage": "歡迎來到永濠中古汽車！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#6d28d9",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#8b5cf6",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "shi_he_car": {
+    "id": "shi_he_car",
+    "name": "世和汽車智慧購車精靈",
+    "api_key_env": "TENANT_SHI_HE_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/shi_he_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "世和汽車 中古車 庫存 車款推薦",
+        "allowed_domains": "www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "世和汽車智慧購車",
+      "title": "世和汽車智慧購車精靈",
+      "subtitle": "Shi He Car AI Assistant",
+      "welcomeMessage": "歡迎來到世和汽車！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#b45309",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#d97706",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "yong_da_car": {
+    "id": "yong_da_car",
+    "name": "永大國際汽車智慧購車精靈",
+    "api_key_env": "TENANT_YONG_DA_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/yong_da_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "永大國際汽車 中古車 庫存 車款推薦",
+        "allowed_domains": "www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "永大國際汽車智慧購車",
+      "title": "永大國際汽車智慧購車精靈",
+      "subtitle": "Yong Da Car AI Assistant",
+      "welcomeMessage": "歡迎來到永大國際汽車！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#0369a1",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#0ea5e9",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "yong_long_car": {
+    "id": "yong_long_car",
+    "name": "永隆汽車智慧購車精靈",
+    "api_key_env": "TENANT_YONG_LONG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/yong_long_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "永隆汽車 中古車 庫存 車款推薦",
+        "allowed_domains": "www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "永隆汽車智慧購車",
+      "title": "永隆汽車智慧購車精靈",
+      "subtitle": "Yong Long Car AI Assistant",
+      "welcomeMessage": "歡迎來到永隆汽車！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#065f46",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#10b981",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "quan_sheng_car": {
+    "id": "quan_sheng_car",
+    "name": "全盛汽車智慧購車精靈",
+    "api_key_env": "TENANT_QUAN_SHENG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/quan_sheng_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "全盛汽車 中古車 庫存 車款推薦",
+        "allowed_domains": "www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "全盛汽車智慧購車",
+      "title": "全盛汽車智慧購車精靈",
+      "subtitle": "Quan Sheng Car AI Assistant",
+      "welcomeMessage": "歡迎來到全盛汽車！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#7c3aed",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#a78bfa",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "zhong_gang_car": {
+    "id": "zhong_gang_car",
+    "name": "中港汽車智慧購車精靈",
+    "api_key_env": "TENANT_ZHONG_GANG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/zhong_gang_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "中港汽車 中古車 庫存 車款推薦",
+        "allowed_domains": "www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "中港汽車智慧購車",
+      "title": "中港汽車智慧購車精靈",
+      "subtitle": "Zhong Gang Car AI Assistant",
+      "welcomeMessage": "歡迎來到中港汽車！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1e3a5f",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#2563eb",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "zhong_zhang_tou_car": {
+    "id": "zhong_zhang_tou_car",
+    "name": "中彰投汽車有限公司智慧購車精靈",
+    "api_key_env": "TENANT_ZHONG_ZHANG_TOU_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/zhong_zhang_tou_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "中彰投汽車有限公司 8891 中古車",
+        "allowed_domains": "www.8891.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "中彰投汽車有限公司智慧購車",
+      "title": "中彰投汽車有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到中彰投汽車有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "san_zhi_xiao_zhu_car": {
+    "id": "san_zhi_xiao_zhu_car",
+    "name": "三隻小豬車坊智慧購車精靈",
+    "api_key_env": "TENANT_SAN_ZHI_XIAO_ZHU_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/san_zhi_xiao_zhu_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "三隻小豬車坊 8891 中古車",
+        "allowed_domains": "www.8891.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "三隻小豬車坊智慧購車",
+      "title": "三隻小豬車坊智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到三隻小豬車坊！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "shang_ding_car": {
+    "id": "shang_ding_car",
+    "name": "尚鼎汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_SHANG_DING_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/shang_ding_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "尚鼎汽車商行 8891 中古車",
+        "allowed_domains": "www.8891.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "尚鼎汽車商行智慧購車",
+      "title": "尚鼎汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到尚鼎汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "zhen_ji_car": {
+    "id": "zhen_ji_car",
+    "name": "朕極汽車有限公司智慧購車精靈",
+    "api_key_env": "TENANT_ZHEN_JI_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/zhen_ji_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "朕極汽車有限公司 8891 中古車",
+        "allowed_domains": "www.8891.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "朕極汽車有限公司智慧購車",
+      "title": "朕極汽車有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到朕極汽車有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "li_zhang_car": {
+    "id": "li_zhang_car",
+    "name": "力彰汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_LI_ZHANG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/li_zhang_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "力彰汽車商行 8891 中古車",
+        "allowed_domains": "www.8891.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "力彰汽車商行智慧購車",
+      "title": "力彰汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到力彰汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "zhong_xin_car": {
+    "id": "zhong_xin_car",
+    "name": "中信汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_ZHONG_XIN_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/zhong_xin_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "中信汽車商行 8891 中古車",
+        "allowed_domains": "www.8891.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "中信汽車商行智慧購車",
+      "title": "中信汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到中信汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "liu_xin_car": {
+    "id": "liu_xin_car",
+    "name": "六信國際汽車有限公司智慧購車精靈",
+    "api_key_env": "TENANT_LIU_XIN_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/liu_xin_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "六信國際汽車有限公司 8891 中古車",
+        "allowed_domains": "www.8891.com.tw,auto.8891.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "六信國際汽車有限公司智慧購車",
+      "title": "六信國際汽車有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到六信國際汽車有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "hong_yi_car": {
+    "id": "hong_yi_car",
+    "name": "弘益汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_HONG_YI_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/hong_yi_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "弘益汽車商行 8891 中古車",
+        "allowed_domains": "www.8891.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "弘益汽車商行智慧購車",
+      "title": "弘益汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到弘益汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "gao_tong_car": {
+    "id": "gao_tong_car",
+    "name": "高通汽車有限公司智慧購車精靈",
+    "api_key_env": "TENANT_GAO_TONG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/gao_tong_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "高通汽車有限公司 8891 中古車",
+        "allowed_domains": "www.8891.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "高通汽車有限公司智慧購車",
+      "title": "高通汽車有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到高通汽車有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "quan_yi_car": {
+    "id": "quan_yi_car",
+    "name": "銓鎰汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_QUAN_YI_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/quan_yi_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "銓鎰汽車商行 8891 中古車",
+        "allowed_domains": "www.8891.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "銓鎰汽車商行智慧購車",
+      "title": "銓鎰汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到銓鎰汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "fu_da_car": {
+    "id": "fu_da_car",
+    "name": "福大汽車有限公司智慧購車精靈",
+    "api_key_env": "TENANT_FU_DA_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/fu_da_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "福大汽車有限公司 8891 中古車",
+        "allowed_domains": "www.8891.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "福大汽車有限公司智慧購車",
+      "title": "福大汽車有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到福大汽車有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "jia_sheng_car": {
+    "id": "jia_sheng_car",
+    "name": "佳昇汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_JIA_SHENG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/jia_sheng_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "佳昇汽車商行 8891 中古車",
+        "allowed_domains": "www.8891.com.tw,auto.8891.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "佳昇汽車商行智慧購車",
+      "title": "佳昇汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到佳昇汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "zhan_shun_car": {
+    "id": "zhan_shun_car",
+    "name": "展順汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_ZHAN_SHUN_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/zhan_shun_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "展順汽車商行 8891 中古車",
+        "allowed_domains": "www.8891.com.tw,auto.8891.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "展順汽車商行智慧購車",
+      "title": "展順汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到展順汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "ou_li_ke_car": {
+    "id": "ou_li_ke_car",
+    "name": "歐力克汽車有限公司智慧購車精靈",
+    "api_key_env": "TENANT_OU_LI_KE_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/ou_li_ke_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "歐力克汽車有限公司 8891 中古車",
+        "allowed_domains": "www.8891.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "歐力克汽車有限公司智慧購車",
+      "title": "歐力克汽車有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到歐力克汽車有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "sheng_tong_car": {
+    "id": "sheng_tong_car",
+    "name": "盛通車業智慧購車精靈",
+    "api_key_env": "TENANT_SHENG_TONG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/sheng_tong_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "盛通車業 8891 中古車",
+        "allowed_domains": "www.8891.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "盛通車業智慧購車",
+      "title": "盛通車業智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到盛通車業！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "zhao_heng_car": {
+    "id": "zhao_heng_car",
+    "name": "兆亨車業股份有限公司智慧購車精靈",
+    "api_key_env": "TENANT_ZHAO_HENG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/zhao_heng_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "兆亨車業股份有限公司 8891 中古車",
+        "allowed_domains": "www.8891.com.tw,auto.8891.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "兆亨車業股份有限公司智慧購車",
+      "title": "兆亨車業股份有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到兆亨車業股份有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "da_cheng_car": {
+    "id": "da_cheng_car",
+    "name": "大成汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_DA_CHENG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/da_cheng_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "大成汽車商行 8891 中古車",
+        "allowed_domains": "www.8891.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "大成汽車商行智慧購車",
+      "title": "大成汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到大成汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "qian_xiang_car": {
+    "id": "qian_xiang_car",
+    "name": "千祥汽車有限公司智慧購車精靈",
+    "api_key_env": "TENANT_QIAN_XIANG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/qian_xiang_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "千祥汽車有限公司 8891 中古車",
+        "allowed_domains": "www.8891.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "千祥汽車有限公司智慧購車",
+      "title": "千祥汽車有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到千祥汽車有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "you_shun_car": {
+    "id": "you_shun_car",
+    "name": "佑順汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_YOU_SHUN_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/you_shun_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "佑順汽車商行 8891 中古車",
+        "allowed_domains": "www.8891.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "佑順汽車商行智慧購車",
+      "title": "佑順汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到佑順汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "shun_xing_car": {
+    "id": "shun_xing_car",
+    "name": "順興汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_SHUN_XING_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/shun_xing_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "順興汽車商行 8891 中古車",
+        "allowed_domains": "www.8891.com.tw,auto.8891.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "順興汽車商行智慧購車",
+      "title": "順興汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到順興汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "di_yi_pian_yi_car": {
+    "id": "di_yi_pian_yi_car",
+    "name": "第一便宜中古車行智慧購車精靈",
+    "api_key_env": "TENANT_DI_YI_PIAN_YI_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/di_yi_pian_yi_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "第一便宜中古車行 8891 中古車",
+        "allowed_domains": "www.8891.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "第一便宜中古車行智慧購車",
+      "title": "第一便宜中古車行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到第一便宜中古車行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "ju_sheng_car": {
+    "id": "ju_sheng_car",
+    "name": "聚勝汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_JU_SHENG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/ju_sheng_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "聚勝汽車商行 8891 中古車",
+        "allowed_domains": "www.8891.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "聚勝汽車商行智慧購車",
+      "title": "聚勝汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到聚勝汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "gao_sheng_car": {
+    "id": "gao_sheng_car",
+    "name": "高盛汽車有限公司智慧購車精靈",
+    "api_key_env": "TENANT_GAO_SHENG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/gao_sheng_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "高盛汽車有限公司 8891 中古車",
+        "allowed_domains": "www.8891.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "高盛汽車有限公司智慧購車",
+      "title": "高盛汽車有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到高盛汽車有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "zheng_feng_car": {
+    "id": "zheng_feng_car",
+    "name": "正峰汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_ZHENG_FENG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/zheng_feng_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "正峰汽車商行 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "正峰汽車商行智慧購車",
+      "title": "正峰汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到正峰汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "shang_hong_car": {
+    "id": "shang_hong_car",
+    "name": "尚宏汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_SHANG_HONG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/shang_hong_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "尚宏汽車商行 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "尚宏汽車商行智慧購車",
+      "title": "尚宏汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到尚宏汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "ming_xin_car": {
+    "id": "ming_xin_car",
+    "name": "銘新汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_MING_XIN_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/ming_xin_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "銘新汽車商行 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "銘新汽車商行智慧購車",
+      "title": "銘新汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到銘新汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "hong_wei_car": {
+    "id": "hong_wei_car",
+    "name": "宏威汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_HONG_WEI_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/hong_wei_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "宏威汽車商行 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "宏威汽車商行智慧購車",
+      "title": "宏威汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到宏威汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "yuan_feng_car": {
+    "id": "yuan_feng_car",
+    "name": "源豐汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_YUAN_FENG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/yuan_feng_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "源豐汽車商行 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "源豐汽車商行智慧購車",
+      "title": "源豐汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到源豐汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "an_xin_car": {
+    "id": "an_xin_car",
+    "name": "安心汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_AN_XIN_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/an_xin_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "安心汽車商行 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "安心汽車商行智慧購車",
+      "title": "安心汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到安心汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "lian_cheng_car": {
+    "id": "lian_cheng_car",
+    "name": "聯成商行智慧購車精靈",
+    "api_key_env": "TENANT_LIAN_CHENG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/lian_cheng_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "聯成商行 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "聯成商行智慧購車",
+      "title": "聯成商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到聯成商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "quan_you_car": {
+    "id": "quan_you_car",
+    "name": "全宥汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_QUAN_YOU_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/quan_you_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "全宥汽車商行 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "全宥汽車商行智慧購車",
+      "title": "全宥汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到全宥汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "zhong_mei_car": {
+    "id": "zhong_mei_car",
+    "name": "中美汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_ZHONG_MEI_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/zhong_mei_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "中美汽車商行 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "中美汽車商行智慧購車",
+      "title": "中美汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到中美汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "guang_xin_car": {
+    "id": "guang_xin_car",
+    "name": "光信汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_GUANG_XIN_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/guang_xin_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "光信汽車商行 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "光信汽車商行智慧購車",
+      "title": "光信汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到光信汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "bai_tong_car": {
+    "id": "bai_tong_car",
+    "name": "百通汽車有限公司智慧購車精靈",
+    "api_key_env": "TENANT_BAI_TONG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/bai_tong_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "百通汽車有限公司 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "百通汽車有限公司智慧購車",
+      "title": "百通汽車有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到百通汽車有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "ge_rui_car": {
+    "id": "ge_rui_car",
+    "name": "格瑞汽車有限公司智慧購車精靈",
+    "api_key_env": "TENANT_GE_RUI_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/ge_rui_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "格瑞汽車有限公司 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "格瑞汽車有限公司智慧購車",
+      "title": "格瑞汽車有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到格瑞汽車有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "xin_tong_car": {
+    "id": "xin_tong_car",
+    "name": "信通汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_XIN_TONG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/xin_tong_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "信通汽車商行 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "信通汽車商行智慧購車",
+      "title": "信通汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到信通汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "yong_xing_car": {
+    "id": "yong_xing_car",
+    "name": "永星汽車有限公司智慧購車精靈",
+    "api_key_env": "TENANT_YONG_XING_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/yong_xing_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "永星汽車有限公司 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "永星汽車有限公司智慧購車",
+      "title": "永星汽車有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到永星汽車有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "yi_feng_car": {
+    "id": "yi_feng_car",
+    "name": "億豐汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_YI_FENG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/yi_feng_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "億豐汽車商行 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "億豐汽車商行智慧購車",
+      "title": "億豐汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到億豐汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "ge_shang_car": {
+    "id": "ge_shang_car",
+    "name": "格上汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_GE_SHANG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/ge_shang_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "格上汽車商行 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "格上汽車商行智慧購車",
+      "title": "格上汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到格上汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "xin_yi_car": {
+    "id": "xin_yi_car",
+    "name": "鑫益汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_XIN_YI_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/xin_yi_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "鑫益汽車商行 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "鑫益汽車商行智慧購車",
+      "title": "鑫益汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到鑫益汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "xin_feng_car": {
+    "id": "xin_feng_car",
+    "name": "信豐汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_XIN_FENG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/xin_feng_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "信豐汽車商行 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "信豐汽車商行智慧購車",
+      "title": "信豐汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到信豐汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "shang_tai_car": {
+    "id": "shang_tai_car",
+    "name": "上太汽車有限公司智慧購車精靈",
+    "api_key_env": "TENANT_SHANG_TAI_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/shang_tai_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "上太汽車有限公司 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "上太汽車有限公司智慧購車",
+      "title": "上太汽車有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到上太汽車有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "qiao_lun_car": {
+    "id": "qiao_lun_car",
+    "name": "僑輪汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_QIAO_LUN_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/qiao_lun_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "僑輪汽車商行 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "僑輪汽車商行智慧購車",
+      "title": "僑輪汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到僑輪汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "cheng_yun_car": {
+    "id": "cheng_yun_car",
+    "name": "晟運汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_CHENG_YUN_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/cheng_yun_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "晟運汽車商行 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "晟運汽車商行智慧購車",
+      "title": "晟運汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到晟運汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "ming_yi_car": {
+    "id": "ming_yi_car",
+    "name": "明億汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_MING_YI_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/ming_yi_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "明億汽車商行 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "明億汽車商行智慧購車",
+      "title": "明億汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到明億汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "cheng_long_car": {
+    "id": "cheng_long_car",
+    "name": "承龍汽車有限公司智慧購車精靈",
+    "api_key_env": "TENANT_CHENG_LONG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/cheng_long_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "承龍汽車有限公司 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "承龍汽車有限公司智慧購車",
+      "title": "承龍汽車有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到承龍汽車有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "shi_yi_car": {
+    "id": "shi_yi_car",
+    "name": "世億汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_SHI_YI_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/shi_yi_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "世億汽車商行 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "世億汽車商行智慧購車",
+      "title": "世億汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到世億汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "yong_xing2_car": {
+    "id": "yong_xing2_car",
+    "name": "永興汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_YONG_XING2_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/yong_xing2_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "永興汽車商行 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "永興汽車商行智慧購車",
+      "title": "永興汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到永興汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "jian_chang_car": {
+    "id": "jian_chang_car",
+    "name": "見昌汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_JIAN_CHANG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/jian_chang_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "見昌汽車商行 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "見昌汽車商行智慧購車",
+      "title": "見昌汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到見昌汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "hong_yu_car": {
+    "id": "hong_yu_car",
+    "name": "鴻宇汽車有限公司智慧購車精靈",
+    "api_key_env": "TENANT_HONG_YU_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/hong_yu_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "鴻宇汽車有限公司 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "鴻宇汽車有限公司智慧購車",
+      "title": "鴻宇汽車有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到鴻宇汽車有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "yong_chuan_tai_car": {
+    "id": "yong_chuan_tai_car",
+    "name": "永川泰汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_YONG_CHUAN_TAI_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/yong_chuan_tai_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "永川泰汽車商行 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "永川泰汽車商行智慧購車",
+      "title": "永川泰汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到永川泰汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "ming_wei_car": {
+    "id": "ming_wei_car",
+    "name": "名威企業有限公司智慧購車精靈",
+    "api_key_env": "TENANT_MING_WEI_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/ming_wei_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "名威企業有限公司 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "名威企業有限公司智慧購車",
+      "title": "名威企業有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到名威企業有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "pin_zun_car": {
+    "id": "pin_zun_car",
+    "name": "品尊汽車有限公司智慧購車精靈",
+    "api_key_env": "TENANT_PIN_ZUN_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/pin_zun_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "品尊汽車有限公司 abccar 中古車",
+        "allowed_domains": "www.abccar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "品尊汽車有限公司智慧購車",
+      "title": "品尊汽車有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到品尊汽車有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "yong_wei_car": {
+    "id": "yong_wei_car",
+    "name": "永崴車業行智慧購車精靈",
+    "api_key_env": "TENANT_YONG_WEI_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/yong_wei_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "永崴車業行 hotcar 中古車",
+        "allowed_domains": "www.hotcar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "永崴車業行智慧購車",
+      "title": "永崴車業行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到永崴車業行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "yi_jia_ting_car": {
+    "id": "yi_jia_ting_car",
+    "name": "易佳廷汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_YI_JIA_TING_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/yi_jia_ting_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "易佳廷汽車商行 hotcar 中古車",
+        "allowed_domains": "www.hotcar.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "易佳廷汽車商行智慧購車",
+      "title": "易佳廷汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到易佳廷汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
         "type": "solid"
       },
       "chatIconUrl": "",
