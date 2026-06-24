@@ -26,6 +26,24 @@ service_factory = ServiceFactory(tenant_manager)
 # 初始化 DB + 非同步 log pool
 init_db()
 _log_pool = ThreadPoolExecutor(max_workers=4)
+# LINE webhook 背景處理 pool（webhook 須秒回 200，AI 處理丟背景）
+_line_pool = ThreadPoolExecutor(max_workers=4)
+
+# 語言代碼 → 語言名稱（供 response_language 使用）
+LANG_NAME_MAP = {
+    "en": "English", "ja": "Japanese", "ko": "Korean",
+    "vi": "Vietnamese", "id": "Indonesian", "th": "Thai"
+}
+
+
+class ServiceUnavailable(Exception):
+    """服務無法建立（對應 HTTP 503）"""
+    pass
+
+
+class UnsupportedOperation(Exception):
+    """服務不支援此操作（對應 HTTP 400）"""
+    pass
 
 @app.route("/api/health", methods=["GET"])
 def health():
@@ -106,27 +124,19 @@ def detect_language():
         traceback.print_exc()
         return jsonify({"detected_language": {"language_code": "zh-TW", "language_name": "Traditional Chinese"}})
 
-@app.route("/api/chat/intent", methods=["POST"])
-@require_tenant(tenant_manager)
-def detect_intent():
-    """AI 意圖判斷端點"""
-    data = request.json
-    message = data.get("message")
-    
-    if not message:
-        return jsonify({"error": "缺少訊息內容"}), 400
-    
+def classify_intent(tenant_id: str, tenant: dict, message: str) -> str:
+    """通路無關的意圖判斷：回傳服務 ID 或 'general'。
+
+    候選池 = 所有 enabled 且非 general 的服務（web 與 LINE 共用同一套）。
+    任何錯誤皆 fallback 'general'（永不拋出）。
+    """
     try:
-        tenant_id = request.tenant_id
-        tenant = request.tenant
-        
-        # 取得該租戶所有啟用的服務（排除 general）
         services = tenant.get("services", {})
         enabled_services = {k: v for k, v in services.items() if v.get("enabled", True) and k != "general"}
-        
+
         if not enabled_services:
-            return jsonify({"intent": "general"})
-        
+            return "general"
+
         # 動態產生意圖選項
         service_options = []
         for sid, sconfig in enabled_services.items():
@@ -137,9 +147,9 @@ def detect_intent():
                 doctypes = [q.get("doctype", "") for q in sconfig["frappe"].get("queries", [])]
                 keyword = f"{name} {' '.join(doctypes)}"
             service_options.append(f'- "{sid}"：{name}（相關主題：{keyword}）')
-        
+
         options_text = "\n".join(service_options)
-        
+
         intent_prompt = f"""你是意圖分類器。根據使用者的問題，判斷最適合的服務 ID。
 可用服務：
 {options_text}
@@ -152,7 +162,7 @@ def detect_intent():
 
 問題：{message}
 回答："""
-        
+
         # 用任一服務的 API key 做意圖判斷
         api_key = tenant.get("gemini_api_key")
         if not api_key:
@@ -160,12 +170,11 @@ def detect_intent():
             if _env_key:
                 api_key = os.environ.get(_env_key)
         if not api_key:
-            return jsonify({"intent": "general"})
-        
+            return "general"
+
         from google import genai
         from google.genai import types
-        import time
-        
+
         client = genai.Client(api_key=api_key)
         response = client.models.generate_content(
             model="gemini-2.5-flash",
@@ -175,154 +184,130 @@ def detect_intent():
                 thinking_config=types.ThinkingConfig(thinking_budget=0)
             )
         )
-        
-        intent_raw = response.text.strip().strip('「」').strip().strip('"').strip("'")
 
-        # 大小寫不敏感比對，還原為 enabled_services 的原始 key
+        intent_raw = response.text.strip().strip('「」').strip().strip('"').strip("'")
         matched = next((k for k in enabled_services if k.lower() == intent_raw.lower()), None)
         intent = matched if matched else "general"
-        
         print(f"[Intent] 租戶={tenant_id}, 訊息={message[:30]}, raw={intent_raw}, 意圖={intent}, 可用={list(enabled_services.keys())}")
-        return jsonify({"intent": intent})
-        
-    except Exception as e:
+        return intent
+
+    except Exception:
         import traceback
         traceback.print_exc()
-        return jsonify({"intent": "general"})
+        return "general"
+
+
+@app.route("/api/chat/intent", methods=["POST"])
+@require_tenant(tenant_manager)
+def detect_intent():
+    """AI 意圖判斷端點"""
+    data = request.json
+    message = data.get("message")
+
+    if not message:
+        return jsonify({"error": "缺少訊息內容"}), 400
+
+    intent = classify_intent(request.tenant_id, request.tenant, message)
+    return jsonify({"intent": intent})
+
+def process_message(tenant_id: str, tenant: dict, message: str, user_id: str = "default",
+                    mode: str = None, lang: str = None, lat_lng=None) -> dict:
+    """通路無關的對話協調器：建服務 → 依類別分派 → 組裝回覆 → 記錄統計。
+
+    回傳 {type, response, references, tool_used?}。
+    服務無法建立時 raise ServiceUnavailable；服務不支援對話時 raise UnsupportedOperation。
+    供 /api/chat（HTTP）與 LINE webhook 共用，不複製對話分派邏輯。
+    """
+    response_language = LANG_NAME_MAP.get(lang) if lang else None
+    intent = mode if mode else 'general'
+
+    # 檢查是否有對應的 quick_action 設定
+    quick_action_config = None
+    if mode:
+        for qa in tenant.get('quick_actions', []):
+            if qa.get('service') == mode:
+                quick_action_config = qa
+                break
+
+    # 舊版意圖映射 (向下相容)；不在表中者直接當服務名（支援自訂服務）
+    service_map = {
+        'route': 'route', 'recommend': 'recommend', 'events': 'event',
+        'event': 'event', 'floors': 'floor', 'floor': 'floor', 'general': 'general'
+    }
+    service_name = service_map.get(intent, intent)
+
+    if quick_action_config:
+        service = create_service_from_quick_action(tenant_id, tenant, quick_action_config)
+    else:
+        service = service_factory.create_service(tenant_id, service_name)
+
+    if not service:
+        raise ServiceUnavailable(f"服務 '{service_name}' 不可用")
+
+    from services.query_service import QueryService
+    from services.chat_service import ChatService
+    from services.smart_route_service import SmartRouteService
+
+    t0 = time.time()
+
+    def _log():
+        response_ms = int((time.time() - t0) * 1000)
+        _log_pool.submit(db_log, tenant_id=tenant_id, session_id=user_id,
+                         direction="bot", service_name=service_name,
+                         response_ms=response_ms, lang=lang or "zh-TW")
+
+    if isinstance(service, QueryService):
+        result = service.query_data(message, user_id=user_id, response_language=response_language)
+        _log()
+        return {"type": "query", "response": result["response"],
+                "references": result.get("references", [])}
+
+    elif isinstance(service, SmartRouteService):
+        result = service.plan_route(message=message, user_id=user_id,
+                                    response_language=response_language, lat_lng=lat_lng)
+        _log()
+        return {"type": "route", "response": result["route"],
+                "references": result.get("references", []),
+                "tool_used": result.get("tool_used")}
+
+    elif isinstance(service, ChatService):
+        result = service.chat(message, user_id=user_id, response_language=response_language)
+        _log()
+        return {"type": "chat", "response": result["response"],
+                "references": result.get("references", [])}
+
+    else:
+        if hasattr(service, 'chat'):
+            result = service.chat(message, user_id=user_id, response_language=response_language)
+            _log()
+            return {"type": "general", "response": result.get("response") or result.get("text"),
+                    "references": result.get("references", [])}
+        raise UnsupportedOperation("服務不支援此操作")
+
 
 @app.route("/api/chat", methods=["POST"])
 @require_tenant(tenant_manager)
 def chat():
-    """統一聊天接口（多租戶版）"""
+    """統一聊天接口（多租戶版）— 委派通路無關的 process_message()"""
     data = request.json
     message = data.get("message")
-    user_id = data.get("user_id", "default")
-    forced_mode = data.get("mode")
-    lang = data.get("lang")
-    lat_lng = data.get("lat_lng")
-    
-    # 語言代碼轉語言名稱（供 response_language 使用）
-    lang_name_map = {
-        "en": "English", "ja": "Japanese", "ko": "Korean",
-        "vi": "Vietnamese", "id": "Indonesian", "th": "Thai"
-    }
-    response_language = lang_name_map.get(lang) if lang else None
-    
+
     if not message:
         return jsonify({"error": "缺少訊息內容"}), 400
-    
+
     try:
-        tenant_id = request.tenant_id
-        tenant = request.tenant
-        
-        # 使用前端傳入的模式
-        intent = forced_mode if forced_mode else 'general'
-        
-        # 檢查是否有對應的 quick_action 設定
-        quick_action_config = None
-        if forced_mode:
-            for qa in tenant.get('quick_actions', []):
-                if qa.get('service') == forced_mode:
-                    quick_action_config = qa
-                    break
-        
-        # 根據意圖建立對應服務
-        # 舊版意圖映射 (向下相容)
-        service_map = {
-            'route': 'route',
-            'recommend': 'recommend',
-            'events': 'event',
-            'event': 'event',
-            'floors': 'floor',
-            'floor': 'floor',
-            'general': 'general'
-        }
-        
-        # 如果 intent 在 service_map 中,使用映射值;否則直接使用 intent (支援自訂服務如 bu1, bu2)
-        service_name = service_map.get(intent, intent)
-        
-        # 如果有 quick_action 設定,使用它的參數動態建立服務
-        if quick_action_config:
-            service = create_service_from_quick_action(tenant_id, tenant, quick_action_config)
-        else:
-            service = service_factory.create_service(tenant_id, service_name)
-        
-        if not service:
-            return jsonify({"error": f"服務 '{service_name}' 不可用"}), 503
-        
-        # 根據服務類別呼叫對應方法
-        from services.query_service import QueryService
-        from services.chat_service import ChatService
-        from services.smart_route_service import SmartRouteService
-        
-        t0 = time.time()
-        
-        if isinstance(service, QueryService):
-            result = service.query_data(message, user_id=user_id, response_language=response_language)
-            response_ms = int((time.time() - t0) * 1000)
-            # 空白訊息調查 log
-            if not result.get("response") or not result["response"].strip():
-                print(f"[Chat API] 🚨 空白訊息調查: QueryService 回傳空白! tenant={tenant_id}, service={service_name}, msg='{message[:50]}'")
-            _log_pool.submit(db_log, tenant_id=tenant_id, session_id=user_id,
-                             direction="bot", service_name=service_name,
-                             response_ms=response_ms, lang=lang or "zh-TW")
-            return jsonify({
-                "type": "query",
-                "response": result["response"],
-                "references": result.get("references", [])
-            })
-        
-        elif isinstance(service, SmartRouteService):
-            result = service.plan_route(message=message, user_id=user_id, response_language=response_language, lat_lng=lat_lng)
-            response_ms = int((time.time() - t0) * 1000)
-            # 空白訊息調查 log
-            if not result.get("route") or not result["route"].strip():
-                print(f"[Chat API] 🚨 空白訊息調查: SmartRouteService 回傳空白! tenant={tenant_id}, service={service_name}, msg='{message[:50]}'")
-            _log_pool.submit(db_log, tenant_id=tenant_id, session_id=user_id,
-                             direction="bot", service_name=service_name,
-                             response_ms=response_ms, lang=lang or "zh-TW")
-            return jsonify({
-                "type": "route",
-                "response": result["route"],
-                "references": result.get("references", []),
-                "tool_used": result.get("tool_used")
-            })
-        
-        elif isinstance(service, ChatService):
-            result = service.chat(message, user_id=user_id, response_language=response_language)
-            response_ms = int((time.time() - t0) * 1000)
-            # 空白訊息調查 log
-            if not result.get("response") or not result["response"].strip():
-                print(f"[Chat API] 🚨 空白訊息調查: ChatService 回傳空白! tenant={tenant_id}, service={service_name}, msg='{message[:50]}'")
-            _log_pool.submit(db_log, tenant_id=tenant_id, session_id=user_id,
-                             direction="bot", service_name=service_name,
-                             response_ms=response_ms, lang=lang or "zh-TW")
-            return jsonify({
-                "type": "chat",
-                "response": result["response"],
-                "references": result.get("references", [])
-            })
-        
-        else:
-            # 預設：嘗試呼叫 chat() 方法
-            if hasattr(service, 'chat'):
-                result = service.chat(message, user_id=user_id, response_language=response_language)
-                response_ms = int((time.time() - t0) * 1000)
-                # 空白訊息調查 log
-                response_text = result.get("response") or result.get("text")
-                if not response_text or not response_text.strip():
-                    print(f"[Chat API] 🚨 空白訊息調查: 預設服務回傳空白! tenant={tenant_id}, service={service_name}, msg='{message[:50]}'")
-                _log_pool.submit(db_log, tenant_id=tenant_id, session_id=user_id,
-                                 direction="bot", service_name=service_name,
-                                 response_ms=response_ms, lang=lang or "zh-TW")
-                return jsonify({
-                    "type": "general",
-                    "response": result.get("response") or result.get("text"),
-                    "references": result.get("references", [])
-                })
-            else:
-                return jsonify({"error": "服務不支援此操作"}), 400
-            
+        result = process_message(
+            request.tenant_id, request.tenant, message,
+            user_id=data.get("user_id", "default"),
+            mode=data.get("mode"),
+            lang=data.get("lang"),
+            lat_lng=data.get("lat_lng"),
+        )
+        return jsonify(result)
+    except ServiceUnavailable as e:
+        return jsonify({"error": str(e)}), 503
+    except UnsupportedOperation as e:
+        return jsonify({"error": str(e)}), 400
     except Exception as e:
         import traceback
         traceback.print_exc()
@@ -465,6 +450,78 @@ def query_data():
         import traceback
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
+
+# ==================== LINE 通路 ====================
+
+def _handle_line_message(tenant_id: str, line, text: str, user_id: str, reply_token: str):
+    """背景處理 LINE 訊息：意圖路由 → process_message → markdown 降級 → reply/push。
+
+    LINE 行為與 web 一致：永遠做意圖分流，候選服務由各服務的「啟用服務」決定。
+    """
+    from utils.markdown_converter import to_plain_text, format_references
+    try:
+        tenant = tenant_manager.get_tenant(tenant_id)
+        mode = classify_intent(tenant_id, tenant, text)
+
+        result = process_message(tenant_id, tenant, text, user_id=user_id, mode=mode)
+        reply_text = to_plain_text(result.get("response") or "")
+        reply_text += format_references(result.get("references"))
+        reply_text = reply_text.strip() or "抱歉，目前無法回覆，請稍後再試。"
+
+        # 優先 reply token，逾時/失效則改 push
+        try:
+            line.reply(reply_token, reply_text)
+        except Exception as e:
+            print(f"[LINE] reply 失敗，改用 push: {e}")
+            line.push(user_id, reply_text)
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        try:
+            line.push(user_id, "抱歉，系統發生問題，請稍後再試。")
+        except Exception:
+            print(f"[LINE] fallback push 也失敗: {e}")
+
+
+@app.route("/webhook/line/<tenant_id>", methods=["POST"])
+def line_webhook(tenant_id):
+    """LINE webhook 入口（每租戶一個 URL）。立即回 200，AI 處理丟背景。"""
+    signature = request.headers.get("X-Line-Signature", "")
+    body = request.get_data(as_text=True)
+
+    tenant = tenant_manager.get_tenant(tenant_id)
+    line_cfg = (tenant or {}).get("line") or {}
+    if not tenant or not line_cfg.get("enabled"):
+        return "Not Found", 404
+
+    token = line_cfg.get("channel_access_token")
+    secret = line_cfg.get("channel_secret")
+    if not token or not secret:
+        return "LINE not configured", 503
+
+    from services.line_service import LineService
+    from linebot.v3.exceptions import InvalidSignatureError
+    from linebot.v3.webhooks import MessageEvent, TextMessageContent
+
+    line = LineService(token, secret)
+    try:
+        events = line.parse(body, signature)
+    except InvalidSignatureError:
+        return "Invalid signature", 400
+
+    for event in events:
+        # 僅處理文字訊息事件（非文字略過）
+        if isinstance(event, MessageEvent) and isinstance(event.message, TextMessageContent):
+            user_id = event.source.user_id
+            # 立即顯示 loading 動畫，背景跑 AI
+            line.show_loading(user_id)
+            _line_pool.submit(
+                _handle_line_message, tenant_id, line, event.message.text,
+                user_id, event.reply_token,
+            )
+
+    return "OK", 200
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

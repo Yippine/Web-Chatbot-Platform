@@ -949,20 +949,21 @@
         "class": "ChatService",
         "prompt_file": "prompts/sandak/general.md",
         "temperature": 0.7,
-        "use_grounding": false,
+        "use_grounding": true,
         "search_keyword": "向達企業股份有限公司",
         "allowed_domains": "http://www.sandak.com.tw/front/bin/home.phtml",
         "loading_message": "處理中",
         "query_loading_message": "查詢資料中",
         "mode_message": "",
         "show_mode_message": false,
-        "frappe": null
+        "frappe": null,
+        "line_enabled": true
       },
       "recommend": {
         "name": "產品介紹",
         "icon": "⚙️",
         "enabled": true,
-        "class": "ChatService",
+        "class": "QueryService",
         "prompt_file": "prompts/sandak/recommend.md",
         "temperature": 0.5,
         "use_grounding": true,
@@ -972,7 +973,8 @@
         "query_loading_message": "查詢資料中",
         "mode_message": "",
         "show_mode_message": false,
-        "frappe": null
+        "frappe": null,
+        "line_enabled": true
       }
     },
     "quick_actions": [
@@ -997,6 +999,13 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "intent_routing": true,
+      "default_service": "general",
+      "channel_access_token_env": "TENANT_SANDAK_LINE_TOKEN",
+      "channel_secret_env": "TENANT_SANDAK_LINE_SECRET"
     }
   },
   "eoa168": {
@@ -1035,6 +1044,52 @@
       "button": {
         "type": "solid",
         "color": "#1a3a8f"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": true,
+      "channel_access_token_env": "TENANT_EOA168_LINE_TOKEN",
+      "channel_secret_env": "TENANT_EOA168_LINE_SECRET"
+    }
+  },
+  "office_equipment": {
+    "id": "office_equipment",
+    "name": "事務器械智能助手",
+    "api_key_env": "TENANT_OFFICE_EQUIPMENT_GEMINI_API_KEY",
+    "enabled": true,
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "🖨️",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/office_equipment/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "事務器械 事務機器商業同業公會 OA辦公設備 影印機 多功能複合機 印表機 傳真機 碎紙機 護貝機 碳粉 墨水匣 會員名錄 台北 新北 桃園 台中",
+        "allowed_domains": "https://www.toaa.org.tw/,https://www.ntcbeba.com.tw/,https://www.tyoa.com.tw/hot.html,https://www.toasa.org.tw/,toaa.org.tw,ntcbeba.com.tw,tyoa.com.tw,toasa.org.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "事務器械智能助手",
+      "title": "事務器械智能助手",
+      "subtitle": "Office Equipment AI Assistant",
+      "welcomeMessage": "您好！我是事務器械智能助手 🖨️\n我熟悉台北、新北、桃園、台中各地事務器械商業同業公會的資訊，可以為您介紹公會服務、查詢會員廠商，以及影印機、印表機、碎紙機、碳粉耗材等產品知識。請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#0f766e"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#0f766e"
       },
       "chatIconUrl": "",
       "textColor": "white"

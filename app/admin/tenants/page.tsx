@@ -210,6 +210,12 @@ export default function TenantsPage() {
                     >
                       外觀
                     </button>
+                    <button
+                      onClick={() => router.push(`/admin/tenants/${tenant.id}/line`)}
+                      className="text-green-700 hover:text-green-900"
+                    >
+                      LINE
+                    </button>
                   </td>
                 </tr>
                 {expandedTenant === tenant.id && (

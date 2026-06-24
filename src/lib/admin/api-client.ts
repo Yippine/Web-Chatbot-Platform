@@ -114,6 +114,33 @@ class AdminAPIClient {
     );
   }
 
+  // ==================== LINE 通路設定 ====================
+
+  async getLineConfig(tenantId: string) {
+    return this.request<{
+      line: {
+        enabled: boolean;
+        has_token: boolean;
+        has_secret: boolean;
+      };
+      webhook_url: string;
+    }>(`/api/admin/tenants/${tenantId}/line`);
+  }
+
+  async updateLineConfig(
+    tenantId: string,
+    data: {
+      enabled?: boolean;
+      channel_access_token?: string;
+      channel_secret?: string;
+    }
+  ) {
+    return this.request<{ message: string; line: any }>(`/api/admin/tenants/${tenantId}/line`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  }
+
   // ==================== 服務類別 ====================
 
   async getServiceClasses() {

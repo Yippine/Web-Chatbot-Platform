@@ -76,7 +76,25 @@ def remove_env_key(tenant_id: str):
     
     # 過濾掉該 key
     env_lines = [line for line in env_lines if not line.startswith(f"{env_key}=")]
-    
+
+    with open(env_path, 'w', encoding='utf-8') as f:
+        f.writelines(env_lines)
+
+def set_env_value(key: str, value: str):
+    """更新或新增 .env 的單一鍵（通用）。"""
+    env_path = os.path.join(os.path.dirname(__file__), '.env')
+    env_lines = []
+    if os.path.exists(env_path):
+        with open(env_path, 'r', encoding='utf-8') as f:
+            env_lines = f.readlines()
+    found = False
+    for i, line in enumerate(env_lines):
+        if line.startswith(f"{key}="):
+            env_lines[i] = f"{key}={value}\n"
+            found = True
+            break
+    if not found:
+        env_lines.append(f"{key}={value}\n")
     with open(env_path, 'w', encoding='utf-8') as f:
         f.writelines(env_lines)
 
@@ -549,6 +567,8 @@ def update_service(tenant_id, service_name):
             service["mode_message"] = data["mode_message"]
         if "show_mode_message" in data:
             service["show_mode_message"] = data["show_mode_message"]
+        if "line_enabled" in data:
+            service["line_enabled"] = data["line_enabled"]
         if "loading_message" in data:
             service["loading_message"] = data["loading_message"]
         if "query_loading_message" in data:
@@ -617,7 +637,8 @@ def add_service(tenant_id):
             "loading_message": data.get("loading_message", "處理中"),
             "query_loading_message": data.get("query_loading_message", "查詢資料中"),
             "mode_message": data.get("mode_message", ""),
-            "show_mode_message": data.get("show_mode_message", False)
+            "show_mode_message": data.get("show_mode_message", False),
+            "line_enabled": data.get("line_enabled", True)
         }
         
         # FrappeQueryService 專屬設定
@@ -739,6 +760,72 @@ def update_quick_actions(tenant_id):
         tenant_manager.reload()
         
         return jsonify({"message": "固定問題更新成功", "quick_actions": quick_actions})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# ==================== LINE 通路設定 ====================
+
+@app.route("/api/admin/tenants/<tenant_id>/line", methods=["GET"])
+def get_line_config(tenant_id):
+    """取得租戶 LINE 設定（含推導的 Webhook URL，不回傳憑證明文）。"""
+    try:
+        from dotenv import dotenv_values
+        tenant_manager.reload()
+        tenants = tenant_manager.list_tenants()
+        if tenant_id not in tenants:
+            return jsonify({"error": "租戶不存在"}), 404
+
+        line_cfg = tenants[tenant_id].get("line", {}) or {}
+        env = dotenv_values(os.path.join(os.path.dirname(__file__), '.env'))
+        token_env = line_cfg.get("channel_access_token_env")
+        secret_env = line_cfg.get("channel_secret_env")
+
+        base = os.getenv("PUBLIC_BASE_URL", request.host_url.rstrip("/"))
+        webhook_url = f"{base}/webhook/line/{tenant_id}"
+
+        return jsonify({
+            "line": {
+                "enabled": line_cfg.get("enabled", False),
+                "has_token": bool(env.get(token_env)) if token_env else False,
+                "has_secret": bool(env.get(secret_env)) if secret_env else False,
+            },
+            "webhook_url": webhook_url,
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/api/admin/tenants/<tenant_id>/line", methods=["PUT"])
+def update_line_config(tenant_id):
+    """更新租戶 LINE 設定：token/secret 寫入 .env，line 區塊寫入 tenants.json。"""
+    try:
+        tenant_manager.reload()
+        tenants = tenant_manager.list_tenants()
+        if tenant_id not in tenants:
+            return jsonify({"error": "租戶不存在"}), 404
+
+        data = request.json or {}
+        token_env = f"TENANT_{tenant_id.upper()}_LINE_TOKEN"
+        secret_env = f"TENANT_{tenant_id.upper()}_LINE_SECRET"
+
+        # 憑證非空才寫入 .env（空字串視為不變更）
+        token = data.get("channel_access_token")
+        secret = data.get("channel_secret")
+        if token:
+            set_env_value(token_env, token)
+        if secret:
+            set_env_value(secret_env, secret)
+
+        line_cfg = tenants[tenant_id].get("line", {}) or {}
+        line_cfg["enabled"] = data.get("enabled", line_cfg.get("enabled", False))
+        line_cfg["channel_access_token_env"] = token_env
+        line_cfg["channel_secret_env"] = secret_env
+        tenants[tenant_id]["line"] = line_cfg
+
+        with open(tenant_manager.config_path, 'w', encoding='utf-8') as f:
+            json.dump(tenants, f, ensure_ascii=False, indent=2)
+        tenant_manager.reload()
+
+        return jsonify({"message": "LINE 設定更新成功", "line": {"enabled": line_cfg["enabled"]}})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

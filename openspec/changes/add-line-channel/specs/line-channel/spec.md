@@ -35,22 +35,17 @@
 
 ### Requirement: 事件解析與多服務路由
 
-系統 SHALL 將 LINE 文字訊息事件解析為使用者文字、LINE userId 與 reply token，並透過通路無關的對話協調器（沿用 AI 意圖路由）在該租戶的多個服務間自動分流。
+系統 SHALL 將 LINE 文字訊息事件解析為使用者文字、LINE userId 與 reply token，並透過通路無關的對話協調器在該租戶的多個服務間自動分流。LINE 的分流行為 SHALL 與 web 一致：永遠進行 AI 意圖判斷，候選服務 = 所有 `enabled` 且非 `general` 的服務（不提供 LINE 專屬的分流開關或逐服務 LINE 過濾）。
 
-#### Scenario: 文字訊息走意圖路由
+#### Scenario: 文字訊息一律走意圖路由
 
-- **WHEN** 租戶啟用意圖路由且收到使用者文字訊息
-- **THEN** 系統以該文字進行意圖判斷選定服務，再以該服務設定生成回覆
+- **WHEN** 收到使用者文字訊息
+- **THEN** 系統以該文字進行意圖判斷選定服務（候選為該租戶所有已啟用服務），再以該服務設定生成回覆
 
-#### Scenario: 意圖路由僅納入 LINE 啟用的服務
+#### Scenario: 候選與 web 相同
 
 - **WHEN** 在 LINE 進行意圖路由
-- **THEN** 候選服務僅包含 `line_enabled !== false` 者，`line_enabled === false` 的服務（如降級的 `SmartRouteService`）被排除
-
-#### Scenario: 租戶停用意圖路由
-
-- **WHEN** 租戶設定 `line.intent_routing` 為假
-- **THEN** 系統固定使用指定的單一服務（預設 `general`）生成回覆
+- **THEN** 候選服務集合與 web 相同（依各服務的「啟用服務」決定），無 LINE 專屬過濾
 
 #### Scenario: 非文字訊息
 

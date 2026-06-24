@@ -48,17 +48,28 @@ class TenantManager:
             print(f"[TenantManager] 租戶未啟用: {tenant_id}")
             return None
         
-        # 從 .env 檔案即時讀取 API Key（免重啟容器）
+        # 從 .env 檔案即時讀取 API Key / LINE 憑證（免重啟容器）
         api_key_env = tenant.get('api_key_env')
-        if api_key_env:
+        line_config = tenant.get('line') or {}
+        token_env = line_config.get('channel_access_token_env')
+        secret_env = line_config.get('channel_secret_env')
+        if api_key_env or token_env or secret_env:
             from dotenv import dotenv_values
             env = dotenv_values(os.path.join(os.path.dirname(__file__), '..', '.env'))
-            api_key = env.get(api_key_env)
-            if api_key:
-                tenant['gemini_api_key'] = api_key
-            else:
-                print(f"[TenantManager] 警告: {api_key_env} 未設定於 .env")
-        
+
+            if api_key_env:
+                api_key = env.get(api_key_env)
+                if api_key:
+                    tenant['gemini_api_key'] = api_key
+                else:
+                    print(f"[TenantManager] 警告: {api_key_env} 未設定於 .env")
+
+            # LINE 憑證即時注入暫態欄位（不落 tenants.json）
+            if token_env:
+                line_config['channel_access_token'] = env.get(token_env)
+            if secret_env:
+                line_config['channel_secret'] = env.get(secret_env)
+
         return tenant
     
     def load_prompt(self, prompt_file: str) -> str:

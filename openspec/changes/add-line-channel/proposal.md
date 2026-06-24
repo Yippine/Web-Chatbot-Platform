@@ -8,7 +8,7 @@
 
 - 新增 **LINE 通路**：每租戶一個 webhook 入口 `POST /webhook/line/<tenant_id>`，含 `X-Line-Signature` 簽章驗證、事件解析、回覆/推播。
 - 新增 **後端對話協調器**：把現有 `/api/chat` 內「建服務 → 分派 → 組裝回覆」的核心邏輯抽成可重用函式 `process_message()`，供 HTTP route 與 LINE webhook 共用（不複製邏輯）。LINE 沿用既有 **AI 意圖路由**，使租戶的多個服務（如 `tpe_policy` 的 5 個服務）在 LINE 上也能自動分流。
-- 新增 **服務的「LINE 啟用」開關（共用設定 + 稀疏覆寫）**：服務的 class / temperature / grounding / search_keyword / prompt 等**維持單一共用設定（設定一次，web 與 LINE 共用）**；服務設定頁僅新增一個 per-service 的「在 LINE 啟用」勾選（預設開），用以把不適合 LINE 的服務（如降級的 `SmartRouteService`、僅靠快捷鈕的 `QueryService`）排除於 LINE 的意圖路由之外。**不做**整套分平台設定。
+- **LINE 分流行為與 web 一致**：LINE 永遠進行 AI 意圖分流，候選服務 = 各服務的「啟用服務」（與 web 同一套），不提供 LINE 專屬的分流開關或逐服務 LINE 過濾；服務的 class / temperature / grounding / search_keyword / prompt 等單一共用，設定一次兩平台通用。
 - 新增 **Markdown→純文字轉換**：LINE 不渲染 HTML/Markdown，回覆前將 Gemini 輸出降級為純文字（references 併入文字尾）。
 - 新增 **非同步回覆模型**：webhook 立即回 200 並顯示 LINE loading 動畫，背景執行緒跑完 AI 後以 reply（逾時則 push）送回，規避 LINE reply_token 30 秒、單次有效的限制。
 - 擴充 **租戶資料模型**：tenant 增加 `line` 設定區塊（`enabled` 與 channel access token / secret 的環境變數名稱），沿用現有 `.env` 金鑰機制。
@@ -25,8 +25,7 @@
 
 ### Modified Capabilities
 - `chat-conversation`: 新增「後端對話協調器」需求——對話分派核心邏輯抽成可重用、與通路無關的 `process_message()`，使非 HTTP 入口（LINE webhook）能在伺服器端完成完整對話流程。既有 `/api/chat` 對外行為不變。
-- `tenant-management`: 租戶資料模型新增可選的 `line` 設定區塊（憑證以環境變數名稱保存），並於管理面沿用既有金鑰寫入機制。
-- `service-configuration`: 服務配置新增可選的 per-service「LINE 啟用」欄位（預設視為啟用），其餘設定維持單一共用；管理後台服務設定頁新增對應勾選。
+- `tenant-management`: 租戶資料模型新增可選的 `line` 設定區塊（`enabled` + 憑證環境變數名稱），並於管理面沿用既有金鑰寫入機制。
 
 ## Impact
 

@@ -2,7 +2,7 @@
 
 ### Requirement: 租戶 LINE 通路設定
 
-租戶設定 SHALL 支援可選的 `line` 區塊，包含 `enabled` 與 LINE 憑證的環境變數名稱（`channel_access_token_env`、`channel_secret_env`），憑證明文 SHALL 存於 `.env` 而非 `tenants.json`，並沿用既有金鑰即時注入機制。可選 `intent_routing` 控制 LINE 是否走意圖路由。
+租戶設定 SHALL 支援可選的 `line` 區塊，包含 `enabled` 與 LINE 憑證的環境變數名稱（`channel_access_token_env`、`channel_secret_env`），憑證明文 SHALL 存於 `.env` 而非 `tenants.json`，並沿用既有金鑰即時注入機制。LINE 的分流行為與 web 一致，無需 LINE 專屬的路由設定。
 
 #### Scenario: 啟用 LINE 的租戶
 

@@ -27,12 +27,12 @@ LINE 的互動方向相反：LINE 伺服器以 webhook 主動把使用者訊息�
 - **替代方案**：LINE 端複製一份對話邏輯 → 否決，會造成兩套邏輯漂移。
 - **理由**：單一真實邏輯，未來再加通路（若有）也只接這個函式。
 
-### D2. LINE 沿用 AI 意圖路由（方式 A），不做快捷鈕
-LINE 收到文字後，在 `process_message()` 內先跑既有意圖路由選服務，再生成回覆。使租戶的多服務（如 `tpe_policy` 5 個服務）在 LINE 自動分流。
+### D2. LINE 分流行為與 web 完全一致（永遠分流，無 LINE 專屬開關）
+LINE 收到文字後，在背景以既有 `classify_intent()` 做意圖判斷選服務，再經 `process_message()` 生成回覆。候選服務 = 各服務的「啟用服務」，與 web 同一套邏輯。
 
-- **替代方案 1**：LINE 固定走單一服務（如 `general`）→ 較快但失去多服務價值；列為可選的 per-tenant 設定（`line.intent_routing: false`）。
-- **替代方案 2**：把 web 的 Quick Action 按鈕移植成 LINE Quick Reply → 工程量大、語意（mode 黏著）難對應 → 延後到第二期。
-- **理由**：意圖路由純文字進出、平台無關，是 LINE 上最自然且改動最小的做法。
+- **最終決定（簡化）**：不提供「LINE 自動分流」總開關，也不提供逐服務的 `line_enabled` 過濾。理由：web 本就永遠分流、且以 `enabled` 決定候選；LINE 多加這兩個概念與 web 重複、徒增認知負擔。唯一的差異情境（排除在 LINE 會降級的 `SmartRouteService`）在全資料集僅影響 1 個服務，CP 值過低，故捨棄。
+- **後果**：`SmartRouteService` 在 LINE 仍可被選中，但降級為純文字答案（無 GPS/地圖，仍可回應）。
+- **替代方案（已捨棄）**：per-tenant `line.intent_routing` 開關 + per-service `line_enabled`；移植 Quick Action → LINE Quick Reply（延後到第二期）。
 
 ### D3. 非同步回覆 + 立即 200 + loading 動畫，reply 失敗 fallback push
 webhook 立即回 `200 OK`，同步顯示 LINE loading 動畫，並把 `process_message()` 丟到背景執行緒（沿用既有 `_log_pool` 之外的獨立 ThreadPool）。生成完成後優先用 `reply_token` 回覆；若 token 已逾時/失效則改用 `push`。
@@ -61,7 +61,7 @@ LINE 的設定拆成兩步,對應憑證與 URL 的反方向流動:
 - **步驟一(建立)**:新增品牌頁維持只填**品牌 ID**(+ 名稱/Gemini 設定)。儲存後品牌即存在,Webhook URL 隨即確定。
 - **步驟二(設定 LINE)**:於品牌編輯區的「LINE 設定」區塊——
   - **顯示 Webhook URL**:由 `公開網域 + /webhook/line/ + 品牌ID` 推導,唯讀、可複製(不另存,避免與真實 route 漂移)。
-  - **輸入 token/secret + 啟用開關**:儲存時呼叫管理端點,把 token/secret 寫入 `.env`(沿用既有 `update_env_file` 機制),`line` 區塊(`enabled`、`*_env`、`intent_routing`)寫入 `tenants.json`。
+  - **輸入 token/secret + 啟用開關**:儲存時呼叫管理端點,把 token/secret 寫入 `.env`(沿用既有 `update_env_file` 機制),`line` 區塊(`enabled`、`*_env`)寫入 `tenants.json`。LINE 設定頁只含 Webhook URL + 憑證 + 「啟用 LINE」單一開關(無分流/逐服務設定,因 LINE = web 行為)。
 - **設定順序提示**:UI 標明「先在此填好 token/secret 並儲存,再到 LINE 後台貼上 Webhook URL 按 Verify」(因 Verify 會送帶簽章請求,我方需先有 secret 才能驗章)。
 
 **憑證/URL 流向**:Channel secret + token 由 LINE → 我方(填表寫入 `.env`);Webhook URL 由我方 → LINE(顯示供複製)。
@@ -73,14 +73,13 @@ LINE 使用者加好友的歡迎訊息,**刻意**由 LINE 官方帳號管理後�
 - **替代方案(選項 B)**:接 `follow` 事件、沿用租戶 `welcomeMessage` 自動發歡迎,達成「設定一次、web/LINE 兩邊同步」→ 暫不採用;僅在「租戶數量多到逐一登入 LINE 後台設定變成實質負擔」時再評估(屬小幅增量,可隨時補上)。
 - **定位釐清**:外觀頁的 `welcomeMessage`、顏色/漸層等為 **web 專用**,不套用至 LINE。
 
-### D10. 服務設定共用 + 稀疏覆寫(單一「LINE 啟用」開關),不做整套分平台設定
-服務的核心設定(class / temperature / grounding / search_keyword / `prompt_file`)維持**單一共用**——設定一次,web 與 LINE 皆用。僅新增**一個** per-service 的「LINE 啟用」布林欄位(預設視為啟用),控制該服務是否納入 LINE 的意圖路由與可用範圍。
+### D10. 服務設定完全共用,LINE = web,不做任何分平台欄位
+服務的所有設定(class / temperature / grounding / search_keyword / `prompt_file` 等)維持**單一共用**——設定一次,web 與 LINE 皆用。**不**新增任何 per-service 的 LINE 欄位;LINE 的候選服務由各服務的「啟用服務」(`enabled`)決定,與 web 完全相同。
 
-- **理由**:服務設定欄位中,平台無關者佔絕大多數,共用最省維護;純 web 欄位(loading/mode/顏色/快捷鈕)在 LINE 自動失效、無需使用者管理,也不構成衝突;真正需要分平台的只有「某服務要不要出現在 LINE」一件事(典型:`SmartRouteService` 在 LINE 降級、僅靠快捷鈕的 `QueryService` 在 LINE 體驗不佳,想只留在 web)。
-- **資料模型**:服務 config 新增可選欄位(例如 `line_enabled`,預設 `true`);LINE 意圖路由的候選池 SHALL 排除 `line_enabled === false` 的服務。
-- **替代方案(完整分平台設定)**:每服務的 prompt/參數可 web 與 LINE 各設一套 → 否決,使用者需維護兩套設定,違反「設定一次」的期待,複雜度與認知負擔過高。
-- **替代方案(純維持現狀)**:完全共用、不加任何開關 → 可作為更省的起點,但無法將降級服務(如 SmartRoute)排除於 LINE,故採「共用 + 單一開關」為平衡點。
-- **分平台 prompt 暫不做**:共用 prompt + markdown 轉純文字已足夠;若未來確有「LINE 需更精簡」需求,再以進階選用欄位增量加入。
+- **理由**:純 web 欄位(loading/mode/顏色/快捷鈕)在 LINE 自動失效、無需管理;而「哪些服務參加分流」web 本就用 `enabled`,LINE 沒理由另立一套。曾評估的 per-service `line_enabled`(排除降級服務)在全資料集僅影響 1 個 `SmartRouteService`,CP 值過低,**已捨棄**。
+- **後果**:`SmartRouteService` 在 LINE 仍可被選中但降級為純文字(可接受)。
+- **替代方案(已捨棄)**:per-service `line_enabled` 過濾;完整分平台 prompt/參數(使用者要維護兩套,違反「設定一次」)。
+- **分平台 prompt 暫不做**:共用 prompt + markdown 轉純文字已足夠。
 
 - **替代方案**:在「新增品牌」頁就一次填 token/secret → 否決,建立當下通常還沒在 LINE 開好 channel(雞生蛋),且把建立與通路設定耦合;拆兩步更貼合既有 services/appearance 分頁結構。
 - **替代方案**:Webhook URL 存進 DB/設定檔 → 否決,URL 是純推導值,顯示即可,落檔反而會與實際 route 不一致。
