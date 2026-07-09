@@ -33,6 +33,38 @@ class AdminAPIClient {
     return this.request<T>(endpoint);
   }
 
+  // ==================== 分類管理 ====================
+
+  async listCategories() {
+    return this.request<{ categories: { id: string; name: string }[] }>('/api/admin/categories');
+  }
+
+  async createCategory(id: string, name: string) {
+    return this.request<{ message: string; category: { id: string; name: string } }>(
+      '/api/admin/categories',
+      {
+        method: 'POST',
+        body: JSON.stringify({ id, name }),
+      }
+    );
+  }
+
+  async renameCategory(id: string, name: string) {
+    return this.request<{ message: string; category: { id: string; name: string } }>(
+      `/api/admin/categories/${id}`,
+      {
+        method: 'PUT',
+        body: JSON.stringify({ name }),
+      }
+    );
+  }
+
+  async deleteCategory(id: string) {
+    return this.request<{ message: string }>(`/api/admin/categories/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
   // ==================== 租戶管理 ====================
 
   async listTenants() {

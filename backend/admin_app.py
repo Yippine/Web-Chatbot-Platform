@@ -12,6 +12,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from config.tenant_manager import TenantManager
+from config.category_manager import CategoryManager
 from config.service_factory import ServiceFactory
 from db import (init_db, get_dashboard_stats, get_all_tenants_summary,
                 get_service_distribution, get_hourly_distribution, get_lang_distribution,
@@ -22,6 +23,7 @@ CORS(app)
 
 # 初始化
 tenant_manager = TenantManager()
+category_manager = CategoryManager()
 service_factory = ServiceFactory(tenant_manager)
 init_db()
 
@@ -232,12 +234,85 @@ def tenant_export_csv(tenant_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+# ==================== 分類管理 ====================
+
+@app.route("/api/admin/categories", methods=["GET"])
+def list_categories():
+    """列出所有分類"""
+    try:
+        categories = category_manager.list_categories()
+        return jsonify({
+            "categories": [
+                {"id": cid, "name": c.get("name")}
+                for cid, c in categories.items()
+            ]
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/api/admin/categories", methods=["POST"])
+def create_category():
+    """建立新分類"""
+    try:
+        data = request.json or {}
+        category_id = data.get("id")
+        name = data.get("name")
+
+        if not category_id or not name:
+            return jsonify({"error": "缺少分類 id 或名稱"}), 400
+
+        try:
+            category = category_manager.create_category(category_id, name)
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 409
+
+        return jsonify({"message": "分類建立成功", "category": category}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/api/admin/categories/<category_id>", methods=["PUT"])
+def rename_category(category_id):
+    """重新命名分類"""
+    try:
+        data = request.json or {}
+        name = data.get("name")
+
+        if not name:
+            return jsonify({"error": "缺少分類名稱"}), 400
+
+        try:
+            category = category_manager.rename_category(category_id, name)
+        except KeyError as e:
+            return jsonify({"error": "分類不存在"}), 404
+
+        return jsonify({"message": "分類更新成功", "category": category})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/api/admin/categories/<category_id>", methods=["DELETE"])
+def delete_category(category_id):
+    """刪除分類（分類底下仍有品牌歸屬時拒絕）"""
+    try:
+        if not category_manager.category_exists(category_id):
+            return jsonify({"error": "分類不存在"}), 404
+
+        tenants = tenant_manager.list_tenants()
+        has_tenants = any(t.get("category_id") == category_id for t in tenants.values())
+        if has_tenants:
+            return jsonify({"error": "分類底下仍有品牌，請先將品牌移至其他分類"}), 409
+
+        category_manager.delete_category(category_id)
+        return jsonify({"message": "分類刪除成功"})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 # ==================== 租戶管理 ====================
 
 @app.route("/api/admin/tenants", methods=["GET"])
 def list_tenants():
     """列出所有租戶"""
     try:
+        tenant_manager.reload()
         tenants = tenant_manager.list_tenants()
         return jsonify({
             "tenants": [
@@ -245,6 +320,7 @@ def list_tenants():
                     "id": tid,
                     "name": t.get("name"),
                     "enabled": t.get("enabled", True),
+                    "category_id": t.get("category_id"),
                     "services_count": len(t.get("services", {}))
                 }
                 for tid, t in tenants.items()
@@ -278,11 +354,16 @@ def create_tenant():
         
         if not tenant_id:
             return jsonify({"error": "缺少租戶 ID"}), 400
-        
+
         # 檢查是否已存在
         if tenant_manager.tenant_exists(tenant_id):
             return jsonify({"error": "租戶 ID 已存在"}), 409
-        
+
+        # 檢查分類是否有效
+        category_id = data.get("category_id")
+        if not category_id or not category_manager.category_exists(category_id):
+            return jsonify({"error": "缺少或無效的分類"}), 400
+
         # 取得 API Key 並寫入 .env
         api_key = data.get("gemini_api_key", "")
         if api_key:
@@ -315,6 +396,7 @@ def create_tenant():
             "name": data.get("name", "新租戶"),
             "api_key_env": env_key,
             "enabled": data.get("enabled", True),
+            "category_id": category_id,
             "services": {**default_services, **data.get("services", {})},
             "quick_actions": data.get("quick_actions", []),
             "appearance": {
@@ -386,6 +468,11 @@ def update_tenant(tenant_id):
                 tenant.pop("gemini_api_key", None)
         if "enabled" in data:
             tenant["enabled"] = data["enabled"]
+        if "category_id" in data:
+            new_category_id = data["category_id"]
+            if not new_category_id or not category_manager.category_exists(new_category_id):
+                return jsonify({"error": "缺少或無效的分類"}), 400
+            tenant["category_id"] = new_category_id
         if "services" in data:
             tenant["services"] = data["services"]
         if "quick_actions" in data:
@@ -660,14 +747,13 @@ def add_service(tenant_id):
                 with open(prompt_path, 'w', encoding='utf-8') as f:
                     f.write(data["prompt_content"])
         
-        # 自動新增到 Quick Actions（general 除外）
-        if service_id != "general":
-            quick_actions = tenant.get("quick_actions", [])
-            quick_actions.append({
-                "service_id": service_id,
-                "query": ""
-            })
-            tenant["quick_actions"] = quick_actions
+        # 自動新增到 Quick Actions
+        quick_actions = tenant.get("quick_actions", [])
+        quick_actions.append({
+            "service_id": service_id,
+            "query": ""
+        })
+        tenant["quick_actions"] = quick_actions
         
         # 儲存設定
         with open(tenant_manager.config_path, 'w', encoding='utf-8') as f:

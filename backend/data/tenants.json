@@ -4,6 +4,7 @@
     "name": "大成中古智慧購車精靈",
     "api_key_env": "TENANT_SECOND_HAND_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "find_car": {
         "name": "尋找車型",
@@ -53,7 +54,7 @@
       "welcomeMessage": "歡迎來到大成中古！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
       "placeholder": "請輸入你的問題",
       "header": {
-        "color": "#e53e3e",
+        "color": "#3ee55f",
         "type": "solid"
       },
       "button": {
@@ -69,6 +70,7 @@
     "name": "智慧大獅",
     "api_key_env": "TENANT_LEOSYS_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "marketing",
     "services": {
       "aboutleo": {
         "name": "關於國眾",
@@ -176,6 +178,7 @@
     "name": "永豐智慧精靈",
     "api_key_env": "TENANT_DAWHO_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "marketing",
     "services": {
       "ibrain": {
         "name": "數位金融",
@@ -269,6 +272,7 @@
     "name": "帝一化工",
     "api_key_env": "TENANT_EMPEROR_CHEMICAL_CO_LTD_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "marketing",
     "services": {
       "FAQ": {
         "name": "購物與會員常見問題 FAQ",
@@ -369,6 +373,7 @@
     "name": "屹閎有限公司",
     "api_key_env": "TENANT_CLASSIC_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "marketing",
     "services": {
       "general": {
         "name": "服務項目",
@@ -410,6 +415,7 @@
     "name": "凱薩大飯店",
     "api_key_env": "TENANT_CAESARPARK_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "marketing",
     "services": {
       "general": {
         "name": "通用對話",
@@ -512,6 +518,7 @@
     "name": "禧元堂",
     "api_key_env": "TENANT_XIYUANTANG_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "marketing",
     "services": {
       "general": {
         "name": "通用對話",
@@ -582,6 +589,7 @@
     "name": "台北政策幫手",
     "api_key_env": "TENANT_TPE_POLICY_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "marketing",
     "services": {
       "general": {
         "name": "通用對話",
@@ -709,6 +717,7 @@
     "name": "國眾 AI Lab",
     "api_key_env": "TENANT_LEOSYS_AI_LAB_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "marketing",
     "services": {
       "general": {
         "name": "通用對話",
@@ -812,6 +821,7 @@
     "name": "台灣永光化學",
     "api_key_env": "TENANT_EVERLIGHT_CHEMICAL_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "marketing",
     "services": {
       "general": {
         "name": "通用對話",
@@ -853,6 +863,7 @@
     "name": "台灣玻璃",
     "api_key_env": "TENANT_TAIWANGLASS_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "marketing",
     "services": {
       "general": {
         "name": "通用對話",
@@ -894,6 +905,7 @@
     "name": "Zoho",
     "api_key_env": "TENANT_ZOHO_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "marketing",
     "services": {
       "general": {
         "name": "通用對話",
@@ -941,6 +953,7 @@
     "name": "向達企業股份有限公司",
     "api_key_env": "TENANT_SANDAK_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "lesson",
     "services": {
       "general": {
         "name": "通用對話",
@@ -1013,6 +1026,7 @@
     "name": "百豐國際有限公司",
     "api_key_env": "TENANT_EOA168_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "lesson",
     "services": {
       "general": {
         "name": "通用對話",
@@ -1059,6 +1073,7 @@
     "name": "事務器械智能助手",
     "api_key_env": "TENANT_OFFICE_EQUIPMENT_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "lesson",
     "services": {
       "general": {
         "name": "通用對話",
@@ -1100,6 +1115,7 @@
     "name": "大方汽車商行智慧購車精靈",
     "api_key_env": "TENANT_DA_FANG_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -1146,6 +1162,7 @@
     "name": "伊麗安股份有限公司智慧購車精靈",
     "api_key_env": "TENANT_YI_LI_AN_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -1192,6 +1209,7 @@
     "name": "永新隆汽車商行智慧購車精靈",
     "api_key_env": "TENANT_YONG_XIN_LONG_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -1238,6 +1256,7 @@
     "name": "正浩國際有限公司智慧購車精靈",
     "api_key_env": "TENANT_ZHENG_HAO_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -1284,6 +1303,7 @@
     "name": "埔心汽車商行智慧購車精靈",
     "api_key_env": "TENANT_PU_XIN_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -1330,6 +1350,7 @@
     "name": "麗楹汽車商行智慧購車精靈",
     "api_key_env": "TENANT_LI_YING_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -1376,6 +1397,7 @@
     "name": "祁恩汽車廣場智慧購車精靈",
     "api_key_env": "TENANT_QI_EN_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -1422,6 +1444,7 @@
     "name": "享進實業股份有限公司智慧購車精靈",
     "api_key_env": "TENANT_XIANG_JIN_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -1468,6 +1491,7 @@
     "name": "卡司汽車商行智慧購車精靈",
     "api_key_env": "TENANT_KA_SI_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -1514,6 +1538,7 @@
     "name": "富凱中古汽車有限公司智慧購車精靈",
     "api_key_env": "TENANT_FU_KAI_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -1544,7 +1569,7 @@
       "welcomeMessage": "歡迎來到富凱中古汽車有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
       "placeholder": "請輸入你的問題",
       "header": {
-        "color": "#1a56db",
+        "color": "#1adb9b",
         "type": "solid"
       },
       "button": {
@@ -1560,6 +1585,7 @@
     "name": "上騰汽車智慧購車和保養精靈",
     "api_key_env": "TENANT_SHANG_TENG_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車與保養諮詢",
@@ -1606,6 +1632,7 @@
     "name": "品辰汽車商行智慧購車精靈",
     "api_key_env": "TENANT_PIN_CHEN_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -1636,7 +1663,7 @@
       "welcomeMessage": "歡迎來到品辰汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
       "placeholder": "請輸入你的問題",
       "header": {
-        "color": "#1a56db",
+        "color": "#671adb",
         "type": "solid"
       },
       "button": {
@@ -1652,6 +1679,7 @@
     "name": "匯聯汽車智慧購車精靈",
     "api_key_env": "TENANT_HL_MOTOR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -1698,6 +1726,7 @@
     "name": "昌一輪胎智慧選配精靈",
     "api_key_env": "TENANT_CHANGYI_TYRE_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "輪胎諮詢",
@@ -1744,6 +1773,7 @@
     "name": "宏安汽車智慧購車精靈",
     "api_key_env": "TENANT_HONG_AN_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -1790,6 +1820,7 @@
     "name": "永春中古汽車智慧購車精靈",
     "api_key_env": "TENANT_YONG_CHUN_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -1836,6 +1867,7 @@
     "name": "匯新中古汽車智慧購車精靈",
     "api_key_env": "TENANT_HUI_XIN_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -1882,6 +1914,7 @@
     "name": "永濠中古汽車智慧購車精靈",
     "api_key_env": "TENANT_YONG_HAO_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -1928,6 +1961,7 @@
     "name": "世和汽車智慧購車精靈",
     "api_key_env": "TENANT_SHI_HE_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -1974,6 +2008,7 @@
     "name": "永大國際汽車智慧購車精靈",
     "api_key_env": "TENANT_YONG_DA_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -2020,6 +2055,7 @@
     "name": "永隆汽車智慧購車精靈",
     "api_key_env": "TENANT_YONG_LONG_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -2066,6 +2102,7 @@
     "name": "全盛汽車智慧購車精靈",
     "api_key_env": "TENANT_QUAN_SHENG_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -2112,6 +2149,7 @@
     "name": "中港汽車智慧購車精靈",
     "api_key_env": "TENANT_ZHONG_GANG_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -2158,6 +2196,7 @@
     "name": "中彰投汽車有限公司智慧購車精靈",
     "api_key_env": "TENANT_ZHONG_ZHANG_TOU_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -2204,6 +2243,7 @@
     "name": "三隻小豬車坊智慧購車精靈",
     "api_key_env": "TENANT_SAN_ZHI_XIAO_ZHU_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -2250,6 +2290,7 @@
     "name": "尚鼎汽車商行智慧購車精靈",
     "api_key_env": "TENANT_SHANG_DING_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -2296,6 +2337,7 @@
     "name": "朕極汽車有限公司智慧購車精靈",
     "api_key_env": "TENANT_ZHEN_JI_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -2342,6 +2384,7 @@
     "name": "力彰汽車商行智慧購車精靈",
     "api_key_env": "TENANT_LI_ZHANG_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -2388,6 +2431,7 @@
     "name": "中信汽車商行智慧購車精靈",
     "api_key_env": "TENANT_ZHONG_XIN_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -2434,6 +2478,7 @@
     "name": "六信國際汽車有限公司智慧購車精靈",
     "api_key_env": "TENANT_LIU_XIN_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -2480,6 +2525,7 @@
     "name": "弘益汽車商行智慧購車精靈",
     "api_key_env": "TENANT_HONG_YI_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -2526,6 +2572,7 @@
     "name": "高通汽車有限公司智慧購車精靈",
     "api_key_env": "TENANT_GAO_TONG_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -2572,6 +2619,7 @@
     "name": "銓鎰汽車商行智慧購車精靈",
     "api_key_env": "TENANT_QUAN_YI_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -2618,6 +2666,7 @@
     "name": "福大汽車有限公司智慧購車精靈",
     "api_key_env": "TENANT_FU_DA_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -2664,6 +2713,7 @@
     "name": "佳昇汽車商行智慧購車精靈",
     "api_key_env": "TENANT_JIA_SHENG_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -2710,6 +2760,7 @@
     "name": "展順汽車商行智慧購車精靈",
     "api_key_env": "TENANT_ZHAN_SHUN_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -2756,6 +2807,7 @@
     "name": "歐力克汽車有限公司智慧購車精靈",
     "api_key_env": "TENANT_OU_LI_KE_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -2802,6 +2854,7 @@
     "name": "盛通車業智慧購車精靈",
     "api_key_env": "TENANT_SHENG_TONG_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -2848,6 +2901,7 @@
     "name": "兆亨車業股份有限公司智慧購車精靈",
     "api_key_env": "TENANT_ZHAO_HENG_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -2894,6 +2948,7 @@
     "name": "大成汽車商行智慧購車精靈",
     "api_key_env": "TENANT_DA_CHENG_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -2940,6 +2995,7 @@
     "name": "千祥汽車有限公司智慧購車精靈",
     "api_key_env": "TENANT_QIAN_XIANG_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -2986,6 +3042,7 @@
     "name": "佑順汽車商行智慧購車精靈",
     "api_key_env": "TENANT_YOU_SHUN_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -3032,6 +3089,7 @@
     "name": "順興汽車商行智慧購車精靈",
     "api_key_env": "TENANT_SHUN_XING_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -3078,6 +3136,7 @@
     "name": "第一便宜中古車行智慧購車精靈",
     "api_key_env": "TENANT_DI_YI_PIAN_YI_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -3124,6 +3183,7 @@
     "name": "聚勝汽車商行智慧購車精靈",
     "api_key_env": "TENANT_JU_SHENG_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -3170,6 +3230,7 @@
     "name": "高盛汽車有限公司智慧購車精靈",
     "api_key_env": "TENANT_GAO_SHENG_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -3216,6 +3277,7 @@
     "name": "正峰汽車商行智慧購車精靈",
     "api_key_env": "TENANT_ZHENG_FENG_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -3262,6 +3324,7 @@
     "name": "尚宏汽車商行智慧購車精靈",
     "api_key_env": "TENANT_SHANG_HONG_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -3308,6 +3371,7 @@
     "name": "銘新汽車商行智慧購車精靈",
     "api_key_env": "TENANT_MING_XIN_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -3354,6 +3418,7 @@
     "name": "宏威汽車商行智慧購車精靈",
     "api_key_env": "TENANT_HONG_WEI_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -3400,6 +3465,7 @@
     "name": "源豐汽車商行智慧購車精靈",
     "api_key_env": "TENANT_YUAN_FENG_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -3446,6 +3512,7 @@
     "name": "安心汽車商行智慧購車精靈",
     "api_key_env": "TENANT_AN_XIN_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -3492,6 +3559,7 @@
     "name": "聯成商行智慧購車精靈",
     "api_key_env": "TENANT_LIAN_CHENG_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -3538,6 +3606,7 @@
     "name": "全宥汽車商行智慧購車精靈",
     "api_key_env": "TENANT_QUAN_YOU_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -3584,6 +3653,7 @@
     "name": "中美汽車商行智慧購車精靈",
     "api_key_env": "TENANT_ZHONG_MEI_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -3630,6 +3700,7 @@
     "name": "光信汽車商行智慧購車精靈",
     "api_key_env": "TENANT_GUANG_XIN_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -3676,6 +3747,7 @@
     "name": "百通汽車有限公司智慧購車精靈",
     "api_key_env": "TENANT_BAI_TONG_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -3722,6 +3794,7 @@
     "name": "格瑞汽車有限公司智慧購車精靈",
     "api_key_env": "TENANT_GE_RUI_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -3768,6 +3841,7 @@
     "name": "信通汽車商行智慧購車精靈",
     "api_key_env": "TENANT_XIN_TONG_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -3814,6 +3888,7 @@
     "name": "永星汽車有限公司智慧購車精靈",
     "api_key_env": "TENANT_YONG_XING_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -3860,6 +3935,7 @@
     "name": "億豐汽車商行智慧購車精靈",
     "api_key_env": "TENANT_YI_FENG_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -3906,6 +3982,7 @@
     "name": "格上汽車商行智慧購車精靈",
     "api_key_env": "TENANT_GE_SHANG_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -3952,6 +4029,7 @@
     "name": "鑫益汽車商行智慧購車精靈",
     "api_key_env": "TENANT_XIN_YI_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -3998,6 +4076,7 @@
     "name": "信豐汽車商行智慧購車精靈",
     "api_key_env": "TENANT_XIN_FENG_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -4044,6 +4123,7 @@
     "name": "上太汽車有限公司智慧購車精靈",
     "api_key_env": "TENANT_SHANG_TAI_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -4090,6 +4170,7 @@
     "name": "僑輪汽車商行智慧購車精靈",
     "api_key_env": "TENANT_QIAO_LUN_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -4136,6 +4217,7 @@
     "name": "晟運汽車商行智慧購車精靈",
     "api_key_env": "TENANT_CHENG_YUN_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -4182,6 +4264,7 @@
     "name": "明億汽車商行智慧購車精靈",
     "api_key_env": "TENANT_MING_YI_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -4228,6 +4311,7 @@
     "name": "承龍汽車有限公司智慧購車精靈",
     "api_key_env": "TENANT_CHENG_LONG_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -4274,6 +4358,7 @@
     "name": "世億汽車商行智慧購車精靈",
     "api_key_env": "TENANT_SHI_YI_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -4320,6 +4405,7 @@
     "name": "永興汽車商行智慧購車精靈",
     "api_key_env": "TENANT_YONG_XING2_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -4366,6 +4452,7 @@
     "name": "見昌汽車商行智慧購車精靈",
     "api_key_env": "TENANT_JIAN_CHANG_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -4412,6 +4499,7 @@
     "name": "鴻宇汽車有限公司智慧購車精靈",
     "api_key_env": "TENANT_HONG_YU_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -4458,6 +4546,7 @@
     "name": "永川泰汽車商行智慧購車精靈",
     "api_key_env": "TENANT_YONG_CHUAN_TAI_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -4504,6 +4593,7 @@
     "name": "名威企業有限公司智慧購車精靈",
     "api_key_env": "TENANT_MING_WEI_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -4550,6 +4640,7 @@
     "name": "品尊汽車有限公司智慧購車精靈",
     "api_key_env": "TENANT_PIN_ZUN_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -4596,6 +4687,7 @@
     "name": "永崴車業行智慧購車精靈",
     "api_key_env": "TENANT_YONG_WEI_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -4642,6 +4734,7 @@
     "name": "易佳廷汽車商行智慧購車精靈",
     "api_key_env": "TENANT_YI_JIA_TING_CAR_GEMINI_API_KEY",
     "enabled": true,
+    "category_id": "car",
     "services": {
       "general": {
         "name": "購車諮詢",
@@ -4681,6 +4774,100 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    }
+  },
+  "tasheh_biochem": {
+    "id": "tasheh_biochem",
+    "name": "大協恆宜",
+    "api_key_env": "TENANT_TASHEH_BIOCHEM_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "ai_master",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "🔧",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/tasheh_biochem/general.md",
+        "temperature": 0.6,
+        "use_grounding": true,
+        "search_keyword": "大協生化科技 大協恆宜 TA SHEH",
+        "allowed_domains": "www.tashehgroup.com.tw,tashehgroup.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "大協老師傅 - Ta Sheh AI",
+      "title": "大協老師傅",
+      "subtitle": "大協恆宜 AI 顧問",
+      "welcomeMessage": "您好，我是大協老師傅 🔧\n大協從1970年做丁基橡膠塞起家，膠塞在台灣市佔超過八成，後來也接電子工業客製零件的訂單。\n有什麼產品規格、客製需求，或是想了解公司，都可以問我！",
+      "placeholder": "請輸入想詢問的問題？",
+      "header": {
+        "colors": [
+          "#2c3e50",
+          "#95a5a6"
+        ],
+        "direction": "to right",
+        "type": "gradient"
+      },
+      "button": {
+        "color": "#34495e",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "urvision": {
+    "id": "urvision",
+    "name": "弘翔精密科技股份有限公司",
+    "api_key_env": "TENANT_URVISION_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/urvision/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "弘翔精密 機器視覺",
+        "allowed_domains": "www.urvision-tw.com",
+        "loading_message": "處理中",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false,
+        "frappe": null
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "弘翔精密科技｜線上諮詢",
+      "title": "弘翔精密科技 - 智慧客服",
+      "subtitle": "URVision AI Assistant",
+      "welcomeMessage": "您好！我是弘翔精密科技的智慧客服 🤖\n可以協助您：\n• 📷 工業相機/鏡頭選型\n• 🔍 AOI 檢測方案諮詢\n• 📞 轉接業務窗",
+      "placeholder": "請輸入您想了解的產品或需求…",
+      "header": {
+        "color": "#000000",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#000000",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": true,
+      "channel_access_token_env": "TENANT_URVISION_LINE_TOKEN",
+      "channel_secret_env": "TENANT_URVISION_LINE_SECRET"
     }
   }
 }

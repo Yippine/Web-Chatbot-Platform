@@ -1,0 +1,18 @@
+{
+  "marketing": {
+    "id": "marketing",
+    "name": "智慧行銷處"
+  },
+  "lesson": {
+    "id": "lesson",
+    "name": "教案"
+  },
+  "car": {
+    "id": "car",
+    "name": "汽車"
+  },
+  "ai_master": {
+    "id": "ai_master",
+    "name": "AI老師傅"
+  }
+}

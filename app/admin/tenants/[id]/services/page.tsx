@@ -50,12 +50,20 @@ export default function ServicesPage() {
           </button>
           <h1 className="text-3xl font-bold text-gray-900">服務設定 - {tenantId}</h1>
         </div>
-        <button
-          onClick={() => router.push(`/admin/tenants/${tenantId}/services/new`)}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-        >
-          新增服務
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => router.push(`/admin/tenants/${tenantId}/quick-actions`)}
+            className="border border-amber-300 text-amber-700 px-4 py-2 rounded-lg hover:bg-amber-50 transition"
+          >
+            快速按鈕管理
+          </button>
+          <button
+            onClick={() => router.push(`/admin/tenants/${tenantId}/services/new`)}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+          >
+            新增服務
+          </button>
+        </div>
       </div>
 
       {error && <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">{error}</div>}

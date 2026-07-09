@@ -1,24 +1,32 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useEffect, useState, Suspense } from 'react';
+import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import AdminAPIClient from '@/lib/admin/api-client';
 
-export default function TenantEditPage() {
+interface Category {
+  id: string;
+  name: string;
+}
+
+function TenantEditPage() {
   const params = useParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const tenantId = params.id as string;
-  
+
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [showApiKey, setShowApiKey] = useState(false);
-  
+  const [categories, setCategories] = useState<Category[]>([]);
+
   const [formData, setFormData] = useState({
     name: '',
     gemini_api_key: '',
     enabled: true,
+    category_id: searchParams.get('category') || '',
   });
 
   // 翻譯設定
@@ -103,6 +111,7 @@ export default function TenantEditPage() {
   };
 
   useEffect(() => {
+    loadCategories();
     if (tenantId !== 'new') {
       loadTenant();
       loadTranslationStatus();
@@ -110,6 +119,18 @@ export default function TenantEditPage() {
       setLoading(false);
     }
   }, [tenantId]);
+
+  const loadCategories = async () => {
+    try {
+      const apiKey = localStorage.getItem('admin_api_key');
+      if (!apiKey) return;
+      const client = new AdminAPIClient(apiKey);
+      const data = await client.listCategories();
+      setCategories(data.categories);
+    } catch (err: any) {
+      console.error('載入分類失敗', err);
+    }
+  };
 
   const loadTenant = async () => {
     try {
@@ -125,6 +146,7 @@ export default function TenantEditPage() {
         name: data.tenant.name,
         gemini_api_key: data.tenant.gemini_api_key,
         enabled: data.tenant.enabled,
+        category_id: data.tenant.category_id || '',
       });
     } catch (err: any) {
       setError(err.message);
@@ -157,7 +179,12 @@ export default function TenantEditPage() {
           setError('請輸入品牌 ID');
           return;
         }
-        
+
+        if (!formData.category_id) {
+          setError('請選擇所屬分類');
+          return;
+        }
+
         await client.createTenant({
           id: newId,
           ...formData,
@@ -259,6 +286,27 @@ export default function TenantEditPage() {
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             required
           />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            所屬分類 *
+          </label>
+          <select
+            value={formData.category_id}
+            onChange={(e) => setFormData({ ...formData, category_id: e.target.value })}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            required
+          >
+            <option value="" disabled>
+              請選擇分類
+            </option>
+            {categories.map((cat) => (
+              <option key={cat.id} value={cat.id}>
+                {cat.name}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div>
@@ -390,5 +438,21 @@ export default function TenantEditPage() {
         )}
       </div>
     </div>
+  );
+}
+
+function TenantEditPageFallback() {
+  return (
+    <div className="flex items-center justify-center h-64">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+    </div>
+  );
+}
+
+export default function TenantEditPageWrapper() {
+  return (
+    <Suspense fallback={<TenantEditPageFallback />}>
+      <TenantEditPage />
+    </Suspense>
   );
 }

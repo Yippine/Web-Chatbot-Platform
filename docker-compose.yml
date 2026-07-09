@@ -66,6 +66,7 @@ services:
       - REDIS_PORT=6379
       - DATABASE_URL=postgresql://aigenie:${POSTGRES_PASSWORD}@postgres:5432/aigenie
       - TENANTS_CONFIG_PATH=/app/data/tenants.json
+      - CATEGORIES_CONFIG_PATH=/app/data/categories.json
       - UPLOAD_IMAGES_PATH=/app/public/images/tenants
       - PYTHONUNBUFFERED=1
     volumes:

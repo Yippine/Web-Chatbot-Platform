@@ -1,16 +1,22 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
-export default function LoginPage() {
+function isSafeRedirect(path: string | null): path is string {
+  return !!path && path.startsWith('/admin/') && !path.startsWith('//');
+}
+
+function LoginPage() {
   const [apiKey, setApiKey] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get('redirect');
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!apiKey) {
       setError('請輸入 API Key');
       return;
@@ -18,9 +24,9 @@ export default function LoginPage() {
 
     // 儲存 API Key 到 localStorage
     localStorage.setItem('admin_api_key', apiKey);
-    
-    // 重定向到管理後台
-    router.push('/admin/tenants');
+
+    // 重定向回原本要前往的頁面（例如帶 ?category= 的品牌管理連結），否則預設進品牌管理
+    router.push(isSafeRedirect(redirect) ? redirect : '/admin/tenants');
   };
 
   return (
@@ -29,7 +35,7 @@ export default function LoginPage() {
         <h1 className="text-2xl font-bold text-gray-900 mb-6 text-center">
           管理後台登入
         </h1>
-        
+
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
             <label htmlFor="apiKey" className="block text-sm font-medium text-gray-700 mb-2">
@@ -62,5 +68,13 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPageWrapper() {
+  return (
+    <Suspense fallback={null}>
+      <LoginPage />
+    </Suspense>
   );
 }
