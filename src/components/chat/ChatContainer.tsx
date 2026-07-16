@@ -48,6 +48,7 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
     const [services, setServices] = useState<any>({});
     const [appearance, setAppearance] = useState<AppearanceConfig | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [loadError, setLoadError] = useState<string | null>(null);
 
     const isRouteService = (mode: string) => services[mode]?.class === 'SmartRouteService';
 
@@ -69,10 +70,11 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
                         document.title = config.appearance.pageTitle;
                     }
                 } else {
-                    console.error('租戶缺少外觀設定');
+                    throw new Error('租戶缺少外觀設定');
                 }
             } catch (error) {
                 console.error('載入租戶設定失敗:', error);
+                setLoadError(error instanceof Error ? error.message : '租戶設定載入失敗');
             } finally {
                 setIsLoading(false);
             }
@@ -359,10 +361,18 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
     };
 
     // 載入中顯示
-    if (isLoading || !appearance) {
+    if (isLoading) {
         return (
             <div className="flex items-center justify-center h-screen bg-gray-50">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+            </div>
+        );
+    }
+
+    if (loadError || !appearance) {
+        return (
+            <div className="flex items-center justify-center h-screen bg-gray-50 px-4">
+                <p className="text-gray-500 text-center">{loadError || '租戶設定載入失敗'}</p>
             </div>
         );
     }

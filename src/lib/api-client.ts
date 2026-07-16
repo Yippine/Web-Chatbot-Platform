@@ -99,11 +99,15 @@ export const apiClient = {
     const params = lang ? `?lang=${lang}` : '';
     const res = await fetch(`${API_BASE_URL}/api/tenant/config${params}`, {
       method: 'GET',
-      headers: { 
+      headers: {
         'X-Tenant-ID': tenantId
       }
     });
-    return res.json();
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.message || data.error || '租戶設定載入失敗');
+    }
+    return data;
   },
 
   // 查詢資料 (QueryService 專用)
