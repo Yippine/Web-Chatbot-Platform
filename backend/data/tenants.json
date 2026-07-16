@@ -4869,5 +4869,173 @@
       "channel_access_token_env": "TENANT_URVISION_LINE_TOKEN",
       "channel_secret_env": "TENANT_URVISION_LINE_SECRET"
     }
+  },
+  "futureoa": {
+    "id": "futureoa",
+    "name": "弘昌數位科技有限公司",
+    "api_key_env": "TENANT_FUTUREOA_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "🖨️",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/futureoa/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "弘昌數位科技 弘昌事務機 影印機出租 POS收銀機 碎紙機 點驗鈔機 標籤機 台北",
+        "allowed_domains": "https://www.futureoa.com.tw/,futureoa.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "弘昌數位科技 AI 助理",
+      "title": "弘昌數位科技智能助理",
+      "subtitle": "FutureOA AI Assistant",
+      "welcomeMessage": "您好！我是弘昌數位科技的智能助理 🖨️\n我們自1990年成立以來，專營影印機、POS收銀系統、碎紙機、點驗鈔機等辦公事務機器的銷售與租賃服務，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#0f766e"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#0f766e"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "taiwan_oa": {
+    "id": "taiwan_oa",
+    "name": "資欣企業有限公司",
+    "api_key_env": "TENANT_TAIWAN_OA_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "🖨️",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/taiwan_oa/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "資欣企業 POS365 電子發票機 碎紙機 影印機 打卡鐘 護貝機",
+        "allowed_domains": "https://taiwan-oa.com.tw/,taiwan-oa.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "資欣企業 AI 助理",
+      "title": "資欣企業智能助理",
+      "subtitle": "Taiwan OA AI Assistant",
+      "welcomeMessage": "您好！我是資欣企業的智能助理 🖨️\n我們提供 POS365 收銀系統、電子發票機、影印機、碎紙機、打卡鐘等辦公設備，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1d4ed8"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1d4ed8"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "brother_office": {
+    "id": "brother_office",
+    "name": "兄弟事務機器",
+    "api_key_env": "TENANT_BROTHER_OFFICE_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "🖨️",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/brother_office/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "兄弟事務機器 Brother 印表機 影印機 標籤機 碎紙機 台北",
+        "allowed_domains": "https://www.brother-office.com.tw/,brother-office.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "兄弟事務機器 AI 助理",
+      "title": "兄弟事務機器智能助理",
+      "subtitle": "Brother Office AI Assistant",
+      "welcomeMessage": "您好！我是兄弟事務機器的智能助理 🖨️\n我們銷售 Brother 品牌噴墨/雷射印表機、標籤機、碎紙機等辦公設備與耗材，並提供影印機月租方案，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#be123c"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#be123c"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "anchor_brake": {
+    "id": "anchor_brake",
+    "name": "銨科貿易有限公司",
+    "api_key_env": "TENANT_ANCHOR_BRAKE_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "🏍️",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/anchor_brake/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "銨科貿易 ANCHOR BRAKE 機車卡鉗 來令片 總泵 煞車油管 VESPA 偉士牌",
+        "allowed_domains": "https://www.anchor-brakesystems.com/,anchor-brakesystems.com",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "銨科貿易 AI 助理",
+      "title": "銨科貿易智能助理",
+      "subtitle": "Anchor Brake AI Assistant",
+      "welcomeMessage": "您好！我是銨科貿易的智能助理 🏍️\n我們是專業機車制動系統製造商，產品涵蓋卡鉗、總泵、煞車油管、來令片與偉士牌（VESPA）專用零件，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
   }
 }
