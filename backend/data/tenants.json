@@ -5751,5 +5751,1603 @@
       "chatIconUrl": "",
       "textColor": "white"
     }
+  },
+  "hong_shun_car": {
+    "id": "hong_shun_car",
+    "name": "弘舜汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_HONG_SHUN_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/hong_shun_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "弘舜汽車商行 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "弘舜汽車商行智慧購車",
+      "title": "弘舜汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到弘舜汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "jin_li_an_car": {
+    "id": "jin_li_an_car",
+    "name": "勁利安股份有限公司智慧購車精靈",
+    "api_key_env": "TENANT_JIN_LI_AN_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/jin_li_an_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "勁利安股份有限公司 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "勁利安股份有限公司智慧購車",
+      "title": "勁利安股份有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到勁利安股份有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1adb9b",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "yi_sen_car": {
+    "id": "yi_sen_car",
+    "name": "一森國際有限公司智慧購車精靈",
+    "api_key_env": "TENANT_YI_SEN_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/yi_sen_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "一森國際有限公司 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "一森國際有限公司智慧購車",
+      "title": "一森國際有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到一森國際有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1e3a5f",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#2563eb",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "ai_guo_car": {
+    "id": "ai_guo_car",
+    "name": "愛國汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_AI_GUO_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/ai_guo_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "愛國汽車商行 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "愛國汽車商行智慧購車",
+      "title": "愛國汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到愛國汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#0369a1",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#0ea5e9",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "hong_cheng_car": {
+    "id": "hong_cheng_car",
+    "name": "鴻成汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_HONG_CHENG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/hong_cheng_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "鴻成汽車商行 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "鴻成汽車商行智慧購車",
+      "title": "鴻成汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到鴻成汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#671adb",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "xuan_ying_huan_bao_car": {
+    "id": "xuan_ying_huan_bao_car",
+    "name": "宣瑩環保有限公司智慧購車精靈",
+    "api_key_env": "TENANT_XUAN_YING_HUAN_BAO_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/xuan_ying_huan_bao_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "宣瑩環保有限公司 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "宣瑩環保有限公司智慧購車",
+      "title": "宣瑩環保有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到宣瑩環保有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#c0392b",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#e74c3c",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "su_li_jie_car": {
+    "id": "su_li_jie_car",
+    "name": "速俐潔車業智慧購車精靈",
+    "api_key_env": "TENANT_SU_LI_JIE_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/su_li_jie_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "速俐潔車業 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "速俐潔車業智慧購車",
+      "title": "速俐潔車業智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到速俐潔車業！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#065f46",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#10b981",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "qian_fu_car": {
+    "id": "qian_fu_car",
+    "name": "粁富汽車有限公司智慧購車精靈",
+    "api_key_env": "TENANT_QIAN_FU_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/qian_fu_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "粁富汽車有限公司 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "粁富汽車有限公司智慧購車",
+      "title": "粁富汽車有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到粁富汽車有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#6d28d9",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#8b5cf6",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "che_zhi_su_car": {
+    "id": "che_zhi_su_car",
+    "name": "車之速汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_CHE_ZHI_SU_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/che_zhi_su_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "車之速汽車商行 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "車之速汽車商行智慧購車",
+      "title": "車之速汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到車之速汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#db8b1a",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "shang_qiao_car": {
+    "id": "shang_qiao_car",
+    "name": "上喬汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_SHANG_QIAO_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/shang_qiao_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "上喬汽車商行 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "上喬汽車商行智慧購車",
+      "title": "上喬汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到上喬汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#b45309",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#d97706",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "qing_yao_car": {
+    "id": "qing_yao_car",
+    "name": "慶曜汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_QING_YAO_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/qing_yao_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "慶曜汽車商行 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "慶曜汽車商行智慧購車",
+      "title": "慶曜汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到慶曜汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#7c3aed",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#a78bfa",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "san_feng_car": {
+    "id": "san_feng_car",
+    "name": "三灃汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_SAN_FENG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/san_feng_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "三灃汽車商行 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "三灃汽車商行智慧購車",
+      "title": "三灃汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到三灃汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#0e9f6e",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#31c48d",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "dong_da_car": {
+    "id": "dong_da_car",
+    "name": "東達汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_DONG_DA_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/dong_da_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "東達汽車商行 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "東達汽車商行智慧購車",
+      "title": "東達汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到東達汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#db941a",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "bao_luo_car": {
+    "id": "bao_luo_car",
+    "name": "保羅汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_BAO_LUO_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/bao_luo_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "保羅汽車商行 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "保羅汽車商行智慧購車",
+      "title": "保羅汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到保羅汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "yi_long_car": {
+    "id": "yi_long_car",
+    "name": "羿隆有限公司智慧購車精靈",
+    "api_key_env": "TENANT_YI_LONG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/yi_long_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "羿隆有限公司 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "羿隆有限公司智慧購車",
+      "title": "羿隆有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到羿隆有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1adb9b",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "dong_an_car": {
+    "id": "dong_an_car",
+    "name": "東岸汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_DONG_AN_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/dong_an_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "東岸汽車商行 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "東岸汽車商行智慧購車",
+      "title": "東岸汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到東岸汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1e3a5f",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#2563eb",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "fu_yu_car": {
+    "id": "fu_yu_car",
+    "name": "富寓有限公司智慧購車精靈",
+    "api_key_env": "TENANT_FU_YU_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/fu_yu_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "富寓有限公司 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "富寓有限公司智慧購車",
+      "title": "富寓有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到富寓有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#0369a1",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#0ea5e9",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "san_hao_car": {
+    "id": "san_hao_car",
+    "name": "三好汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_SAN_HAO_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/san_hao_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "三好汽車商行 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "三好汽車商行智慧購車",
+      "title": "三好汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到三好汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#671adb",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "ye_feng_car": {
+    "id": "ye_feng_car",
+    "name": "燁鋒汽車修配廠智慧購車精靈",
+    "api_key_env": "TENANT_YE_FENG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/ye_feng_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "燁鋒汽車修配廠 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "燁鋒汽車修配廠智慧購車",
+      "title": "燁鋒汽車修配廠智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到燁鋒汽車修配廠！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#c0392b",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#e74c3c",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "guan_yu_car": {
+    "id": "guan_yu_car",
+    "name": "冠譽汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_GUAN_YU_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/guan_yu_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "冠譽汽車商行 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "冠譽汽車商行智慧購車",
+      "title": "冠譽汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到冠譽汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#065f46",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#10b981",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "hong_fu_car": {
+    "id": "hong_fu_car",
+    "name": "弘富汽車實業股份有限公司智慧購車精靈",
+    "api_key_env": "TENANT_HONG_FU_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/hong_fu_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "弘富汽車實業股份有限公司 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "弘富汽車實業股份有限公司智慧購車",
+      "title": "弘富汽車實業股份有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到弘富汽車實業股份有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#6d28d9",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#8b5cf6",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "shang_fa_car": {
+    "id": "shang_fa_car",
+    "name": "上發汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_SHANG_FA_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/shang_fa_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "上發汽車商行 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "上發汽車商行智慧購車",
+      "title": "上發汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到上發汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#db8b1a",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "wang_sheng_car": {
+    "id": "wang_sheng_car",
+    "name": "旺昇汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_WANG_SHENG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/wang_sheng_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "旺昇汽車商行 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "旺昇汽車商行智慧購車",
+      "title": "旺昇汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到旺昇汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#b45309",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#d97706",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "bin_mei_car": {
+    "id": "bin_mei_car",
+    "name": "賓美國際有限公司智慧購車精靈",
+    "api_key_env": "TENANT_BIN_MEI_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/bin_mei_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "賓美國際有限公司 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "賓美國際有限公司智慧購車",
+      "title": "賓美國際有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到賓美國際有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#7c3aed",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#a78bfa",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "shi_yi2_car": {
+    "id": "shi_yi2_car",
+    "name": "世一汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_SHI_YI2_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/shi_yi2_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "世一汽車商行 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "世一汽車商行智慧購車",
+      "title": "世一汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到世一汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#0e9f6e",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#31c48d",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "he_hong_car": {
+    "id": "he_hong_car",
+    "name": "合泓汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_HE_HONG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/he_hong_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "合泓汽車商行 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "合泓汽車商行智慧購車",
+      "title": "合泓汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到合泓汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#db941a",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "yuan_dong_car": {
+    "id": "yuan_dong_car",
+    "name": "圓東油壓工業社智慧購車精靈",
+    "api_key_env": "TENANT_YUAN_DONG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/yuan_dong_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "圓東油壓工業社 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "圓東油壓工業社智慧購車",
+      "title": "圓東油壓工業社智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到圓東油壓工業社！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1a56db",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "zong_cai_car": {
+    "id": "zong_cai_car",
+    "name": "宗財車業有限公司智慧購車精靈",
+    "api_key_env": "TENANT_ZONG_CAI_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/zong_cai_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "宗財車業有限公司 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "宗財車業有限公司智慧購車",
+      "title": "宗財車業有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到宗財車業有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1adb9b",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "yu_sheng_car": {
+    "id": "yu_sheng_car",
+    "name": "郁勝汽車百貨行智慧購車精靈",
+    "api_key_env": "TENANT_YU_SHENG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/yu_sheng_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "郁勝汽車百貨行 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "郁勝汽車百貨行智慧購車",
+      "title": "郁勝汽車百貨行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到郁勝汽車百貨行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#1e3a5f",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#2563eb",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "wan_hong_car": {
+    "id": "wan_hong_car",
+    "name": "丸洪國際有限公司智慧購車精靈",
+    "api_key_env": "TENANT_WAN_HONG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/wan_hong_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "丸洪國際有限公司 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "丸洪國際有限公司智慧購車",
+      "title": "丸洪國際有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到丸洪國際有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#0369a1",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#0ea5e9",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "yun_hong_car": {
+    "id": "yun_hong_car",
+    "name": "允鋐國際車業有限公司智慧購車精靈",
+    "api_key_env": "TENANT_YUN_HONG_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/yun_hong_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "允鋐國際車業有限公司 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "允鋐國際車業有限公司智慧購車",
+      "title": "允鋐國際車業有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到允鋐國際車業有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#671adb",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#3f83f8",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "fu_ju_car": {
+    "id": "fu_ju_car",
+    "name": "富駒國際有限公司智慧購車精靈",
+    "api_key_env": "TENANT_FU_JU_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/fu_ju_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "富駒國際有限公司 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "富駒國際有限公司智慧購車",
+      "title": "富駒國際有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到富駒國際有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#c0392b",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#e74c3c",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "di_ma_car": {
+    "id": "di_ma_car",
+    "name": "諦瑪有限公司智慧購車精靈",
+    "api_key_env": "TENANT_DI_MA_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/di_ma_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "諦瑪有限公司 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "諦瑪有限公司智慧購車",
+      "title": "諦瑪有限公司智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到諦瑪有限公司！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#065f46",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#10b981",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "nan_bei_car": {
+    "id": "nan_bei_car",
+    "name": "南北汽車商行智慧購車精靈",
+    "api_key_env": "TENANT_NAN_BEI_CAR_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "car",
+    "services": {
+      "general": {
+        "name": "購車諮詢",
+        "icon": "🚗",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/nan_bei_car/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "南北汽車商行 abccar sum 中古車",
+        "allowed_domains": "www.abccar.com.tw,www.sum.com.tw",
+        "loading_message": "為您尋找最適合的車款，請稍候",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
+        "show_mode_message": true
+      }
+    },
+    "quick_actions": [
+      {
+        "service_id": "general",
+        "query": "我想找一台適合我的中古車"
+      }
+    ],
+    "appearance": {
+      "pageTitle": "南北汽車商行智慧購車",
+      "title": "南北汽車商行智慧購車精靈",
+      "subtitle": "AI Assistant",
+      "welcomeMessage": "歡迎來到南北汽車商行！我是您的 AI 購車顧問，告訴我您的需求，30 分鐘內幫您找到最合適的車 🚗",
+      "placeholder": "請輸入你的問題",
+      "header": {
+        "color": "#6d28d9",
+        "type": "solid"
+      },
+      "button": {
+        "color": "#8b5cf6",
+        "type": "solid"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
   }
 }
