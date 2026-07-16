@@ -5037,5 +5037,719 @@
       "chatIconUrl": "",
       "textColor": "white"
     }
+  },
+  "hct_printer": {
+    "id": "hct_printer",
+    "name": "和園科技有限公司",
+    "api_key_env": "TENANT_HCT_PRINTER_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "🖨️",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/hct_printer/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "和園科技 印表機租賃 HP EPSON 碳粉匣 墨水匣 碎紙機",
+        "allowed_domains": "https://www.hct-printer.com.tw/,hct-printer.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "和園科技有限公司 AI 助理",
+      "title": "和園科技有限公司智能助理",
+      "subtitle": "和園科技有限公司",
+      "welcomeMessage": "您好！我是和園科技的智能助理 🖨️\n我們專營 HP、EPSON 等大廠印表機銷售與維修、原廠碳粉匣墨水匣耗材、碎紙機，並提供印表機租賃方案，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#0f766e"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#0f766e"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "jiuhdong": {
+    "id": "jiuhdong",
+    "name": "巨東企業有限公司",
+    "api_key_env": "TENANT_JIUHDONG_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💵",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/jiuhdong/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "巨東企業 鈔券整理機 點驗鈔機 數鈔機 硬幣鑑別機 支票機",
+        "allowed_domains": "https://www.jiuhdong.com.tw/,jiuhdong.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "巨東企業有限公司 AI 助理",
+      "title": "巨東企業有限公司智能助理",
+      "subtitle": "巨東企業有限公司",
+      "welcomeMessage": "您好！我是巨東企業的智能助理 💵\n公司創立於1976年，專門從事金融事務機器代理，尤其以現金處理機器最為專業，包括鈔券整理機、點驗鈔機、數鈔機、硬幣鑑別機、數幣機、硬幣包裝機等，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#92400e"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#92400e"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "dgtprintwell": {
+    "id": "dgtprintwell",
+    "name": "大吉采科技有限公司",
+    "api_key_env": "TENANT_DGTPRINTWELL_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "🖨️",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/dgtprintwell/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "大吉采科技 影印機租賃 空氣清淨機 雷射印表機 碎紙機 點鈔機",
+        "allowed_domains": "https://dgtprintwell.com/,dgtprintwell.com",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "大吉采科技有限公司 AI 助理",
+      "title": "大吉采科技有限公司智能助理",
+      "subtitle": "大吉采科技有限公司",
+      "welcomeMessage": "您好！我是大吉采科技的智能助理 🖨️\n擁有 30 年專業經驗，提供辦公室事務設備銷售與租賃服務，涵蓋醫用級空氣清淨機、影印機、雷射印表機、Brother 事務機、傳真機、掃描器、碎紙機、數幣機、點鈔機等，並提供售後維修服務，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#0f766e"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#0f766e"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "carmen": {
+    "id": "carmen",
+    "name": "卡門國際貿易有限公司",
+    "api_key_env": "TENANT_CARMEN_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "🎧",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/carmen/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "卡門國際貿易 精品音響 Hegel ARCAM Mark Levinson Revel Lexicon",
+        "allowed_domains": "http://carmen.com.tw/,carmen.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "卡門國際貿易有限公司 AI 助理",
+      "title": "卡門國際貿易有限公司智能助理",
+      "subtitle": "卡門國際貿易有限公司",
+      "welcomeMessage": "您好！我是卡門國際貿易的智能助理 🎧\n公司創立於民國64年，致力於代理國際精品音響品牌，包括 Hegel、Wireworld、ARCAM、Mark Levinson、Gallo Acoustic、Revel、Lexicon、Gato Audio 等，並提供完善的售前、售中、售後服務，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#7c2d12"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#7c2d12"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "jinmiso": {
+    "id": "jinmiso",
+    "name": "乾記食品有限公司",
+    "api_key_env": "TENANT_JINMISO_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "🥫",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/jinmiso/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "乾記食品 丸進味噌 辣椒醬 甜麵醬 豆瓣醬 基隆",
+        "allowed_domains": "https://www.jinmiso.com/,jinmiso.com",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "乾記食品有限公司 AI 助理",
+      "title": "乾記食品有限公司智能助理",
+      "subtitle": "乾記食品有限公司",
+      "welcomeMessage": "您好！我是乾記食品的智能助理 🥫\n我們是基隆在地的丸進品牌製造商，生產味噌、辣椒醬（馬露醬）、甜麵醬、豆瓣醬等傳統醬料產品，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#b45309"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#b45309"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "kangarootec": {
+    "id": "kangarootec",
+    "name": "肯革陸科技有限公司",
+    "api_key_env": "TENANT_KANGAROOTEC_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "📡",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/kangarootec/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "肯革陸科技 EDC Edge Data Core 邊緣運算 工業物聯網",
+        "allowed_domains": "https://edc.kangarootec.com.tw/,kangarootec.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "肯革陸科技有限公司 AI 助理",
+      "title": "肯革陸科技有限公司智能助理",
+      "subtitle": "肯革陸科技有限公司",
+      "welcomeMessage": "您好！我是肯革陸科技的智能助理 📡\n我們開發 EDC（Edge Data Core for AI Communication System）邊緣資料核心系統，協助傳統產業與中小企業建立可靠的數據基礎，應用於工業生產設備監測、能源管理、智慧建築與精準農業，隨插即用、無需程式撰寫，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1e3a8a"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1e3a8a"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "yuangmo": {
+    "id": "yuangmo",
+    "name": "元茂國際企業股份有限公司",
+    "api_key_env": "TENANT_YUANGMO_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "🖨️",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/yuangmo/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "元茂國際企業 印刷機材 代理銷售",
+        "allowed_domains": "https://www.yuangmo.com.tw/,yuangmo.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "元茂國際企業股份有限公司 AI 助理",
+      "title": "元茂國際企業股份有限公司智能助理",
+      "subtitle": "元茂國際企業股份有限公司",
+      "welcomeMessage": "您好！我是元茂國際企業的智能助理 🖨️\n公司自1980年創業以來，主要從事印刷機材市場的代理銷售業務，建構全國直營及經銷網路，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "germanwine": {
+    "id": "germanwine",
+    "name": "德醲企業有限公司",
+    "api_key_env": "TENANT_GERMANWINE_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "🍷",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/germanwine/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "德醲企業 德國葡萄酒 進口 只賣德國酒",
+        "allowed_domains": "https://www.germanwine.com.tw/,germanwine.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "德醲企業有限公司 AI 助理",
+      "title": "德醲企業有限公司智能助理",
+      "subtitle": "德醲企業有限公司",
+      "welcomeMessage": "您好！我是德醲企業的智能助理 🍷\n我們專營德國葡萄酒進口，每年親赴德國酒莊，深入各產區挑選深具德國精神與風土特色的頂級德國葡萄酒，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#7f1d1d"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#7f1d1d"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "janman": {
+    "id": "janman",
+    "name": "建名精密企業股份有限公司",
+    "api_key_env": "TENANT_JANMAN_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "⚙️",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/janman/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "建名精密企業 CNC 線切割 放電加工 模具設計 塑膠射出",
+        "allowed_domains": "https://tw.janman.net/,janman.net",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "建名精密企業股份有限公司 AI 助理",
+      "title": "建名精密企業股份有限公司智能助理",
+      "subtitle": "建名精密企業股份有限公司",
+      "welcomeMessage": "您好！我是建名精密企業的智能助理 ⚙️\n公司成立於1977年，提供精密CNC線切割、放電加工、銑削、模具組裝、塑膠射出成型與模具設計服務，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#374151"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#374151"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "niching": {
+    "id": "niching",
+    "name": "利機股份有限公司",
+    "api_key_env": "TENANT_NICHING_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "🔬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/niching/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "利機企業 半導體材料 面板 LED 導電銀漿",
+        "allowed_domains": "https://www.niching.com.tw/,niching.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "利機股份有限公司 AI 助理",
+      "title": "利機股份有限公司智能助理",
+      "subtitle": "利機股份有限公司",
+      "welcomeMessage": "您好！我是利機企業的智能助理 🔬\n公司成立於1993年並於2008年上市（股票代號3444），為半導體、平面顯示器、LED、綠色能源與奈米技術領域提供材料行銷通路，並自主研發導電銀漿、低溫燒結銀漿等材料，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1e40af"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1e40af"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "azbil": {
+    "id": "azbil",
+    "name": "台灣阿自倍爾股份有限公司",
+    "api_key_env": "TENANT_AZBIL_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "🏭",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/azbil/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "台灣阿自倍爾 azbil PID溫度控制器 BEMS 建築能源管理",
+        "allowed_domains": "https://tw.azbil.com/,azbil.com",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "台灣阿自倍爾股份有限公司 AI 助理",
+      "title": "台灣阿自倍爾股份有限公司智能助理",
+      "subtitle": "台灣阿自倍爾股份有限公司",
+      "welcomeMessage": "您好！我是台灣阿自倍爾（azbil）的智能助理 🏭\n我們提供專業的半導體製程控制與建築自動化解決方案，涵蓋溫度控制器、氣體流量計、BEMS 建築能源管理系統等產品，協助企業實現智慧製造與節能目標，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#0369a1"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#0369a1"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "donghong": {
+    "id": "donghong",
+    "name": "東宏傳動實業有限公司",
+    "api_key_env": "TENANT_DONGHONG_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "⚙️",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/donghong/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "東宏傳動實業 工業鏈條 鏈輪 傳動零件",
+        "allowed_domains": "https://www.powertransmission.com.tw/,powertransmission.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "東宏傳動實業有限公司 AI 助理",
+      "title": "東宏傳動實業有限公司智能助理",
+      "subtitle": "東宏傳動實業有限公司",
+      "welcomeMessage": "您好！我是東宏傳動實業的智能助理 ⚙️\n公司成立於2003年，是美國Diamond鏈條與TEC鏈條台灣代理商，並經銷日本KCM、HKK鏈條，提供機車鏈條、無聲鏈、工業鏈條、農業鏈條、軸承、齒輪、鏈輪、皮帶輪、聯軸器等傳動零件，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#374151"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#374151"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "slowlifect": {
+    "id": "slowlifect",
+    "name": "漫慢文創科技有限公司",
+    "api_key_env": "TENANT_SLOWLIFECT_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/slowlifect/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "漫慢文創科技 BE HERE APP 行為分析 SaaS",
+        "allowed_domains": "https://slowlifect.com/,slowlifect.com",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "漫慢文創科技有限公司 AI 助理",
+      "title": "漫慢文創科技有限公司智能助理",
+      "subtitle": "漫慢文創科技有限公司",
+      "welcomeMessage": "您好！我是漫慢文創科技的智能助理 💬\n我們打造 B2B SaaS 行為分析平台「BE HERE APP」，結合情緒覺察與留言牆功能，協助企業了解用戶互動，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#7c3aed"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#7c3aed"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "soonfull": {
+    "id": "soonfull",
+    "name": "舜富有限公司",
+    "api_key_env": "TENANT_SOONFULL_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "⚙️",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/soonfull/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "舜富 CNC 精密加工 金屬零件 車削 銑削",
+        "allowed_domains": "http://www.cnc-csf.com/,cnc-csf.com",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "舜富有限公司 AI 助理",
+      "title": "舜富有限公司智能助理",
+      "subtitle": "舜富有限公司",
+      "welcomeMessage": "您好！我是舜富的智能助理 ⚙️\n公司成立於2013年，為各行業提供客製化金屬零件精密加工，專精車削、銑削與相關組裝，從設計、開模、加工、外觀處理到組裝包裝提供一站式服務，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#374151"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#374151"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "ecplus": {
+    "id": "ecplus",
+    "name": "易佳電子商務有限公司",
+    "api_key_env": "TENANT_ECPLUS_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💻",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/ecplus/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "易佳電子商務 ERP MRP 系統整合 智能化銷售",
+        "allowed_domains": "http://ecplus.tw/,ecplus.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "易佳電子商務有限公司 AI 助理",
+      "title": "易佳電子商務有限公司智能助理",
+      "subtitle": "易佳電子商務有限公司",
+      "welcomeMessage": "您好！我是易佳電子商務的智能助理 💻\n我們專注於協助中小型傳統企業導入 AI、IoT、大數據與雲端技術的數位解決方案，包括 ERP、MRP 系統、物流配送系統與倉儲管理系統，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#0f766e"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#0f766e"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "teralink": {
+    "id": "teralink",
+    "name": "兆網有限公司",
+    "api_key_env": "TENANT_TERALINK_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "🌐",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/teralink/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "兆網 電信網路 資安整合",
+        "allowed_domains": "https://www.teralink.url.tw/,teralink.url.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "兆網有限公司 AI 助理",
+      "title": "兆網有限公司智能助理",
+      "subtitle": "兆網有限公司",
+      "welcomeMessage": "您好！我是兆網的智能助理 🌐\n公司成立於2002年，專營電信網路與資訊安全整合，代理國內外知名電信網路與資安品牌產品，提供銷售、安裝、整合及售後服務，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1e3a8a"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1e3a8a"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "guanyu_office": {
+    "id": "guanyu_office",
+    "name": "冠宇事務機器有限公司",
+    "api_key_env": "TENANT_GUANYU_OFFICE_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "🖨️",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/guanyu_office/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "冠宇事務機器 富士全錄 柯尼卡美能達 影印機租賃",
+        "allowed_domains": "https://www.facebook.com/p/冠宇事務機器有限公司-100057487957170/",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "冠宇事務機器有限公司 AI 助理",
+      "title": "冠宇事務機器有限公司智能助理",
+      "subtitle": "冠宇事務機器有限公司",
+      "welcomeMessage": "您好！我是冠宇事務機器的智能助理 🖨️\n我們是新北市中和區的富士全錄（Fuji Xerox）、柯尼卡美能達（Konica Minolta）影印機經銷商，提供彩色影印機租賃及碳粉、影印紙等耗材銷售，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#0f766e"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#0f766e"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
   }
 }
