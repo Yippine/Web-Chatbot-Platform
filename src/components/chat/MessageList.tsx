@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { forwardRef, useEffect, useRef } from 'react';
 import { Message as MessageType } from '@/types';
 import { Message } from './Message';
 import { LoadingMessage } from './LoadingMessage';
@@ -14,13 +14,13 @@ interface MessageListProps {
     textColor?: 'white' | 'black';
 }
 
-export function MessageList({ 
-    messages, 
-    isProcessing = false, 
+export const MessageList = forwardRef<HTMLDivElement, MessageListProps>(function MessageList({
+    messages,
+    isProcessing = false,
     loadingText = '思考中',
     buttonColor,
     textColor = 'white'
-}: MessageListProps) {
+}, ref) {
     const bottomRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -28,11 +28,11 @@ export function MessageList({
     }, [messages.length, isProcessing]);
 
     return (
-        <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-white">
+        <div ref={ref} className="flex-1 overflow-y-auto p-4 space-y-4 bg-white">
             {messages.map((message) => (
-                <Message 
-                    key={message.id} 
-                    message={message} 
+                <Message
+                    key={message.id}
+                    message={message}
                     buttonColor={buttonColor}
                     textColor={textColor}
                 />
@@ -41,4 +41,4 @@ export function MessageList({
             <div ref={bottomRef} />
         </div>
     );
-}
+});

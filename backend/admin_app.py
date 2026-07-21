@@ -2,7 +2,7 @@
 管理後台 API
 提供租戶管理、設定編輯等功能
 """
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import json
 import os
@@ -16,7 +16,8 @@ from config.category_manager import CategoryManager
 from config.service_factory import ServiceFactory
 from db import (init_db, get_dashboard_stats, get_all_tenants_summary,
                 get_service_distribution, get_hourly_distribution, get_lang_distribution,
-                get_monthly_summary, get_daily_usage_detail, get_acceptance_kpi)
+                get_monthly_summary, get_daily_usage_detail, get_acceptance_kpi,
+                list_screenshots, count_screenshots, get_screenshot_file)
 
 app = Flask(__name__)
 CORS(app)
@@ -156,6 +157,30 @@ def tenant_daily_stats(tenant_id):
         return jsonify(stats)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+# ==================== 截圖記錄 ====================
+
+@app.route("/api/admin/tenants/<tenant_id>/screenshots", methods=["GET"])
+def tenant_screenshots(tenant_id):
+    """分頁列出某租戶的對話截圖記錄"""
+    try:
+        page = max(int(request.args.get("page", 1)), 1)
+        page_size = min(int(request.args.get("page_size", 24)), 100)
+        items = list_screenshots(tenant_id, limit=page_size, offset=(page - 1) * page_size)
+        total = count_screenshots(tenant_id)
+        return jsonify({"items": items, "total": total, "page": page, "page_size": page_size})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/admin/tenants/<tenant_id>/screenshots/<int:screenshot_id>/file", methods=["GET"])
+def tenant_screenshot_file(tenant_id, screenshot_id):
+    """回傳截圖檔案內容（僅限已通過 X-Admin-Key 驗證的管理後台呼叫）"""
+    file_path = get_screenshot_file(tenant_id, screenshot_id)
+    if not file_path or not os.path.exists(file_path):
+        return jsonify({"error": "截圖不存在"}), 404
+    return send_file(file_path, mimetype='image/png')
 
 
 # ==================== 驗收報表 ====================

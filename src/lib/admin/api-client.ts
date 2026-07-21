@@ -299,6 +299,28 @@ class AdminAPIClient {
     const qs = query.toString() ? `?${query.toString()}` : '';
     return `${ADMIN_API_URL}/api/admin/stats/${tenantId}/export${qs}`;
   }
+
+  // ==================== 截圖記錄 ====================
+
+  async getScreenshots(tenantId: string, page: number = 1, pageSize: number = 24) {
+    return this.request<{
+      items: {
+        id: number;
+        session_id: string;
+        user_message_id: string | null;
+        bot_message_id: string | null;
+        file_size: number;
+        created_at: string;
+      }[];
+      total: number;
+      page: number;
+      page_size: number;
+    }>(`/api/admin/tenants/${tenantId}/screenshots?page=${page}&page_size=${pageSize}`);
+  }
+
+  getScreenshotFileUrl(tenantId: string, screenshotId: number) {
+    return `${ADMIN_API_URL}/api/admin/tenants/${tenantId}/screenshots/${screenshotId}/file`;
+  }
 }
 
 export default AdminAPIClient;

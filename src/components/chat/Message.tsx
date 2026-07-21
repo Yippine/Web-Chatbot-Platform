@@ -45,7 +45,7 @@ export function Message({ message, buttonColor, textColor = 'white' }: MessagePr
         : { background: 'linear-gradient(to right, #f97316, #a855f7)' };
 
     return (
-        <div className={cn('flex', isBot ? 'justify-start' : 'justify-end')}>
+        <div data-message-id={message.id} className={cn('flex', isBot ? 'justify-start' : 'justify-end')}>
             <div className={cn('max-w-[85%]', isBot ? 'items-start' : 'items-end')}>
                 <div
                     className={cn(

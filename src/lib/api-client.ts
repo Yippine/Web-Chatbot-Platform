@@ -94,6 +94,24 @@ export const apiClient = {
     return data;
   },
 
+  // 上傳一輪問答的截圖
+  async uploadScreenshot(tenantId: string, params: { userMessageId: string; botMessageId: string; blob: Blob }) {
+    const formData = new FormData();
+    formData.append('file', params.blob, 'screenshot.png');
+    formData.append('session_id', getUserId());
+    formData.append('user_message_id', params.userMessageId);
+    formData.append('bot_message_id', params.botMessageId);
+
+    const res = await fetch(`${API_BASE_URL}/api/screenshots`, {
+      method: 'POST',
+      headers: {
+        'X-Tenant-ID': tenantId
+      },
+      body: formData
+    });
+    return res.json();
+  },
+
   // 取得租戶設定
   async getTenantConfig(tenantId: string, lang?: string) {
     const params = lang ? `?lang=${lang}` : '';

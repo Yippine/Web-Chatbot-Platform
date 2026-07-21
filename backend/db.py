@@ -57,6 +57,20 @@ def init_db():
 
             CREATE INDEX IF NOT EXISTS idx_session_tenant
                 ON chat_sessions (tenant_id, last_seen DESC);
+
+            CREATE TABLE IF NOT EXISTS conversation_screenshots (
+                id               BIGSERIAL PRIMARY KEY,
+                tenant_id        VARCHAR(64) NOT NULL,
+                session_id       VARCHAR(64) NOT NULL,
+                user_message_id  VARCHAR(64),
+                bot_message_id   VARCHAR(64),
+                file_path        TEXT NOT NULL,
+                file_size        INTEGER DEFAULT 0,
+                created_at       TIMESTAMP DEFAULT NOW()
+            );
+
+            CREATE INDEX IF NOT EXISTS idx_screenshot_tenant_time
+                ON conversation_screenshots (tenant_id, created_at DESC);
         """))
         conn.commit()
     print("[DB] Tables ready")
@@ -92,6 +106,68 @@ def log_message(tenant_id: str, session_id: str, direction: str,
         print(f"[DB] ✅ logged: {tenant_id}/{session_id} ({direction}, {service_name}, {response_ms}ms)")
     except Exception as e:
         print(f"[DB] ❌ log_message 失敗: {e}")
+
+
+def log_screenshot(tenant_id: str, session_id: str, user_message_id: str,
+                   bot_message_id: str, file_path: str, file_size: int = 0):
+    """記錄一張對話截圖"""
+    eng = get_engine()
+    if not eng:
+        return
+    try:
+        with eng.connect() as conn:
+            conn.execute(text("""
+                INSERT INTO conversation_screenshots
+                  (tenant_id, session_id, user_message_id, bot_message_id, file_path, file_size)
+                VALUES
+                  (:tenant_id, :session_id, :user_message_id, :bot_message_id, :file_path, :file_size)
+            """), dict(tenant_id=tenant_id, session_id=session_id, user_message_id=user_message_id,
+                       bot_message_id=bot_message_id, file_path=file_path, file_size=file_size))
+            conn.commit()
+        print(f"[DB] ✅ screenshot logged: {tenant_id}/{session_id}")
+    except Exception as e:
+        print(f"[DB] ❌ log_screenshot 失敗: {e}")
+
+
+def list_screenshots(tenant_id: str, limit: int = 24, offset: int = 0) -> list:
+    """分頁列出某租戶的截圖記錄（不含 file_path，避免洩漏伺服器路徑）"""
+    eng = get_engine()
+    if not eng:
+        return []
+    with eng.connect() as conn:
+        rows = conn.execute(text("""
+            SELECT id, session_id, user_message_id, bot_message_id, file_size, created_at
+            FROM conversation_screenshots
+            WHERE tenant_id = :tid
+            ORDER BY created_at DESC
+            LIMIT :limit OFFSET :offset
+        """), {"tid": tenant_id, "limit": limit, "offset": offset}).mappings().all()
+    return [dict(r) for r in rows]
+
+
+def count_screenshots(tenant_id: str) -> int:
+    """某租戶的截圖總數"""
+    eng = get_engine()
+    if not eng:
+        return 0
+    with eng.connect() as conn:
+        total = conn.execute(text("""
+            SELECT COUNT(*) FROM conversation_screenshots WHERE tenant_id = :tid
+        """), {"tid": tenant_id}).scalar()
+    return total or 0
+
+
+def get_screenshot_file(tenant_id: str, screenshot_id: int):
+    """查出截圖真正的檔案路徑，同時驗證這筆記錄確實屬於這個租戶"""
+    eng = get_engine()
+    if not eng:
+        return None
+    with eng.connect() as conn:
+        row = conn.execute(text("""
+            SELECT file_path FROM conversation_screenshots
+            WHERE id = :id AND tenant_id = :tid
+        """), {"id": screenshot_id, "tid": tenant_id}).mappings().first()
+    return row["file_path"] if row else None
 
 
 def get_dashboard_stats(tenant_id: str, days: int = 7) -> dict:

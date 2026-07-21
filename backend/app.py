@@ -5,14 +5,17 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
 import json
+import re
 import time
 from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime
 from dotenv import load_dotenv
+from PIL import Image
 
 from config.tenant_manager import TenantManager
 from config.service_factory import ServiceFactory
 from middleware.tenant_auth import require_tenant
-from db import init_db, log_message as db_log
+from db import init_db, log_message as db_log, log_screenshot as db_log_screenshot
 
 load_dotenv()
 
@@ -312,6 +315,68 @@ def chat():
         import traceback
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
+
+def _sanitize_id(value: str) -> str:
+    return re.sub(r'[^a-zA-Z0-9_\-]', '', value or '')[:64]
+
+
+def _save_and_log_screenshot(image_bytes: bytes, tenant_id: str, session_id: str,
+                             user_message_id: str, bot_message_id: str):
+    """背景執行：驗證圖片、存檔、寫 DB（避免佔用聊天 API 的 worker）"""
+    try:
+        from io import BytesIO
+        img = Image.open(BytesIO(image_bytes))
+        img.verify()
+
+        screenshots_root = os.environ.get(
+            'SCREENSHOTS_PATH',
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'screenshots')
+        )
+        date_dir = datetime.now().strftime('%Y%m%d')
+        tenant_dir = os.path.join(screenshots_root, tenant_id, date_dir)
+        os.makedirs(tenant_dir, exist_ok=True)
+
+        filename = f"{int(time.time() * 1000)}_{_sanitize_id(session_id)}_{_sanitize_id(bot_message_id)}.png"
+        file_path = os.path.join(tenant_dir, filename)
+        with open(file_path, 'wb') as f:
+            f.write(image_bytes)
+
+        db_log_screenshot(tenant_id=tenant_id, session_id=session_id,
+                          user_message_id=user_message_id, bot_message_id=bot_message_id,
+                          file_path=file_path, file_size=len(image_bytes))
+    except Exception as e:
+        print(f"[Screenshot] ❌ 存檔失敗: {e}")
+
+
+@app.route("/api/screenshots", methods=["POST"])
+@require_tenant(tenant_manager)
+def upload_screenshot():
+    """接收前端截圖的一輪問答畫面（使用者訊息 + 機器人回答）"""
+    if 'file' not in request.files:
+        return jsonify({"error": "未提供檔案"}), 400
+
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({"error": "未選擇檔案"}), 400
+
+    file.seek(0, os.SEEK_END)
+    file_size = file.tell()
+    file.seek(0)
+
+    if file_size > 3 * 1024 * 1024:
+        return jsonify({"error": "檔案大小超過 3MB"}), 400
+
+    image_bytes = file.read()
+
+    session_id = request.form.get('session_id', 'unknown')
+    user_message_id = request.form.get('user_message_id', '')
+    bot_message_id = request.form.get('bot_message_id', '')
+
+    _log_pool.submit(_save_and_log_screenshot, image_bytes, request.tenant_id,
+                     session_id, user_message_id, bot_message_id)
+
+    return jsonify({"message": "截圖已接收"}), 202
+
 
 def create_service_from_quick_action(tenant_id: str, tenant: dict, qa_config: dict):
     """根據 quick_action 設定動態建立服務"""

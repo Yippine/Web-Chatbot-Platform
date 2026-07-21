@@ -385,6 +385,12 @@ function TenantsPage() {
                     >
                       LINE
                     </button>
+                    <button
+                      onClick={() => router.push(`/admin/tenants/${tenant.id}/screenshots`)}
+                      className="text-orange-600 hover:text-orange-900"
+                    >
+                      截圖記錄
+                    </button>
                   </td>
                 </tr>
                 {expandedTenant === tenant.id && (

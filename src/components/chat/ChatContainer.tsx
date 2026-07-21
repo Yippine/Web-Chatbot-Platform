@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Message as MessageType } from '@/types';
 import { ChatHeader } from './ChatHeader';
 import { MessageList } from './MessageList';
@@ -10,6 +10,7 @@ import { apiClient } from '@/lib/api-client';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { languageMap, getTranslation, Language } from '@/lib/i18n';
 import { AppearanceConfig } from '@/lib/appearance';
+import { useQaScreenshotCapture } from '@/hooks/useQaScreenshotCapture';
 
 async function getLocation(): Promise<{ latitude: number; longitude: number } | null> {
     if (typeof window === 'undefined' || !navigator.geolocation) return null;
@@ -49,6 +50,9 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
     const [appearance, setAppearance] = useState<AppearanceConfig | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [loadError, setLoadError] = useState<string | null>(null);
+    const listRef = useRef<HTMLDivElement>(null);
+
+    useQaScreenshotCapture(messages, tenantId, isProcessing, listRef);
 
     const isRouteService = (mode: string) => services[mode]?.class === 'SmartRouteService';
 
@@ -383,9 +387,10 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
                 mode={currentMode} 
                 appearance={appearance}
             />
-            <MessageList 
-                messages={messages} 
-                isProcessing={isProcessing} 
+            <MessageList
+                ref={listRef}
+                messages={messages}
+                isProcessing={isProcessing}
                 loadingText={loadingText}
                 buttonColor={appearance.button}
                 textColor={appearance.textColor}
