@@ -7727,5 +7727,89 @@
       "chatIconUrl": "",
       "textColor": "white"
     }
+  },
+  "kuanchengturf": {
+    "id": "kuanchengturf",
+    "name": "寬乘園藝有限公司",
+    "api_key_env": "TENANT_KUANCHENGTURF_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "🌾",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/kuanchengturf/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "寬乘園藝 草皮 景觀工程 植栽批發 田尾",
+        "allowed_domains": "https://kuanchengturf.com.tw/,kuanchengturf.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "寬乘園藝 AI 助理",
+      "title": "寬乘園藝智能助理",
+      "subtitle": "Kuan Cheng Turf AI Assistant",
+      "welcomeMessage": "您好！我是寬乘園藝的智能助理 🌾\n我們以彰化田尾自有草皮農場起家，提供草皮供應與施工、景觀工程與公共綠化、B2B 大量植物供應，以及植物商城等服務，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#15803d"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#15803d"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
+  },
+  "mikiorchid": {
+    "id": "mikiorchid",
+    "name": "美琪蘭業股份有限公司",
+    "api_key_env": "TENANT_MIKIORCHID_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "🌸",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/mikiorchid/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "美琪蘭業 蘭花 蝴蝶蘭 進出口 批發",
+        "allowed_domains": "https://www.mikiorchid.com.tw/,mikiorchid.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "美琪蘭業 AI 助理",
+      "title": "美琪蘭業智能助理",
+      "subtitle": "Miki Orchid AI Assistant",
+      "welcomeMessage": "您好！我是美琪蘭業的智能助理 🌸\n我們隸屬美琪集團，專營蘭花國外進出口業務，集團旗下另有美琪蘭園（新品種研發銷售及大額批發）與美琪園藝（門市零售），共計10個場區逾一萬坪的自動化環控溫室，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#a21caf"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#a21caf"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
   }
 }
