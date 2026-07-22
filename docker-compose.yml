@@ -108,6 +108,31 @@ services:
       - backend
       - admin-backend
 
+  qa-verifier:
+    build: ./qa-verifier
+    container_name: ai-genie-qa-verifier
+    restart: unless-stopped
+    environment:
+      - TARGET_API_URL=${NEXT_PUBLIC_API_URL}
+      - INTERNAL_API_URL=http://nginx
+      - QA_NAV_BASE_URL=http://nginx
+      - TENANTS_CONFIG_PATH=/app/data/tenants.json
+      - QA_TENANT_CATEGORY=car
+      - QA_TESTS_PER_HOUR_MIN=2
+      - QA_TESTS_PER_HOUR_MAX=4
+      - QA_TENANTS_PER_TEST_MIN=3
+      - QA_TENANTS_PER_TEST_MAX=7
+      - QA_DELAY_BETWEEN_TESTS_MIN=8
+      - QA_DELAY_BETWEEN_TESTS_MAX=20
+      - QA_TARGET_LANGS=zh-tw,en,ja,ko,vi,id,th
+      - QA_MOCK_GEMINI=false
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./backend/data/qa-verification:/app/data/qa-verification
+      - ./backend/data/tenants.json:/app/data/tenants.json:ro
+    depends_on:
+      - nginx
+
 volumes:
   redis-data:
   pg_data:

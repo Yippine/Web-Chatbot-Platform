@@ -8,7 +8,7 @@ import json
 import re
 import time
 from concurrent.futures import ThreadPoolExecutor
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from dotenv import load_dotenv
 from PIL import Image
 
@@ -320,6 +320,9 @@ def _sanitize_id(value: str) -> str:
     return re.sub(r'[^a-zA-Z0-9_\-]', '', value or '')[:64]
 
 
+TAIWAN_TZ = timezone(timedelta(hours=8))
+
+
 def _save_and_log_screenshot(image_bytes: bytes, tenant_id: str, session_id: str,
                              user_message_id: str, bot_message_id: str):
     """背景執行：驗證圖片、存檔、寫 DB（避免佔用聊天 API 的 worker）"""
@@ -332,11 +335,13 @@ def _save_and_log_screenshot(image_bytes: bytes, tenant_id: str, session_id: str
             'SCREENSHOTS_PATH',
             os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'screenshots')
         )
-        date_dir = datetime.now().strftime('%Y%m%d')
+        now_tw = datetime.now(TAIWAN_TZ)
+        date_dir = now_tw.strftime('%Y%m%d')
         tenant_dir = os.path.join(screenshots_root, tenant_id, date_dir)
         os.makedirs(tenant_dir, exist_ok=True)
 
-        filename = f"{int(time.time() * 1000)}_{_sanitize_id(session_id)}_{_sanitize_id(bot_message_id)}.png"
+        # 檔名統一用「月日_時分秒_毫秒」（台灣時區），毫秒只是為了避免同一秒內撞名
+        filename = f"{now_tw.strftime('%m%d_%H%M%S_%f')[:-3]}_{_sanitize_id(session_id)}_{_sanitize_id(bot_message_id)}.png"
         file_path = os.path.join(tenant_dir, filename)
         with open(file_path, 'wb') as f:
             f.write(image_bytes)

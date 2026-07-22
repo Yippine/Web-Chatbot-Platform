@@ -1,10 +1,23 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
+// crypto.randomUUID() 只在瀏覽器認定的安全環境（HTTPS 或 localhost）下才存在，
+// 嵌入到非 HTTPS 網站或某些內嵌 webview 時會是 undefined，需要備用產生方式
+function generateUUID(): string {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID();
+  }
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
 function getUserId(): string {
   if (typeof window === 'undefined') return 'server';
   let id = sessionStorage.getItem('chatbot_user_id');
   if (!id) {
-    id = crypto.randomUUID();
+    id = generateUUID();
     sessionStorage.setItem('chatbot_user_id', id);
   }
   return id;

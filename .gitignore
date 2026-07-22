@@ -50,6 +50,8 @@ next-env.d.ts
 
 # backend runtime data (images only; tenants.json is versioned)
 backend/data/images/
+backend/data/screenshots/
+backend/data/qa-verification/
 
 # sensitive backup archives
 sensitive-backup-*.tar.gz

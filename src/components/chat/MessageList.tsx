@@ -28,7 +28,7 @@ export const MessageList = forwardRef<HTMLDivElement, MessageListProps>(function
     }, [messages.length, isProcessing]);
 
     return (
-        <div ref={ref} className="flex-1 overflow-y-auto p-4 space-y-4 bg-white">
+        <div ref={ref} data-qa-message-list="true" className="flex-1 overflow-y-auto p-4 space-y-4 bg-white">
             {messages.map((message) => (
                 <Message
                     key={message.id}
