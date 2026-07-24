@@ -7811,5 +7811,47 @@
       "chatIconUrl": "",
       "textColor": "white"
     }
+  },
+  "hccg_society": {
+    "id": "hccg_society",
+    "name": "新竹市政府社會處",
+    "api_key_env": "TENANT_HCCG_SOCIETY_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "marketing",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "🤝",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/hccg_society/general.md",
+        "temperature": 0.6,
+        "use_grounding": true,
+        "search_keyword": "新竹市政府社會處 社會福利 托育 兒少 婦女福利 老人福利 身心障礙 社會救助",
+        "allowed_domains": "https://society.hccg.gov.tw/,society.hccg.gov.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "新竹市政府社會處 AI 助理",
+      "title": "新竹市社會處智能助理",
+      "subtitle": "Hsinchu City Social Affairs AI Assistant",
+      "welcomeMessage": "您好！我是新竹市政府社會處的智能助理 🤝\n舉凡托育服務、兒童少年福利、婦女福利、老人福利、身心障礙福利、社會救助、家暴及性侵害防治等社會福利業務，都可以問我，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#0e7490"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#0e7490"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    }
   }
 }
