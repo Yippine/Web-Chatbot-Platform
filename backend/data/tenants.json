@@ -2211,7 +2211,8 @@
         "loading_message": "為您尋找最適合的車款，請稍候",
         "query_loading_message": "查詢資料中",
         "mode_message": "想找適合您的中古車嗎？\n告訴我您的用途和預算，30 分鐘內幫您挑到最合適的！",
-        "show_mode_message": true
+        "show_mode_message": true,
+        "frappe": null
       }
     },
     "quick_actions": [
@@ -2236,6 +2237,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": true,
+      "channel_access_token_env": "TENANT_ZHONG_ZHANG_TOU_CAR_LINE_TOKEN",
+      "channel_secret_env": "TENANT_ZHONG_ZHANG_TOU_CAR_LINE_SECRET"
     }
   },
   "san_zhi_xiao_zhu_car": {
@@ -2424,6 +2430,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": true,
+      "channel_access_token_env": "TENANT_LI_ZHANG_CAR_LINE_TOKEN",
+      "channel_secret_env": "TENANT_LI_ZHANG_CAR_LINE_SECRET"
     }
   },
   "zhong_xin_car": {
