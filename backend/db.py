@@ -162,6 +162,70 @@ def count_screenshot_people(tenant_id: str) -> int:
     return total or 0
 
 
+def list_screenshot_days(tenant_id: str, limit: int = 31, offset: int = 0) -> list:
+    """分頁列出某租戶「以天為單位」彙整後的對話截圖清單（依台灣時區的日曆日分組）"""
+    eng = get_engine()
+    if not eng:
+        return []
+    with eng.connect() as conn:
+        rows = conn.execute(text("""
+            SELECT
+                -- 轉成純文字 'YYYY-MM-DD'，避免 Flask JSON 序列化把 date 物件
+                -- 轉成 HTTP date 字串（例如 "Fri, 06 Aug 2026 00:00:00 GMT"）
+                to_char(created_at + interval '8 hours', 'YYYY-MM-DD') AS day,
+                COUNT(*) AS screenshot_count,
+                COUNT(DISTINCT session_id) AS person_count
+            FROM conversation_screenshots
+            WHERE tenant_id = :tid
+            GROUP BY day
+            ORDER BY day DESC
+            LIMIT :limit OFFSET :offset
+        """), {"tid": tenant_id, "limit": limit, "offset": offset}).mappings().all()
+    return [dict(r) for r in rows]
+
+
+def count_screenshot_days(tenant_id: str) -> int:
+    """某租戶有截圖記錄的天數"""
+    eng = get_engine()
+    if not eng:
+        return 0
+    with eng.connect() as conn:
+        total = conn.execute(text("""
+            SELECT COUNT(DISTINCT (created_at + interval '8 hours')::date)
+            FROM conversation_screenshots WHERE tenant_id = :tid
+        """), {"tid": tenant_id}).scalar()
+    return total or 0
+
+
+def list_screenshots_by_day(tenant_id: str, day: str, limit: int = 24, offset: int = 0) -> list:
+    """分頁列出某租戶「某一天」的截圖記錄（跨所有人），依時間正序排列"""
+    eng = get_engine()
+    if not eng:
+        return []
+    with eng.connect() as conn:
+        rows = conn.execute(text("""
+            SELECT id, session_id, user_message_id, bot_message_id, file_size, created_at
+            FROM conversation_screenshots
+            WHERE tenant_id = :tid AND (created_at + interval '8 hours')::date = :day
+            ORDER BY created_at ASC
+            LIMIT :limit OFFSET :offset
+        """), {"tid": tenant_id, "day": day, "limit": limit, "offset": offset}).mappings().all()
+    return [dict(r) for r in rows]
+
+
+def count_screenshots_by_day(tenant_id: str, day: str) -> int:
+    """某租戶「某一天」的截圖總數"""
+    eng = get_engine()
+    if not eng:
+        return 0
+    with eng.connect() as conn:
+        total = conn.execute(text("""
+            SELECT COUNT(*) FROM conversation_screenshots
+            WHERE tenant_id = :tid AND (created_at + interval '8 hours')::date = :day
+        """), {"tid": tenant_id, "day": day}).scalar()
+    return total or 0
+
+
 def list_screenshots(tenant_id: str, session_id: str, limit: int = 24, offset: int = 0) -> list:
     """分頁列出某租戶「某一個人」的截圖記錄，依時間正序排列（還原對話發生順序）"""
     eng = get_engine()

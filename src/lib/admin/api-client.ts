@@ -345,6 +345,40 @@ class AdminAPIClient {
   getScreenshotFileUrl(tenantId: string, sessionId: string, screenshotId: number) {
     return `${ADMIN_API_URL}/api/admin/tenants/${tenantId}/screenshots/${encodeURIComponent(sessionId)}/${screenshotId}/file`;
   }
+
+  // ==================== 截圖記錄（以天為單位） ====================
+
+  /** 分頁列出某租戶「有對話截圖的日子」清單（依台灣時區日曆日分組） */
+  async getScreenshotDays(tenantId: string, page: number = 1, pageSize: number = 31) {
+    return this.request<{
+      items: {
+        day: string;
+        screenshot_count: number;
+        person_count: number;
+      }[];
+      total: number;
+      page: number;
+      page_size: number;
+    }>(`/api/admin/tenants/${tenantId}/screenshots/by-day?page=${page}&page_size=${pageSize}`);
+  }
+
+  /** 分頁列出某租戶「某一天」的截圖（跨所有人），依時間正序 */
+  async getScreenshotsForDay(tenantId: string, day: string, page: number = 1, pageSize: number = 24) {
+    return this.request<{
+      items: {
+        id: number;
+        session_id: string;
+        user_message_id: string | null;
+        bot_message_id: string | null;
+        file_size: number;
+        created_at: string;
+      }[];
+      total: number;
+      page: number;
+      page_size: number;
+      day: string;
+    }>(`/api/admin/tenants/${tenantId}/screenshots/by-day/${day}?page=${page}&page_size=${pageSize}`);
+  }
 }
 
 export default AdminAPIClient;

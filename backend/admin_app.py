@@ -6,6 +6,7 @@ from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import json
 import os
+import re
 from PIL import Image
 import io
 from dotenv import load_dotenv
@@ -18,7 +19,9 @@ from db import (init_db, get_dashboard_stats, get_all_tenants_summary,
                 get_service_distribution, get_hourly_distribution, get_lang_distribution,
                 get_monthly_summary, get_daily_usage_detail, get_acceptance_kpi,
                 list_screenshots, count_screenshots, get_screenshot_file,
-                list_screenshot_people, count_screenshot_people)
+                list_screenshot_people, count_screenshot_people,
+                list_screenshot_days, count_screenshot_days,
+                list_screenshots_by_day, count_screenshots_by_day)
 
 app = Flask(__name__)
 CORS(app)
@@ -171,6 +174,41 @@ def tenant_screenshot_people(tenant_id):
         items = list_screenshot_people(tenant_id, limit=page_size, offset=(page - 1) * page_size)
         total = count_screenshot_people(tenant_id)
         return jsonify({"items": items, "total": total, "page": page, "page_size": page_size})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# ==================== 截圖記錄（以天為單位） ====================
+# 注意：以下兩條 by-day 路由的路徑層級跟「以人為單位」的
+# /screenshots/<session_id> 重疊，但 Flask/Werkzeug 對靜態片段（by-day）
+# 的比對優先權高於動態片段（<session_id>），所以不會被誤判成某個人的 session_id。
+
+@app.route("/api/admin/tenants/<tenant_id>/screenshots/by-day", methods=["GET"])
+def tenant_screenshot_days(tenant_id):
+    """分頁列出某租戶「有對話截圖的日子」清單（依台灣時區日曆日分組：張數、人數）"""
+    try:
+        page = max(int(request.args.get("page", 1)), 1)
+        page_size = min(int(request.args.get("page_size", 31)), 100)
+        items = list_screenshot_days(tenant_id, limit=page_size, offset=(page - 1) * page_size)
+        total = count_screenshot_days(tenant_id)
+        return jsonify({"items": items, "total": total, "page": page, "page_size": page_size})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/admin/tenants/<tenant_id>/screenshots/by-day/<day>", methods=["GET"])
+def tenant_screenshots_for_day(tenant_id, day):
+    """分頁列出某租戶「某一天」的對話截圖記錄（跨所有人），依時間正序"""
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", day):
+        return jsonify({"error": "day 格式需為 YYYY-MM-DD"}), 400
+    try:
+        page = max(int(request.args.get("page", 1)), 1)
+        page_size = min(int(request.args.get("page_size", 24)), 100)
+        items = list_screenshots_by_day(tenant_id, day, limit=page_size, offset=(page - 1) * page_size)
+        total = count_screenshots_by_day(tenant_id, day)
+        return jsonify({
+            "items": items, "total": total, "page": page, "page_size": page_size, "day": day,
+        })
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
