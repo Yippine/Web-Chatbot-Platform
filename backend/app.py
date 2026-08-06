@@ -31,7 +31,7 @@ _line_pool = ThreadPoolExecutor(max_workers=4)
 
 # 語言代碼 → 語言名稱（供 response_language 使用）
 LANG_NAME_MAP = {
-    "en": "English", "ja": "Japanese", "ko": "Korean",
+    "zh-TW": "Traditional Chinese", "en": "English", "ja": "Japanese", "ko": "Korean",
     "vi": "Vietnamese", "id": "Indonesian", "th": "Thai"
 }
 
@@ -49,34 +49,35 @@ class UnsupportedOperation(Exception):
 def health():
     return jsonify({"status": "healthy"})
 
-@app.route("/api/detect-language", methods=["POST"])
-@require_tenant(tenant_manager)
-def detect_language():
-    """語言偵測端點（輕量版，不使用 Redis）"""
-    data = request.json
-    message = data.get("message")
-    
-    if not message:
-        return jsonify({"error": "缺少訊息內容"}), 400
-    
+LANG_CODE_NAME_MAP = {
+    "zh-TW": "Traditional Chinese", "en": "English", "ja": "Japanese",
+    "ko": "Korean", "vi": "Vietnamese", "id": "Indonesian", "th": "Thai"
+}
+
+
+def _detect_message_language(tenant: dict, message: str) -> str:
+    """偵測訊息語言，回傳語言代碼（如 zh-TW/en/ja...）。
+
+    供 /api/detect-language（網頁版）與 LINE webhook 共用，不複製偵測邏輯。
+    任何錯誤（含缺少 API key）皆 fallback "zh-TW"，不拋出。
+    """
     try:
-        tenant = request.tenant
         api_key = tenant.get("gemini_api_key")
         if not api_key:
             _env_key = tenant.get("api_key_env")
             if _env_key:
                 api_key = os.environ.get(_env_key)
         if not api_key:
-            return jsonify({"detected_language": {"language_code": "zh-TW", "language_name": "Traditional Chinese"}})
-        
+            return "zh-TW"
+
         from google import genai
         from google.genai import types
         import time
-        
+
         client = genai.Client(api_key=api_key)
-        
+
         prompt = f"""偵測以下文字的語言，並以 JSON 格式回傳結果。
-        
+
                     格式要求：
                     {{"language_code": "語言代碼", "language_name": "語言英文名稱"}}
 
@@ -95,7 +96,7 @@ def detect_language():
                     文字：{message}
 
                     只回傳 JSON，不要加任何說明。"""
-        
+
         api_start = time.time()
         response = client.models.generate_content(
             model="gemini-2.5-flash",
@@ -106,7 +107,7 @@ def detect_language():
             )
         )
         print(f"[Language] Gemini API: {time.time() - api_start:.2f}s")
-        
+
         response_text = response.text.strip()
         if response_text.startswith("```json"):
             response_text = response_text[7:]
@@ -114,15 +115,32 @@ def detect_language():
             response_text = response_text[3:]
         if response_text.endswith("```"):
             response_text = response_text[:-3]
-        
+
         detected = json.loads(response_text.strip())
         print(f"[Language] 偵測結果: {detected}")
-        return jsonify({"detected_language": detected})
-        
-    except Exception as e:
+        return detected.get("language_code") or "zh-TW"
+
+    except Exception:
         import traceback
         traceback.print_exc()
-        return jsonify({"detected_language": {"language_code": "zh-TW", "language_name": "Traditional Chinese"}})
+        return "zh-TW"
+
+
+@app.route("/api/detect-language", methods=["POST"])
+@require_tenant(tenant_manager)
+def detect_language():
+    """語言偵測端點（輕量版，不使用 Redis）"""
+    data = request.json
+    message = data.get("message")
+
+    if not message:
+        return jsonify({"error": "缺少訊息內容"}), 400
+
+    lang_code = _detect_message_language(request.tenant, message)
+    return jsonify({"detected_language": {
+        "language_code": lang_code,
+        "language_name": LANG_CODE_NAME_MAP.get(lang_code, "Traditional Chinese"),
+    }})
 
 def classify_intent(tenant_id: str, tenant: dict, message: str) -> str:
     """通路無關的意圖判斷：回傳服務 ID 或 'general'。
@@ -462,8 +480,9 @@ def _handle_line_message(tenant_id: str, line, text: str, user_id: str, reply_to
     try:
         tenant = tenant_manager.get_tenant(tenant_id)
         mode = classify_intent(tenant_id, tenant, text)
+        lang_code = _detect_message_language(tenant, text)
 
-        result = process_message(tenant_id, tenant, text, user_id=user_id, mode=mode)
+        result = process_message(tenant_id, tenant, text, user_id=user_id, mode=mode, lang=lang_code)
         reply_text = to_plain_text(result.get("response") or "")
         reply_text += format_references(result.get("references"))
         reply_text = reply_text.strip() or "抱歉，目前無法回覆，請稍後再試。"
