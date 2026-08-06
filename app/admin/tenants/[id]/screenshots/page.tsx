@@ -4,26 +4,24 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import AdminAPIClient from '@/lib/admin/api-client';
 
-interface ScreenshotItem {
-  id: number;
+interface PersonItem {
   session_id: string;
-  file_size: number;
-  created_at: string;
+  screenshot_count: number;
+  first_seen: string;
+  last_seen: string;
 }
 
 const PAGE_SIZE = 24;
 
-export default function TenantScreenshotsPage() {
+export default function TenantScreenshotPeoplePage() {
   const params = useParams();
   const router = useRouter();
   const tenantId = params.id as string;
 
-  const [items, setItems] = useState<ScreenshotItem[]>([]);
-  const [thumbUrls, setThumbUrls] = useState<Record<number, string>>({});
+  const [items, setItems] = useState<PersonItem[]>([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [preview, setPreview] = useState<{ id: number; createdAt: string } | null>(null);
 
   useEffect(() => {
     const apiKey = localStorage.getItem('admin_api_key');
@@ -35,41 +33,15 @@ export default function TenantScreenshotsPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tenantId, page]);
 
-  useEffect(() => {
-    return () => {
-      Object.values(thumbUrls).forEach((url) => URL.revokeObjectURL(url));
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const loadData = async (apiKey: string) => {
     setLoading(true);
     try {
       const client = new AdminAPIClient(apiKey);
-      const res = await client.getScreenshots(tenantId, page, PAGE_SIZE);
+      const res = await client.getScreenshotPeople(tenantId, page, PAGE_SIZE);
       setItems(res.items);
       setTotal(res.total);
-
-      const entries = await Promise.all(
-        res.items.map(async (item) => {
-          const url = client.getScreenshotFileUrl(tenantId, item.id);
-          const response = await fetch(url, { headers: { 'X-Admin-Key': apiKey } });
-          if (!response.ok) return null;
-          const blob = await response.blob();
-          return [item.id, URL.createObjectURL(blob)] as const;
-        })
-      );
-
-      setThumbUrls((prev) => {
-        Object.values(prev).forEach((url) => URL.revokeObjectURL(url));
-        const next: Record<number, string> = {};
-        for (const entry of entries) {
-          if (entry) next[entry[0]] = entry[1];
-        }
-        return next;
-      });
     } catch (e) {
-      console.error('載入截圖失敗:', e);
+      console.error('載入對話截圖名單失敗:', e);
     } finally {
       setLoading(false);
     }
@@ -87,7 +59,7 @@ export default function TenantScreenshotsPage() {
           ← 返回品牌設定
         </button>
         <h1 className="text-2xl font-bold text-gray-900">對話截圖記錄</h1>
-        <p className="text-sm text-gray-500 mt-1">共 {total} 筆</p>
+        <p className="text-sm text-gray-500 mt-1">共 {total} 位使用者留有對話紀錄</p>
       </div>
 
       <div className="bg-white rounded-2xl p-6 shadow-sm border">
@@ -99,28 +71,31 @@ export default function TenantScreenshotsPage() {
           <p className="text-gray-400 text-sm py-8 text-center">尚無截圖記錄</p>
         ) : (
           <>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            <div className="divide-y">
               {items.map((item) => (
                 <button
-                  key={item.id}
-                  onClick={() => setPreview({ id: item.id, createdAt: item.created_at })}
-                  className="text-left group"
+                  key={item.session_id}
+                  onClick={() =>
+                    router.push(
+                      `/admin/tenants/${tenantId}/screenshots/${encodeURIComponent(item.session_id)}`
+                    )
+                  }
+                  className="w-full flex items-center justify-between gap-4 py-4 text-left hover:bg-gray-50 px-2 -mx-2 rounded-lg transition-colors"
                 >
-                  <div className="aspect-video rounded-lg border overflow-hidden bg-gray-50 flex items-center justify-center">
-                    {thumbUrls[item.id] ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={thumbUrls[item.id]}
-                        alt={`screenshot-${item.id}`}
-                        className="w-full h-full object-cover group-hover:opacity-80 transition-opacity"
-                      />
-                    ) : (
-                      <span className="text-gray-300 text-xs">無法載入</span>
-                    )}
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium text-gray-900 truncate font-mono">
+                      {item.session_id}
+                    </p>
+                    <p className="text-xs text-gray-500 mt-0.5">
+                      最後對話：{new Date(item.last_seen).toLocaleString('zh-TW')}
+                    </p>
                   </div>
-                  <p className="text-xs text-gray-500 mt-1 truncate">
-                    {new Date(item.created_at).toLocaleString('zh-TW')}
-                  </p>
+                  <div className="flex items-center gap-3 shrink-0">
+                    <span className="text-xs font-medium bg-blue-50 text-blue-700 px-2.5 py-1 rounded-full">
+                      {item.screenshot_count} 則問答
+                    </span>
+                    <span className="text-gray-300">→</span>
+                  </div>
                 </button>
               ))}
             </div>
@@ -147,25 +122,6 @@ export default function TenantScreenshotsPage() {
           </>
         )}
       </div>
-
-      {preview && (
-        <div
-          className="fixed inset-0 bg-black/70 flex items-center justify-center p-6 z-50"
-          onClick={() => setPreview(null)}
-        >
-          <div className="max-w-3xl w-full">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={thumbUrls[preview.id]}
-              alt={`screenshot-${preview.id}`}
-              className="w-full rounded-xl border bg-white"
-            />
-            <p className="text-center text-white text-sm mt-3">
-              {new Date(preview.createdAt).toLocaleString('zh-TW')}
-            </p>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

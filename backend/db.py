@@ -129,8 +129,41 @@ def log_screenshot(tenant_id: str, session_id: str, user_message_id: str,
         print(f"[DB] ❌ log_screenshot 失敗: {e}")
 
 
-def list_screenshots(tenant_id: str, limit: int = 24, offset: int = 0) -> list:
-    """分頁列出某租戶的截圖記錄（不含 file_path，避免洩漏伺服器路徑）"""
+def list_screenshot_people(tenant_id: str, limit: int = 24, offset: int = 0) -> list:
+    """分頁列出某租戶「以人為單位」彙整後的對話截圖清單（每個 session_id 一筆彙總）"""
+    eng = get_engine()
+    if not eng:
+        return []
+    with eng.connect() as conn:
+        rows = conn.execute(text("""
+            SELECT
+                session_id,
+                COUNT(*) AS screenshot_count,
+                MIN(created_at) AS first_seen,
+                MAX(created_at) AS last_seen
+            FROM conversation_screenshots
+            WHERE tenant_id = :tid
+            GROUP BY session_id
+            ORDER BY MAX(created_at) DESC
+            LIMIT :limit OFFSET :offset
+        """), {"tid": tenant_id, "limit": limit, "offset": offset}).mappings().all()
+    return [dict(r) for r in rows]
+
+
+def count_screenshot_people(tenant_id: str) -> int:
+    """某租戶有截圖記錄的人數（distinct session_id）"""
+    eng = get_engine()
+    if not eng:
+        return 0
+    with eng.connect() as conn:
+        total = conn.execute(text("""
+            SELECT COUNT(DISTINCT session_id) FROM conversation_screenshots WHERE tenant_id = :tid
+        """), {"tid": tenant_id}).scalar()
+    return total or 0
+
+
+def list_screenshots(tenant_id: str, session_id: str, limit: int = 24, offset: int = 0) -> list:
+    """分頁列出某租戶「某一個人」的截圖記錄，依時間正序排列（還原對話發生順序）"""
     eng = get_engine()
     if not eng:
         return []
@@ -138,35 +171,35 @@ def list_screenshots(tenant_id: str, limit: int = 24, offset: int = 0) -> list:
         rows = conn.execute(text("""
             SELECT id, session_id, user_message_id, bot_message_id, file_size, created_at
             FROM conversation_screenshots
-            WHERE tenant_id = :tid
-            ORDER BY created_at DESC
+            WHERE tenant_id = :tid AND session_id = :sid
+            ORDER BY created_at ASC
             LIMIT :limit OFFSET :offset
-        """), {"tid": tenant_id, "limit": limit, "offset": offset}).mappings().all()
+        """), {"tid": tenant_id, "sid": session_id, "limit": limit, "offset": offset}).mappings().all()
     return [dict(r) for r in rows]
 
 
-def count_screenshots(tenant_id: str) -> int:
-    """某租戶的截圖總數"""
+def count_screenshots(tenant_id: str, session_id: str) -> int:
+    """某租戶「某一個人」的截圖總數"""
     eng = get_engine()
     if not eng:
         return 0
     with eng.connect() as conn:
         total = conn.execute(text("""
-            SELECT COUNT(*) FROM conversation_screenshots WHERE tenant_id = :tid
-        """), {"tid": tenant_id}).scalar()
+            SELECT COUNT(*) FROM conversation_screenshots WHERE tenant_id = :tid AND session_id = :sid
+        """), {"tid": tenant_id, "sid": session_id}).scalar()
     return total or 0
 
 
-def get_screenshot_file(tenant_id: str, screenshot_id: int):
-    """查出截圖真正的檔案路徑，同時驗證這筆記錄確實屬於這個租戶"""
+def get_screenshot_file(tenant_id: str, session_id: str, screenshot_id: int):
+    """查出截圖真正的檔案路徑，同時驗證這筆記錄確實屬於這個租戶＋這個人"""
     eng = get_engine()
     if not eng:
         return None
     with eng.connect() as conn:
         row = conn.execute(text("""
             SELECT file_path FROM conversation_screenshots
-            WHERE id = :id AND tenant_id = :tid
-        """), {"id": screenshot_id, "tid": tenant_id}).mappings().first()
+            WHERE id = :id AND tenant_id = :tid AND session_id = :sid
+        """), {"id": screenshot_id, "tid": tenant_id, "sid": session_id}).mappings().first()
     return row["file_path"] if row else None
 
 

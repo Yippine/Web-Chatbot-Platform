@@ -300,9 +300,30 @@ class AdminAPIClient {
     return `${ADMIN_API_URL}/api/admin/stats/${tenantId}/export${qs}`;
   }
 
-  // ==================== 截圖記錄 ====================
+  // ==================== 截圖記錄（以人為單位） ====================
 
-  async getScreenshots(tenantId: string, page: number = 1, pageSize: number = 24) {
+  /** 分頁列出某租戶「有對話截圖的人」清單 */
+  async getScreenshotPeople(tenantId: string, page: number = 1, pageSize: number = 24) {
+    return this.request<{
+      items: {
+        session_id: string;
+        screenshot_count: number;
+        first_seen: string;
+        last_seen: string;
+      }[];
+      total: number;
+      page: number;
+      page_size: number;
+    }>(`/api/admin/tenants/${tenantId}/screenshots?page=${page}&page_size=${pageSize}`);
+  }
+
+  /** 分頁列出某租戶「某一個人」的截圖，依時間正序（還原整段對話） */
+  async getScreenshotsForPerson(
+    tenantId: string,
+    sessionId: string,
+    page: number = 1,
+    pageSize: number = 24
+  ) {
     return this.request<{
       items: {
         id: number;
@@ -315,11 +336,14 @@ class AdminAPIClient {
       total: number;
       page: number;
       page_size: number;
-    }>(`/api/admin/tenants/${tenantId}/screenshots?page=${page}&page_size=${pageSize}`);
+      session_id: string;
+    }>(
+      `/api/admin/tenants/${tenantId}/screenshots/${encodeURIComponent(sessionId)}?page=${page}&page_size=${pageSize}`
+    );
   }
 
-  getScreenshotFileUrl(tenantId: string, screenshotId: number) {
-    return `${ADMIN_API_URL}/api/admin/tenants/${tenantId}/screenshots/${screenshotId}/file`;
+  getScreenshotFileUrl(tenantId: string, sessionId: string, screenshotId: number) {
+    return `${ADMIN_API_URL}/api/admin/tenants/${tenantId}/screenshots/${encodeURIComponent(sessionId)}/${screenshotId}/file`;
   }
 }
 

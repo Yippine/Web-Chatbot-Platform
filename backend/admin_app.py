@@ -17,7 +17,8 @@ from config.service_factory import ServiceFactory
 from db import (init_db, get_dashboard_stats, get_all_tenants_summary,
                 get_service_distribution, get_hourly_distribution, get_lang_distribution,
                 get_monthly_summary, get_daily_usage_detail, get_acceptance_kpi,
-                list_screenshots, count_screenshots, get_screenshot_file)
+                list_screenshots, count_screenshots, get_screenshot_file,
+                list_screenshot_people, count_screenshot_people)
 
 app = Flask(__name__)
 CORS(app)
@@ -159,25 +160,41 @@ def tenant_daily_stats(tenant_id):
         return jsonify({"error": str(e)}), 500
 
 
-# ==================== 截圖記錄 ====================
+# ==================== 截圖記錄（以人為單位） ====================
 
 @app.route("/api/admin/tenants/<tenant_id>/screenshots", methods=["GET"])
-def tenant_screenshots(tenant_id):
-    """分頁列出某租戶的對話截圖記錄"""
+def tenant_screenshot_people(tenant_id):
+    """分頁列出某租戶「有對話截圖的人」清單（每人一筆彙總：張數、首次/最後出現時間）"""
     try:
         page = max(int(request.args.get("page", 1)), 1)
         page_size = min(int(request.args.get("page_size", 24)), 100)
-        items = list_screenshots(tenant_id, limit=page_size, offset=(page - 1) * page_size)
-        total = count_screenshots(tenant_id)
+        items = list_screenshot_people(tenant_id, limit=page_size, offset=(page - 1) * page_size)
+        total = count_screenshot_people(tenant_id)
         return jsonify({"items": items, "total": total, "page": page, "page_size": page_size})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 
-@app.route("/api/admin/tenants/<tenant_id>/screenshots/<int:screenshot_id>/file", methods=["GET"])
-def tenant_screenshot_file(tenant_id, screenshot_id):
+@app.route("/api/admin/tenants/<tenant_id>/screenshots/<session_id>", methods=["GET"])
+def tenant_screenshots_for_person(tenant_id, session_id):
+    """分頁列出某租戶「某一個人」的對話截圖記錄，依時間正序（還原整段對話）"""
+    try:
+        page = max(int(request.args.get("page", 1)), 1)
+        page_size = min(int(request.args.get("page_size", 24)), 100)
+        items = list_screenshots(tenant_id, session_id, limit=page_size, offset=(page - 1) * page_size)
+        total = count_screenshots(tenant_id, session_id)
+        return jsonify({
+            "items": items, "total": total, "page": page, "page_size": page_size,
+            "session_id": session_id,
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/admin/tenants/<tenant_id>/screenshots/<session_id>/<int:screenshot_id>/file", methods=["GET"])
+def tenant_screenshot_file(tenant_id, session_id, screenshot_id):
     """回傳截圖檔案內容（僅限已通過 X-Admin-Key 驗證的管理後台呼叫）"""
-    file_path = get_screenshot_file(tenant_id, screenshot_id)
+    file_path = get_screenshot_file(tenant_id, session_id, screenshot_id)
     if not file_path or not os.path.exists(file_path):
         return jsonify({"error": "截圖不存在"}), 404
     return send_file(file_path, mimetype='image/png')

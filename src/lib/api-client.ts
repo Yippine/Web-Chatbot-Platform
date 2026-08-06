@@ -15,10 +15,12 @@ function generateUUID(): string {
 
 function getUserId(): string {
   if (typeof window === 'undefined') return 'server';
-  let id = sessionStorage.getItem('chatbot_user_id');
+  // 改用 localStorage（而非 sessionStorage）：讓同一個瀏覽器/裝置的使用者
+  // 跨天、跨分頁重新造訪時仍視為同一人，對話紀錄才能以「人」為單位彙整
+  let id = localStorage.getItem('chatbot_user_id');
   if (!id) {
     id = generateUUID();
-    sessionStorage.setItem('chatbot_user_id', id);
+    localStorage.setItem('chatbot_user_id', id);
   }
   return id;
 }

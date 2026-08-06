@@ -336,13 +336,15 @@ def _save_and_log_screenshot(image_bytes: bytes, tenant_id: str, session_id: str
             os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'screenshots')
         )
         now_tw = datetime.now(TAIWAN_TZ)
-        date_dir = now_tw.strftime('%Y%m%d')
-        tenant_dir = os.path.join(screenshots_root, tenant_id, date_dir)
-        os.makedirs(tenant_dir, exist_ok=True)
+        # 以「人」為單位存放：每個租戶底下，每個 session_id（= 前端 localStorage
+        # 記住的使用者 ID，跨天、跨分頁都相同）各自一個資料夾，同一人的所有問答
+        # 截圖都會累積在同一處，方便管理後台照人瀏覽整段對話
+        person_dir = os.path.join(screenshots_root, tenant_id, _sanitize_id(session_id) or 'unknown')
+        os.makedirs(person_dir, exist_ok=True)
 
         # 檔名統一用「月日_時分秒_毫秒」（台灣時區），毫秒只是為了避免同一秒內撞名
-        filename = f"{now_tw.strftime('%m%d_%H%M%S_%f')[:-3]}_{_sanitize_id(session_id)}_{_sanitize_id(bot_message_id)}.png"
-        file_path = os.path.join(tenant_dir, filename)
+        filename = f"{now_tw.strftime('%m%d_%H%M%S_%f')[:-3]}_{_sanitize_id(bot_message_id)}.png"
+        file_path = os.path.join(person_dir, filename)
         with open(file_path, 'wb') as f:
             f.write(image_bytes)
 
