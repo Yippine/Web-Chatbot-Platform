@@ -8,6 +8,7 @@ from typing import Dict, Optional, List
 import redis
 import json
 import os
+import re
 import time
 import concurrent.futures
 import requests
@@ -166,13 +167,17 @@ class BaseGeminiService:
                 )
             )
         
+        # thinking_budget 可由租戶服務設定覆寫（tenants.json 的 "thinking_budget"），
+        # 預設維持 0（全平台既有行為不變），只有明確設定的服務才會改用其他值
+        thinking_budget = self.config.get('thinking_budget', 0)
+
         # 配置
         config = types.GenerateContentConfig(
             tools=tools if tools else None,
             tool_config=tool_config,
             system_instruction=final_system_prompt,
             temperature=temperature,
-            thinking_config=types.ThinkingConfig(thinking_budget=0)
+            thinking_config=types.ThinkingConfig(thinking_budget=thinking_budget)
         )
         
         # 呼叫 Gemini API（含 503 retry）
@@ -197,7 +202,7 @@ class BaseGeminiService:
                 tools=[{"google_search": {}}] if use_grounding else None,
                 system_instruction=final_system_prompt,
                 temperature=temperature,
-                thinking_config=types.ThinkingConfig(thinking_budget=0)
+                thinking_config=types.ThinkingConfig(thinking_budget=thinking_budget)
             )
             fallback_start = time.time()
             response = self._call_gemini_with_retry(contents, config)
@@ -218,7 +223,7 @@ class BaseGeminiService:
                 tools=[{"google_search": {}}] if use_grounding else None,
                 system_instruction=final_system_prompt,
                 temperature=temperature,
-                thinking_config=types.ThinkingConfig(thinking_budget=0)
+                thinking_config=types.ThinkingConfig(thinking_budget=thinking_budget)
             )
             retry_start = time.time()
             response = self._call_gemini_with_retry(contents, retry_config)
@@ -227,7 +232,42 @@ class BaseGeminiService:
             if not answer_text or not answer_text.strip():
                 print(f"[{self.service_name}] ⚠️ retry 仍為空，使用 fallback 訊息")
                 answer_text = "抱歉，AI 模型暫時無法回應，請稍後再試一次~~~"
-        
+
+        # 「軟性失敗」重試：回應非空，但內容命中租戶自訂的失敗話術標記
+        # （例如模型在工具查詢沒整合成功時，依提示詞誠實說「查不到」，但這種情況
+        # 文字並非空白，不會被上面的空白重試邏輯攔到，所以需要另外偵測）。
+        # 僅在服務設定明確指定 retry_on_marker 時才啟用，預設不啟用、不影響其他租戶。
+        # 支援用 "|" 分隔多個標記字串，因為模型每次的失敗話術用字不一定完全一致（會換句話說）。
+        retry_on_marker_raw = self.config.get('retry_on_marker', '')
+        retry_markers = [m.strip() for m in retry_on_marker_raw.split('|') if m.strip()]
+        hit_marker = next((m for m in retry_markers if m in answer_text), None)
+        if hit_marker:
+            print(f"[{self.service_name}] ⚠️ 偵測到失敗話術標記「{hit_marker}」，retry 一次")
+            contents.pop()
+            contents.append(types.Content(
+                role="user",
+                parts=[types.Part(text=search_query)]
+            ))
+            marker_retry_config = types.GenerateContentConfig(
+                tools=[{"google_search": {}}] if use_grounding else None,
+                system_instruction=final_system_prompt,
+                temperature=temperature,
+                thinking_config=types.ThinkingConfig(thinking_budget=thinking_budget)
+            )
+            marker_retry_start = time.time()
+            marker_response = self._call_gemini_with_retry(contents, marker_retry_config)
+            api_call_time += time.time() - marker_retry_start
+            marker_answer_text = self._extract_text_only(marker_response)
+            # 只有在新的回應「有內容、且不再命中任何失敗標記」時才採用，否則保留原本的誠實回覆
+            marker_still_hit = any(m in marker_answer_text for m in retry_markers)
+            if marker_answer_text and marker_answer_text.strip() and not marker_still_hit:
+                answer_text = marker_answer_text
+            else:
+                print(f"[{self.service_name}] ⚠️ marker retry 仍命中標記或空白，保留原回應")
+
+        # 修正模型偶爾把多個網址/文字黏在同一組 Markdown 連結裡的格式問題
+        answer_text = self._fix_malformed_markdown_links(answer_text)
+
         # 更新對話歷史
         contents.append(types.Content(
             role="model",
@@ -307,6 +347,34 @@ class BaseGeminiService:
                     continue
                 raise
     
+    _MD_LINK_RE = re.compile(r'\[([^\]]*)\]\(([^)]+)\)')
+    _BARE_URL_RE = re.compile(r'https?://[^\s\)\]]+')
+
+    def _fix_malformed_markdown_links(self, text: str) -> str:
+        """修正模型偶爾把多個網址/文字全部塞進同一組 [label](...) 裡的格式錯誤
+
+        例如 [a](url1 三創生活官方粉絲頁：url2 您也可以撥打客服專線)
+        會被拆成: [a](url1)\n三創生活官方粉絲頁：url2\n您也可以撥打客服專線
+        對正常、單一網址的連結不會有任何改動。
+        """
+        if not text or '](' not in text:
+            return text
+
+        def _split_link(match: 're.Match') -> str:
+            label = match.group(1)
+            content = match.group(2).strip()
+            parts = content.split(None, 1)
+            url = parts[0]
+            rest = parts[1].strip() if len(parts) > 1 else ""
+            result = f"[{label}]({url})"
+            if rest:
+                rest = self._BARE_URL_RE.sub(lambda m: f"\n{m.group(0)}\n", rest)
+                rest = re.sub(r'\n{2,}', '\n', rest).strip()
+                result += f"\n{rest}"
+            return result
+
+        return self._MD_LINK_RE.sub(_split_link, text)
+
     def _extract_text_only(self, response) -> str:
         """從 response 中只提取非 thinking 的文字內容"""
         try:
