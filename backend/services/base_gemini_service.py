@@ -135,6 +135,10 @@ class BaseGeminiService:
                 f"不可依賴你自己對日期的內部認知，一律以此處提供的日期為準。]"
             )
 
+        # 記錄最終查詢
+        if use_grounding or use_url_context or use_maps:
+            print(f"[Grounding] 最終查詢: {search_query_with_url}")
+
         # 語言指令改貼在這一輪使用者訊息旁邊（而非只放在 system prompt 尾端）：
         # 多輪對話中，模型會傾向延續歷史已建立的語言，埋在長 system prompt 裡的指令
         # 蓋不過已經好幾輪的對話紀錄；貼在當前這輪訊息旁邊的指令權重更高，才切得過去。
