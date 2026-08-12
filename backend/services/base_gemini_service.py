@@ -12,6 +12,10 @@ import re
 import time
 import concurrent.futures
 import requests
+import datetime
+from zoneinfo import ZoneInfo
+
+_WEEKDAY_ZH = ['一', '二', '三', '四', '五', '六', '日']
 
 class BaseGeminiService:
     """Gemini API 通用服務基礎類別（多租戶版）"""
@@ -118,9 +122,18 @@ class BaseGeminiService:
         else:
             search_query_with_url = search_query
         
-        # 記錄最終查詢
-        if use_grounding or use_url_context or use_maps:
-            print(f"[Grounding] 最終查詢: {search_query_with_url}")
+        # 注入今天的實際日期：模型本身不知道「今天」是哪一天（沒有可靠的即時時鐘），
+        # 只有在查詢外部網頁（grounding/url_context）時才需要，讓模型能正確判斷查到的
+        # 活動/優惠等時效性資訊是「已過期」「即將開始」還是「進行中」，避免把過期資訊當現行回答。
+        if use_grounding or use_url_context:
+            now = datetime.datetime.now(ZoneInfo("Asia/Taipei"))
+            today_str = f"{now.strftime('%Y-%m-%d')}（星期{_WEEKDAY_ZH[now.weekday()]}）"
+            search_query_with_url += (
+                f"\n\n[今天的實際日期是 {today_str}。請以此為準判斷你查詢到的活動、優惠、"
+                f"新聞等時效性內容目前的狀態：結束日期早於今天的內容已過期，不可當作現行/進行中的活動回答；"
+                f"起始日期晚於今天的內容尚未開始，請明確標示「即將開始」而非「進行中」；"
+                f"不可依賴你自己對日期的內部認知，一律以此處提供的日期為準。]"
+            )
 
         # 語言指令改貼在這一輪使用者訊息旁邊（而非只放在 system prompt 尾端）：
         # 多輪對話中，模型會傾向延續歷史已建立的語言，埋在長 system prompt 裡的指令
