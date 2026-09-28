@@ -1063,7 +1063,7 @@
       "textColor": "white"
     },
     "line": {
-      "enabled": true,
+      "enabled": false,
       "channel_access_token_env": "TENANT_EOA168_LINE_TOKEN",
       "channel_secret_env": "TENANT_EOA168_LINE_SECRET"
     }
@@ -4921,6 +4921,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_FUTUREOA_LINE_TOKEN",
+      "channel_secret_env": "TENANT_FUTUREOA_LINE_SECRET"
     }
   },
   "taiwan_oa": {
@@ -4963,6 +4968,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_TAIWAN_OA_LINE_TOKEN",
+      "channel_secret_env": "TENANT_TAIWAN_OA_LINE_SECRET"
     }
   },
   "brother_office": {
@@ -5005,6 +5015,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_BROTHER_OFFICE_LINE_TOKEN",
+      "channel_secret_env": "TENANT_BROTHER_OFFICE_LINE_SECRET"
     }
   },
   "anchor_brake": {
@@ -5089,6 +5104,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_HCT_PRINTER_LINE_TOKEN",
+      "channel_secret_env": "TENANT_HCT_PRINTER_LINE_SECRET"
     }
   },
   "jiuhdong": {
@@ -5131,6 +5151,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": true,
+      "channel_access_token_env": "TENANT_JIUHDONG_LINE_TOKEN",
+      "channel_secret_env": "TENANT_JIUHDONG_LINE_SECRET"
     }
   },
   "dgtprintwell": {
@@ -5173,6 +5198,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_DGTPRINTWELL_LINE_TOKEN",
+      "channel_secret_env": "TENANT_DGTPRINTWELL_LINE_SECRET"
     }
   },
   "carmen": {
@@ -5341,6 +5371,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_YUANGMO_LINE_TOKEN",
+      "channel_secret_env": "TENANT_YUANGMO_LINE_SECRET"
     }
   },
   "germanwine": {
@@ -5551,6 +5586,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_DONGHONG_LINE_TOKEN",
+      "channel_secret_env": "TENANT_DONGHONG_LINE_SECRET"
     }
   },
   "slowlifect": {
@@ -7485,6 +7525,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_CHUANHSING_LINE_TOKEN",
+      "channel_secret_env": "TENANT_CHUANHSING_LINE_SECRET"
     }
   },
   "iscesg": {
@@ -7913,6 +7958,1604 @@
       "enabled": true,
       "channel_access_token_env": "TENANT_SYNTREND_LINE_TOKEN",
       "channel_secret_env": "TENANT_SYNTREND_LINE_SECRET"
+    }
+  },
+  "chianeng": {
+    "id": "chianeng",
+    "name": "佳能行",
+    "api_key_env": "TENANT_CHIANENG_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/chianeng/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "佳能行",
+        "allowed_domains": "https://www.chianeng.com.tw/,chianeng.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "佳能行 AI 助理",
+      "title": "佳能行智能助理",
+      "subtitle": "佳能行",
+      "welcomeMessage": "您好！我是佳能行的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_CHIANENG_LINE_TOKEN",
+      "channel_secret_env": "TENANT_CHIANENG_LINE_SECRET"
+    }
+  },
+  "newimage": {
+    "id": "newimage",
+    "name": "影像電腦股份有限公司",
+    "api_key_env": "TENANT_NEWIMAGE_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/newimage/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "影像電腦",
+        "allowed_domains": "https://www.newimage.com.tw/,newimage.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "影像電腦股份有限公司 AI 助理",
+      "title": "影像電腦股份有限公司智能助理",
+      "subtitle": "影像電腦股份有限公司",
+      "welcomeMessage": "您好！我是影像電腦的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_NEWIMAGE_LINE_TOKEN",
+      "channel_secret_env": "TENANT_NEWIMAGE_LINE_SECRET"
+    }
+  },
+  "yanray": {
+    "id": "yanray",
+    "name": "言瑞開發科技股份有限公司",
+    "api_key_env": "TENANT_YANRAY_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/yanray/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "言瑞開發科技",
+        "allowed_domains": "https://www.yanray.com.tw/,yanray.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "言瑞開發科技股份有限公司 AI 助理",
+      "title": "言瑞開發科技股份有限公司智能助理",
+      "subtitle": "言瑞開發科技股份有限公司",
+      "welcomeMessage": "您好！我是言瑞開發科技的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_YANRAY_LINE_TOKEN",
+      "channel_secret_env": "TENANT_YANRAY_LINE_SECRET"
+    }
+  },
+  "baijigoods": {
+    "id": "baijigoods",
+    "name": "百吉品有限公司",
+    "api_key_env": "TENANT_BAIJIGOODS_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/baijigoods/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "百吉品",
+        "allowed_domains": "https://baijigoods.com/,baijigoods.com",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "百吉品有限公司 AI 助理",
+      "title": "百吉品有限公司智能助理",
+      "subtitle": "百吉品有限公司",
+      "welcomeMessage": "您好！我是百吉品的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_BAIJIGOODS_LINE_TOKEN",
+      "channel_secret_env": "TENANT_BAIJIGOODS_LINE_SECRET"
+    }
+  },
+  "epson_service": {
+    "id": "epson_service",
+    "name": "捷修網股份有限公司",
+    "api_key_env": "TENANT_EPSON_SERVICE_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/epson_service/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "捷修網",
+        "allowed_domains": "https://www.epson-service.com.tw/defaul.page,epson-service.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "捷修網股份有限公司 AI 助理",
+      "title": "捷修網股份有限公司智能助理",
+      "subtitle": "捷修網股份有限公司",
+      "welcomeMessage": "您好！我是捷修網的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_EPSON_SERVICE_LINE_TOKEN",
+      "channel_secret_env": "TENANT_EPSON_SERVICE_LINE_SECRET"
+    }
+  },
+  "ytcanon": {
+    "id": "ytcanon",
+    "name": "永倉企業有限公司",
+    "api_key_env": "TENANT_YTCANON_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/ytcanon/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "永倉企業",
+        "allowed_domains": "http://www.ytcanon.com.tw/,ytcanon.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "永倉企業有限公司 AI 助理",
+      "title": "永倉企業有限公司智能助理",
+      "subtitle": "永倉企業有限公司",
+      "welcomeMessage": "您好！我是永倉企業的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_YTCANON_LINE_TOKEN",
+      "channel_secret_env": "TENANT_YTCANON_LINE_SECRET"
+    }
+  },
+  "lidoking": {
+    "id": "lidoking",
+    "name": "利多金科技有限公司",
+    "api_key_env": "TENANT_LIDOKING_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/lidoking/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "利多金科技",
+        "allowed_domains": "https://www.lidoking.com.tw/shopping.html,lidoking.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "利多金科技有限公司 AI 助理",
+      "title": "利多金科技有限公司智能助理",
+      "subtitle": "利多金科技有限公司",
+      "welcomeMessage": "您好！我是利多金科技的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_LIDOKING_LINE_TOKEN",
+      "channel_secret_env": "TENANT_LIDOKING_LINE_SECRET"
+    }
+  },
+  "kssolutions": {
+    "id": "kssolutions",
+    "name": "康順資通股份有限公司",
+    "api_key_env": "TENANT_KSSOLUTIONS_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/kssolutions/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "康順資通",
+        "allowed_domains": "https://www.kssolutions.tw/,kssolutions.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "康順資通股份有限公司 AI 助理",
+      "title": "康順資通股份有限公司智能助理",
+      "subtitle": "康順資通股份有限公司",
+      "welcomeMessage": "您好！我是康順資通的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_KSSOLUTIONS_LINE_TOKEN",
+      "channel_secret_env": "TENANT_KSSOLUTIONS_LINE_SECRET"
+    }
+  },
+  "skymfp": {
+    "id": "skymfp",
+    "name": "東興事務機器有限公司",
+    "api_key_env": "TENANT_SKYMFP_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/skymfp/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "東興事務機器",
+        "allowed_domains": "https://www.skymfp.com.tw/,skymfp.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "東興事務機器有限公司 AI 助理",
+      "title": "東興事務機器有限公司智能助理",
+      "subtitle": "東興事務機器有限公司",
+      "welcomeMessage": "您好！我是東興事務機器的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_SKYMFP_LINE_TOKEN",
+      "channel_secret_env": "TENANT_SKYMFP_LINE_SECRET"
+    }
+  },
+  "sunstart": {
+    "id": "sunstart",
+    "name": "上伊美",
+    "api_key_env": "TENANT_SUNSTART_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/sunstart/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "上伊美",
+        "allowed_domains": "https://sunstart.com.tw/,sunstart.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "上伊美 AI 助理",
+      "title": "上伊美智能助理",
+      "subtitle": "上伊美",
+      "welcomeMessage": "您好！我是上伊美的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_SUNSTART_LINE_TOKEN",
+      "channel_secret_env": "TENANT_SUNSTART_LINE_SECRET"
+    }
+  },
+  "vinix": {
+    "id": "vinix",
+    "name": "維創科技",
+    "api_key_env": "TENANT_VINIX_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/vinix/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "維創科技",
+        "allowed_domains": "https://www.vinix.com.tw/,vinix.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "維創科技 AI 助理",
+      "title": "維創科技智能助理",
+      "subtitle": "維創科技",
+      "welcomeMessage": "您好！我是維創科技的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_VINIX_LINE_TOKEN",
+      "channel_secret_env": "TENANT_VINIX_LINE_SECRET"
+    }
+  },
+  "weipeng": {
+    "id": "weipeng",
+    "name": "威鵬科技有限公司",
+    "api_key_env": "TENANT_WEIPENG_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/weipeng/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "威鵬科技",
+        "allowed_domains": "http://www.weipeng-wp.com/,weipeng-wp.com",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "威鵬科技有限公司 AI 助理",
+      "title": "威鵬科技有限公司智能助理",
+      "subtitle": "威鵬科技有限公司",
+      "welcomeMessage": "您好！我是威鵬科技的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_WEIPENG_LINE_TOKEN",
+      "channel_secret_env": "TENANT_WEIPENG_LINE_SECRET"
+    }
+  },
+  "mbm": {
+    "id": "mbm",
+    "name": "正中資訊科技有限公司",
+    "api_key_env": "TENANT_MBM_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/mbm/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "正中資訊科技",
+        "allowed_domains": "https://www.mbm.com.tw/,mbm.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "正中資訊科技有限公司 AI 助理",
+      "title": "正中資訊科技有限公司智能助理",
+      "subtitle": "正中資訊科技有限公司",
+      "welcomeMessage": "您好！我是正中資訊科技的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_MBM_LINE_TOKEN",
+      "channel_secret_env": "TENANT_MBM_LINE_SECRET"
+    }
+  },
+  "toshibatec": {
+    "id": "toshibatec",
+    "name": "台芝國際股份有限公司",
+    "api_key_env": "TENANT_TOSHIBATEC_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/toshibatec/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "台芝國際",
+        "allowed_domains": "http://www.toshibatec.com.tw/,toshibatec.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "台芝國際股份有限公司 AI 助理",
+      "title": "台芝國際股份有限公司智能助理",
+      "subtitle": "台芝國際股份有限公司",
+      "welcomeMessage": "您好！我是台芝國際的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_TOSHIBATEC_LINE_TOKEN",
+      "channel_secret_env": "TENANT_TOSHIBATEC_LINE_SECRET"
+    }
+  },
+  "fortrans": {
+    "id": "fortrans",
+    "name": "鴻詮商業機器有限公司",
+    "api_key_env": "TENANT_FORTRANS_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/fortrans/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "鴻詮商業機器",
+        "allowed_domains": "https://www.fortrans.com.tw/,fortrans.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "鴻詮商業機器有限公司 AI 助理",
+      "title": "鴻詮商業機器有限公司智能助理",
+      "subtitle": "鴻詮商業機器有限公司",
+      "welcomeMessage": "您好！我是鴻詮商業機器的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_FORTRANS_LINE_TOKEN",
+      "channel_secret_env": "TENANT_FORTRANS_LINE_SECRET"
+    }
+  },
+  "chiangya": {
+    "id": "chiangya",
+    "name": "強亞貿易股份有限公司",
+    "api_key_env": "TENANT_CHIANGYA_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/chiangya/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "強亞貿易",
+        "allowed_domains": "https://chiangya.com/,chiangya.com",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "強亞貿易股份有限公司 AI 助理",
+      "title": "強亞貿易股份有限公司智能助理",
+      "subtitle": "強亞貿易股份有限公司",
+      "welcomeMessage": "您好！我是強亞貿易的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_CHIANGYA_LINE_TOKEN",
+      "channel_secret_env": "TENANT_CHIANGYA_LINE_SECRET"
+    }
+  },
+  "parliking": {
+    "id": "parliking",
+    "name": "晧晟實業股份有限公司",
+    "api_key_env": "TENANT_PARLIKING_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/parliking/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "晧晟實業",
+        "allowed_domains": "https://www.parliking.com.tw/,parliking.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "晧晟實業股份有限公司 AI 助理",
+      "title": "晧晟實業股份有限公司智能助理",
+      "subtitle": "晧晟實業股份有限公司",
+      "welcomeMessage": "您好！我是晧晟實業的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_PARLIKING_LINE_TOKEN",
+      "channel_secret_env": "TENANT_PARLIKING_LINE_SECRET"
+    }
+  },
+  "fujifilm_tw": {
+    "id": "fujifilm_tw",
+    "name": "台灣富士軟片資訊(股)桃園分公司",
+    "api_key_env": "TENANT_FUJIFILM_TW_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/fujifilm_tw/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "台灣富士軟片資訊 桃園分公司",
+        "allowed_domains": "https://www.fujifilm.com/fbtw/zh-tw,fujifilm.com",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "台灣富士軟片資訊(股)桃園分公司 AI 助理",
+      "title": "台灣富士軟片資訊(股)桃園分公司智能助理",
+      "subtitle": "台灣富士軟片資訊(股)桃園分公司",
+      "welcomeMessage": "您好！我是台灣富士軟片資訊 桃園分公司的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_FUJIFILM_TW_LINE_TOKEN",
+      "channel_secret_env": "TENANT_FUJIFILM_TW_LINE_SECRET"
+    }
+  },
+  "sysform": {
+    "id": "sysform",
+    "name": "向盟科技股份有限公司",
+    "api_key_env": "TENANT_SYSFORM_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/sysform/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "向盟科技",
+        "allowed_domains": "https://sysform.com.tw/,sysform.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "向盟科技股份有限公司 AI 助理",
+      "title": "向盟科技股份有限公司智能助理",
+      "subtitle": "向盟科技股份有限公司",
+      "welcomeMessage": "您好！我是向盟科技的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_SYSFORM_LINE_TOKEN",
+      "channel_secret_env": "TENANT_SYSFORM_LINE_SECRET"
+    }
+  },
+  "allprint": {
+    "id": "allprint",
+    "name": "凱通國際",
+    "api_key_env": "TENANT_ALLPRINT_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/allprint/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "凱通國際",
+        "allowed_domains": "https://www.allprint.com.tw/,allprint.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "凱通國際 AI 助理",
+      "title": "凱通國際智能助理",
+      "subtitle": "凱通國際",
+      "welcomeMessage": "您好！我是凱通國際的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_ALLPRINT_LINE_TOKEN",
+      "channel_secret_env": "TENANT_ALLPRINT_LINE_SECRET"
+    }
+  },
+  "ej_oa": {
+    "id": "ej_oa",
+    "name": "逸杰科技有限公司",
+    "api_key_env": "TENANT_EJ_OA_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/ej_oa/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "逸杰科技",
+        "allowed_domains": "https://www.ej-oa.com/,ej-oa.com",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "逸杰科技有限公司 AI 助理",
+      "title": "逸杰科技有限公司智能助理",
+      "subtitle": "逸杰科技有限公司",
+      "welcomeMessage": "您好！我是逸杰科技的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_EJ_OA_LINE_TOKEN",
+      "channel_secret_env": "TENANT_EJ_OA_LINE_SECRET"
+    }
+  },
+  "lizicanon": {
+    "id": "lizicanon",
+    "name": "立芝有限公司",
+    "api_key_env": "TENANT_LIZICANON_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/lizicanon/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "立芝",
+        "allowed_domains": "https://www.lizicanon.com.tw/,lizicanon.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "立芝有限公司 AI 助理",
+      "title": "立芝有限公司智能助理",
+      "subtitle": "立芝有限公司",
+      "welcomeMessage": "您好！我是立芝的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_LIZICANON_LINE_TOKEN",
+      "channel_secret_env": "TENANT_LIZICANON_LINE_SECRET"
+    }
+  },
+  "viewartist": {
+    "id": "viewartist",
+    "name": "景懋科技",
+    "api_key_env": "TENANT_VIEWARTIST_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/viewartist/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "景懋科技",
+        "allowed_domains": "https://www.viewartist.com/,viewartist.com",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "景懋科技 AI 助理",
+      "title": "景懋科技智能助理",
+      "subtitle": "景懋科技",
+      "welcomeMessage": "您好！我是景懋科技的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_VIEWARTIST_LINE_TOKEN",
+      "channel_secret_env": "TENANT_VIEWARTIST_LINE_SECRET"
+    }
+  },
+  "yungi": {
+    "id": "yungi",
+    "name": "永鉅事務機",
+    "api_key_env": "TENANT_YUNGI_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/yungi/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "永鉅事務機",
+        "allowed_domains": "https://www.yungi.com.tw/,yungi.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "永鉅事務機 AI 助理",
+      "title": "永鉅事務機智能助理",
+      "subtitle": "永鉅事務機",
+      "welcomeMessage": "您好！我是永鉅事務機的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_YUNGI_LINE_TOKEN",
+      "channel_secret_env": "TENANT_YUNGI_LINE_SECRET"
+    }
+  },
+  "fujich": {
+    "id": "fujich",
+    "name": "富士經銷有限公司",
+    "api_key_env": "TENANT_FUJICH_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/fujich/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "富士經銷",
+        "allowed_domains": "https://www.fujich.com.tw/,fujich.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "富士經銷有限公司 AI 助理",
+      "title": "富士經銷有限公司智能助理",
+      "subtitle": "富士經銷有限公司",
+      "welcomeMessage": "您好！我是富士經銷的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_FUJICH_LINE_TOKEN",
+      "channel_secret_env": "TENANT_FUJICH_LINE_SECRET"
+    }
+  },
+  "huawei_chiayi": {
+    "id": "huawei_chiayi",
+    "name": "華緯資訊企業社",
+    "api_key_env": "TENANT_HUAWEI_CHIAYI_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/huawei_chiayi/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "華緯資訊企業社",
+        "allowed_domains": "https://huawei-chiayi.com.tw/,huawei-chiayi.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "華緯資訊企業社 AI 助理",
+      "title": "華緯資訊企業社智能助理",
+      "subtitle": "華緯資訊企業社",
+      "welcomeMessage": "您好！我是華緯資訊企業社的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_HUAWEI_CHIAYI_LINE_TOKEN",
+      "channel_secret_env": "TENANT_HUAWEI_CHIAYI_LINE_SECRET"
+    }
+  },
+  "join_young": {
+    "id": "join_young",
+    "name": "久亮實業",
+    "api_key_env": "TENANT_JOIN_YOUNG_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/join_young/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "久亮實業",
+        "allowed_domains": "https://www.join-young.com/about,join-young.com",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "久亮實業 AI 助理",
+      "title": "久亮實業智能助理",
+      "subtitle": "久亮實業",
+      "welcomeMessage": "您好！我是久亮實業的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": true,
+      "channel_access_token_env": "TENANT_JOIN_YOUNG_LINE_TOKEN",
+      "channel_secret_env": "TENANT_JOIN_YOUNG_LINE_SECRET"
+    }
+  },
+  "kaochun": {
+    "id": "kaochun",
+    "name": "高群企業",
+    "api_key_env": "TENANT_KAOCHUN_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/kaochun/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "高群企業",
+        "allowed_domains": "https://kaochun.com.tw/,kaochun.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "高群企業 AI 助理",
+      "title": "高群企業智能助理",
+      "subtitle": "高群企業",
+      "welcomeMessage": "您好！我是高群企業的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_KAOCHUN_LINE_TOKEN",
+      "channel_secret_env": "TENANT_KAOCHUN_LINE_SECRET"
+    }
+  },
+  "cfw_copy": {
+    "id": "cfw_copy",
+    "name": "全方位事務科技",
+    "api_key_env": "TENANT_CFW_COPY_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/cfw_copy/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "全方位事務科技",
+        "allowed_domains": "https://www.cfw-copy.com.tw/photocopier.html,cfw-copy.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "全方位事務科技 AI 助理",
+      "title": "全方位事務科技智能助理",
+      "subtitle": "全方位事務科技",
+      "welcomeMessage": "您好！我是全方位事務科技的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_CFW_COPY_LINE_TOKEN",
+      "channel_secret_env": "TENANT_CFW_COPY_LINE_SECRET"
+    }
+  },
+  "hekangtech": {
+    "id": "hekangtech",
+    "name": "合康事務科技",
+    "api_key_env": "TENANT_HEKANGTECH_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/hekangtech/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "合康事務科技",
+        "allowed_domains": "https://www.hekangtech.com.tw/,hekangtech.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "合康事務科技 AI 助理",
+      "title": "合康事務科技智能助理",
+      "subtitle": "合康事務科技",
+      "welcomeMessage": "您好！我是合康事務科技的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_HEKANGTECH_LINE_TOKEN",
+      "channel_secret_env": "TENANT_HEKANGTECH_LINE_SECRET"
+    }
+  },
+  "dachian": {
+    "id": "dachian",
+    "name": "大千事務機器",
+    "api_key_env": "TENANT_DACHIAN_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/dachian/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "大千事務機器",
+        "allowed_domains": "https://www.dachian.com.tw/,dachian.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "大千事務機器 AI 助理",
+      "title": "大千事務機器智能助理",
+      "subtitle": "大千事務機器",
+      "welcomeMessage": "您好！我是大千事務機器的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_DACHIAN_LINE_TOKEN",
+      "channel_secret_env": "TENANT_DACHIAN_LINE_SECRET"
+    }
+  },
+  "ps_tech": {
+    "id": "ps_tech",
+    "name": "品碩科技",
+    "api_key_env": "TENANT_PS_TECH_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/ps_tech/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "品碩科技",
+        "allowed_domains": "https://ps-tech.com.tw/,ps-tech.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "品碩科技 AI 助理",
+      "title": "品碩科技智能助理",
+      "subtitle": "品碩科技",
+      "welcomeMessage": "您好！我是品碩科技的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_PS_TECH_LINE_TOKEN",
+      "channel_secret_env": "TENANT_PS_TECH_LINE_SECRET"
+    }
+  },
+  "shenli": {
+    "id": "shenli",
+    "name": "信立事務機器",
+    "api_key_env": "TENANT_SHENLI_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/shenli/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "信立事務機器",
+        "allowed_domains": "https://www.shenli.com.tw/,shenli.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "信立事務機器 AI 助理",
+      "title": "信立事務機器智能助理",
+      "subtitle": "信立事務機器",
+      "welcomeMessage": "您好！我是信立事務機器的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_SHENLI_LINE_TOKEN",
+      "channel_secret_env": "TENANT_SHENLI_LINE_SECRET"
+    }
+  },
+  "schyuan": {
+    "id": "schyuan",
+    "name": "世全事務機器",
+    "api_key_env": "TENANT_SCHYUAN_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/schyuan/general.md",
+        "temperature": 0.7,
+        "use_grounding": true,
+        "search_keyword": "世全事務機器",
+        "allowed_domains": "https://www.schyuan.com.tw/,schyuan.com.tw",
+        "loading_message": "為您查詢中，請稍後",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "世全事務機器 AI 助理",
+      "title": "世全事務機器智能助理",
+      "subtitle": "世全事務機器",
+      "welcomeMessage": "您好！我是世全事務機器的智能助理，請問有什麼可以幫您？",
+      "placeholder": "請輸入您的問題...",
+      "header": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#1f2937"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_SCHYUAN_LINE_TOKEN",
+      "channel_secret_env": "TENANT_SCHYUAN_LINE_SECRET"
     }
   }
 }

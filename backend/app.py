@@ -472,12 +472,13 @@ def query_data():
 # ==================== LINE 通路 ====================
 
 def _handle_line_message(tenant_id: str, line, text: str, user_id: str, reply_token: str):
-    """背景處理 LINE 訊息：意圖路由 → process_message → markdown 降級 → reply/push。
+    """背景處理 LINE 訊息：loading 動畫 → 意圖路由 → process_message → reply/push。
 
     LINE 行為與 web 一致：永遠做意圖分流，候選服務由各服務的「啟用服務」決定。
     """
     from utils.markdown_converter import to_plain_text, format_references
     try:
+        line.show_loading(user_id)
         tenant = tenant_manager.get_tenant(tenant_id)
         mode = classify_intent(tenant_id, tenant, text)
         lang_code = _detect_message_language(tenant, text)
@@ -532,8 +533,8 @@ def line_webhook(tenant_id):
         # 僅處理文字訊息事件（非文字略過）
         if isinstance(event, MessageEvent) and isinstance(event.message, TextMessageContent):
             user_id = event.source.user_id
-            # 立即顯示 loading 動畫，背景跑 AI
-            line.show_loading(user_id)
+            # loading 動畫本身也是一次對外 HTTPS 呼叫，留在請求路徑會拖慢回應、
+            # 被 LINE 提前斷線（nginx 記 499），因此一併丟背景，這裡只負責秒回 200
             _line_pool.submit(
                 _handle_line_message, tenant_id, line, event.message.text,
                 user_id, event.reply_token,

@@ -12,6 +12,10 @@ from linebot.v3.messaging import (
 # LINE 單則文字訊息上限 5000 字
 LINE_TEXT_LIMIT = 5000
 
+# 對外 HTTPS 呼叫一律設逾時 (connect, read)：沒有逾時的 socket 會把 gunicorn
+# worker 永久卡住，連 gunicorn 的 SIGABRT 都收不到，最後整個後端停止服務
+LINE_TIMEOUT = (3.05, 10)
+
 
 class LineService:
     """單一租戶的 LINE 服務（以該租戶的 channel 憑證初始化）。"""
@@ -39,7 +43,8 @@ class LineService:
                 ReplyMessageRequest(
                     reply_token=reply_token,
                     messages=[TextMessage(text=self._truncate(text))],
-                )
+                ),
+                _request_timeout=LINE_TIMEOUT,
             )
 
     def push(self, user_id: str, text: str):
@@ -49,7 +54,8 @@ class LineService:
                 PushMessageRequest(
                     to=user_id,
                     messages=[TextMessage(text=self._truncate(text))],
-                )
+                ),
+                _request_timeout=LINE_TIMEOUT,
             )
 
     def show_loading(self, user_id: str, seconds: int = 40):
@@ -60,7 +66,8 @@ class LineService:
                     ShowLoadingAnimationRequest(
                         chatId=user_id,
                         loadingSeconds=min(seconds, 60),
-                    )
+                    ),
+                    _request_timeout=LINE_TIMEOUT,
                 )
         except Exception as e:
             print(f"[LINE] loading 動畫失敗: {e}")

@@ -17,21 +17,54 @@ class TenantManager:
             )
         self.config_path = config_path
         self.tenants = {}
+        # 檔案指紋 (mtime, size)：內容沒變就不重讀，避免每次請求都 parse 整份設定
+        self._config_stamp = None
+        self._env_path = os.path.join(os.path.dirname(__file__), '..', '.env')
+        self._env_cache = {}
+        self._env_stamp = None
         self.load_tenants()
     
-    def load_tenants(self):
-        """從 JSON 載入所有租戶設定"""
+    @staticmethod
+    def _file_stamp(path: str):
+        """回傳檔案的 (mtime, size)；讀不到回 None。"""
         try:
-            if os.path.exists(self.config_path):
+            st = os.stat(path)
+            return (st.st_mtime, st.st_size)
+        except OSError:
+            return None
+
+    def _load_env(self) -> Dict:
+        """讀取 .env（依檔案指紋快取，沒變動就沿用上次結果）。"""
+        stamp = self._file_stamp(self._env_path)
+        if stamp != self._env_stamp:
+            from dotenv import dotenv_values
+            self._env_cache = dotenv_values(self._env_path)
+            self._env_stamp = stamp
+        return self._env_cache
+
+    def load_tenants(self, force: bool = False):
+        """從 JSON 載入所有租戶設定。
+
+        依檔案指紋判斷是否真的要重讀：LINE webhook 每則訊息都會走 get_tenant()，
+        沒有這層快取就會每次都重新 parse 整份 tenants.json。
+        """
+        stamp = self._file_stamp(self.config_path)
+        if not force and stamp is not None and stamp == self._config_stamp:
+            return
+        try:
+            if stamp is not None:
                 with open(self.config_path, 'r', encoding='utf-8') as f:
                     self.tenants = json.load(f)
+                self._config_stamp = stamp
                 print(f"[TenantManager] 載入 {len(self.tenants)} 個租戶設定")
             else:
                 print(f"[TenantManager] 設定檔不存在: {self.config_path}")
                 self.tenants = {}
+                self._config_stamp = None
         except Exception as e:
             print(f"[TenantManager] 載入設定失敗: {e}")
             self.tenants = {}
+            self._config_stamp = None
     
     def get_tenant(self, tenant_id: str, auto_reload: bool = True) -> Optional[Dict]:
         """取得特定租戶設定"""
@@ -39,23 +72,28 @@ class TenantManager:
         if auto_reload:
             self.load_tenants()
         
-        tenant = self.tenants.get(tenant_id)
-        if tenant is None:
+        raw = self.tenants.get(tenant_id)
+        if raw is None:
             print(f"[TenantManager] 租戶不存在: {tenant_id}")
             return None
-        
-        if not tenant.get('enabled', True):
+
+        if not raw.get('enabled', True):
             print(f"[TenantManager] 租戶未啟用: {tenant_id}")
             return None
-        
+
+        # 回傳副本：下方注入的憑證只活在這份副本，不會污染 self.tenants
+        # （admin 端會把 list_tenants() 的結果寫回 tenants.json，污染了就外洩）
+        tenant = dict(raw)
+        line_config = dict(raw.get('line') or {})
+        if 'line' in raw:
+            tenant['line'] = line_config
+
         # 從 .env 檔案即時讀取 API Key / LINE 憑證（免重啟容器）
-        api_key_env = tenant.get('api_key_env')
-        line_config = tenant.get('line') or {}
+        api_key_env = raw.get('api_key_env')
         token_env = line_config.get('channel_access_token_env')
         secret_env = line_config.get('channel_secret_env')
         if api_key_env or token_env or secret_env:
-            from dotenv import dotenv_values
-            env = dotenv_values(os.path.join(os.path.dirname(__file__), '..', '.env'))
+            env = self._load_env()
 
             if api_key_env:
                 api_key = env.get(api_key_env)
@@ -89,7 +127,7 @@ class TenantManager:
     def reload(self):
         """重新載入設定 (支援熱更新)"""
         print("[TenantManager] 重新載入設定")
-        self.load_tenants()
+        self.load_tenants(force=True)
     
     def list_tenants(self) -> Dict:
         """列出所有租戶"""

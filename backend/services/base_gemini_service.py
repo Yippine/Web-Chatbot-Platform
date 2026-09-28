@@ -32,7 +32,11 @@ class BaseGeminiService:
         default_search_keyword: str = None,
         config: Dict = None
     ):
-        self.client = genai.Client(api_key=api_key)
+        # timeout 單位為毫秒。不設的話連線一旦卡住，這個 worker 就再也回不來
+        self.client = genai.Client(
+            api_key=api_key,
+            http_options=types.HttpOptions(timeout=30_000),
+        )
         self.service_name = service_name
         self.tenant_id = tenant_id
         self.default_temperature = default_temperature
@@ -356,6 +360,11 @@ class BaseGeminiService:
                 )
             except Exception as e:
                 error_str = str(e)
+                # 每日配額用盡（quotaId 含 PerDay）retry 再多次也不會過，只是多佔
+                # worker 幾秒；併發一上來就會把 worker 全部塞滿，直接放棄比較好
+                if 'PerDay' in error_str or 'per day' in error_str:
+                    print(f"[{self.service_name}] ❌ Gemini 每日配額已用盡，不 retry")
+                    raise
                 is_retryable = '503' in error_str or '429' in error_str or 'UNAVAILABLE' in error_str or 'RESOURCE_EXHAUSTED' in error_str
                 if is_retryable and attempt < max_retries:
                     wait = (attempt + 1) * 2  # 2s, 4s
