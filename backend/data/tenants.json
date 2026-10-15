@@ -7915,5 +7915,52 @@
       "channel_access_token_env": "TENANT_SYNTREND_LINE_TOKEN",
       "channel_secret_env": "TENANT_SYNTREND_LINE_SECRET"
     }
+  },
+  "psingtek": {
+    "id": "psingtek",
+    "name": "平心資通有限公司",
+    "api_key_env": "TENANT_PSINGTEK_GEMINI_API_KEY",
+    "enabled": true,
+    "category_id": "lesson",
+    "services": {
+      "general": {
+        "name": "通用對話",
+        "icon": "💬",
+        "enabled": true,
+        "class": "ChatService",
+        "prompt_file": "prompts/psingtek/general.md",
+        "temperature": 0.7,
+        "use_grounding": false,
+        "search_keyword": "",
+        "allowed_domains": "",
+        "loading_message": "處理中",
+        "query_loading_message": "查詢資料中",
+        "mode_message": "",
+        "show_mode_message": false
+      }
+    },
+    "quick_actions": [],
+    "appearance": {
+      "pageTitle": "",
+      "title": "",
+      "subtitle": "",
+      "welcomeMessage": "",
+      "placeholder": "",
+      "header": {
+        "type": "solid",
+        "color": "#000000"
+      },
+      "button": {
+        "type": "solid",
+        "color": "#000000"
+      },
+      "chatIconUrl": "",
+      "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_PSINGTEK_LINE_TOKEN",
+      "channel_secret_env": "TENANT_PSINGTEK_LINE_SECRET"
+    }
   }
 }
