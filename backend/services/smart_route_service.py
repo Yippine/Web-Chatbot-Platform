@@ -51,7 +51,10 @@ class SmartRouteService(BaseGeminiService):
         question = message or end or user_context or ""
         
         use_maps = self._classify_intent(question)
-        effective_lat_lng = lat_lng if (use_maps and lat_lng) else None
+        # 服務設定 fixed_lat_lng 時（例如單一飯店的周邊導覽），一律以該座標為搜尋中心，
+        # 不使用使用者裝置座標（使用者可能不在現場，且沒有座標時模型常不會呼叫地圖）
+        fixed_lat_lng = self.config.get('fixed_lat_lng')
+        effective_lat_lng = (fixed_lat_lng or lat_lng) if use_maps else None
         
         print(f"[{self.service_name}] 意圖分類: {'Maps' if use_maps else 'Search'} | lat_lng: {effective_lat_lng is not None}")
         
@@ -63,6 +66,18 @@ class SmartRouteService(BaseGeminiService):
             lat_lng=effective_lat_lng,
             use_grounding=not use_maps
         )
+        
+        # 地圖模式卻沒有任何地圖來源 = 模型沒呼叫地圖工具、憑記憶作答（可能推薦已歇業的店），重試一次
+        if use_maps and not result.get("references"):
+            print(f"[{self.service_name}] ⚠️ Maps 模式無地圖來源，重試一次")
+            result = self.generate_content(
+                question,
+                user_id=f"{user_id}:retry",
+                response_language=response_language,
+                use_maps=True,
+                lat_lng=effective_lat_lng,
+                use_grounding=False
+            )
         
         return {
             "route": result["text"],

@@ -147,18 +147,20 @@ export function ChatContainer({ tenantId }: ChatContainerProps) {
             }
             
             // 第二步: AI 意圖判斷（UI 翻譯完成後執行）
+            // 任何模式都先判斷意圖：判到具體服務就切過去；判不出來（general）時，
+            // 通用模式維持通用，其他模式則沿用目前模式（視為同一主題的追問）
             let detectedIntent = currentMode;
-            if (currentMode === 'general' && Object.keys(services).length > 0) {
+            if (Object.keys(services).length > 0) {
                 setLoadingText(getTranslation(currentLang, 'loading.analyzing'));
                 setIsProcessing(true);
                 try {
                     const intentResult = await apiClient.detectIntent(content, tenantId);
                     const validServices = Object.keys(services);
-                    detectedIntent = (intentResult?.intent && intentResult.intent !== 'general' && validServices.includes(intentResult.intent))
-                        ? intentResult.intent
-                        : 'general';
+                    if (intentResult?.intent && intentResult.intent !== 'general' && validServices.includes(intentResult.intent)) {
+                        detectedIntent = intentResult.intent;
+                    }
                 } catch {
-                    detectedIntent = 'general';
+                    // 意圖判斷失敗：維持目前模式
                 }
             }
             
