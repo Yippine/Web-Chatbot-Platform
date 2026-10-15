@@ -117,3 +117,6 @@ tmp/
 # --- END AI-CORE MANAGED ---
 
 CLAUDE.md
+
+# AI Core 節流暫存檔
+.ai-core/.h13-throttle.*

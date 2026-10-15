@@ -1015,7 +1015,7 @@
       "textColor": "white"
     },
     "line": {
-      "enabled": false,
+      "enabled": true,
       "intent_routing": true,
       "default_service": "general",
       "channel_access_token_env": "TENANT_SANDAK_LINE_TOKEN",
@@ -1064,7 +1064,7 @@
       "textColor": "white"
     },
     "line": {
-      "enabled": true,
+      "enabled": false,
       "channel_access_token_env": "TENANT_EOA168_LINE_TOKEN",
       "channel_secret_env": "TENANT_EOA168_LINE_SECRET"
     }
@@ -1109,6 +1109,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": true,
+      "channel_access_token_env": "TENANT_OFFICE_EQUIPMENT_LINE_TOKEN",
+      "channel_secret_env": "TENANT_OFFICE_EQUIPMENT_LINE_SECRET"
     }
   },
   "da_fang_car": {
@@ -4877,7 +4882,7 @@
       "textColor": "white"
     },
     "line": {
-      "enabled": true,
+      "enabled": false,
       "channel_access_token_env": "TENANT_URVISION_LINE_TOKEN",
       "channel_secret_env": "TENANT_URVISION_LINE_SECRET"
     }
@@ -4922,6 +4927,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_FUTUREOA_LINE_TOKEN",
+      "channel_secret_env": "TENANT_FUTUREOA_LINE_SECRET"
     }
   },
   "taiwan_oa": {
@@ -4964,6 +4974,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_TAIWAN_OA_LINE_TOKEN",
+      "channel_secret_env": "TENANT_TAIWAN_OA_LINE_SECRET"
     }
   },
   "brother_office": {
@@ -5006,6 +5021,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_BROTHER_OFFICE_LINE_TOKEN",
+      "channel_secret_env": "TENANT_BROTHER_OFFICE_LINE_SECRET"
     }
   },
   "anchor_brake": {
@@ -5048,6 +5068,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": true,
+      "channel_access_token_env": "TENANT_ANCHOR_BRAKE_LINE_TOKEN",
+      "channel_secret_env": "TENANT_ANCHOR_BRAKE_LINE_SECRET"
     }
   },
   "hct_printer": {
@@ -5090,6 +5115,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_HCT_PRINTER_LINE_TOKEN",
+      "channel_secret_env": "TENANT_HCT_PRINTER_LINE_SECRET"
     }
   },
   "jiuhdong": {
@@ -5132,6 +5162,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_JIUHDONG_LINE_TOKEN",
+      "channel_secret_env": "TENANT_JIUHDONG_LINE_SECRET"
     }
   },
   "dgtprintwell": {
@@ -5174,6 +5209,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_DGTPRINTWELL_LINE_TOKEN",
+      "channel_secret_env": "TENANT_DGTPRINTWELL_LINE_SECRET"
     }
   },
   "carmen": {
@@ -5216,6 +5256,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_CARMEN_LINE_TOKEN",
+      "channel_secret_env": "TENANT_CARMEN_LINE_SECRET"
     }
   },
   "jinmiso": {
@@ -5258,6 +5303,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_JINMISO_LINE_TOKEN",
+      "channel_secret_env": "TENANT_JINMISO_LINE_SECRET"
     }
   },
   "kangarootec": {
@@ -5300,6 +5350,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_KANGAROOTEC_LINE_TOKEN",
+      "channel_secret_env": "TENANT_KANGAROOTEC_LINE_SECRET"
     }
   },
   "yuangmo": {
@@ -5342,6 +5397,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_YUANGMO_LINE_TOKEN",
+      "channel_secret_env": "TENANT_YUANGMO_LINE_SECRET"
     }
   },
   "germanwine": {
@@ -5384,6 +5444,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_GERMANWINE_LINE_TOKEN",
+      "channel_secret_env": "TENANT_GERMANWINE_LINE_SECRET"
     }
   },
   "janman": {
@@ -5426,6 +5491,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_JANMAN_LINE_TOKEN",
+      "channel_secret_env": "TENANT_JANMAN_LINE_SECRET"
     }
   },
   "niching": {
@@ -5468,6 +5538,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_NICHING_LINE_TOKEN",
+      "channel_secret_env": "TENANT_NICHING_LINE_SECRET"
     }
   },
   "azbil": {
@@ -5510,6 +5585,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_AZBIL_LINE_TOKEN",
+      "channel_secret_env": "TENANT_AZBIL_LINE_SECRET"
     }
   },
   "donghong": {
@@ -5552,6 +5632,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_DONGHONG_LINE_TOKEN",
+      "channel_secret_env": "TENANT_DONGHONG_LINE_SECRET"
     }
   },
   "slowlifect": {
@@ -5594,6 +5679,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_SLOWLIFECT_LINE_TOKEN",
+      "channel_secret_env": "TENANT_SLOWLIFECT_LINE_SECRET"
     }
   },
   "soonfull": {
@@ -5636,6 +5726,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_SOONFULL_LINE_TOKEN",
+      "channel_secret_env": "TENANT_SOONFULL_LINE_SECRET"
     }
   },
   "ecplus": {
@@ -5678,6 +5773,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_ECPLUS_LINE_TOKEN",
+      "channel_secret_env": "TENANT_ECPLUS_LINE_SECRET"
     }
   },
   "teralink": {
@@ -5720,6 +5820,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_TERALINK_LINE_TOKEN",
+      "channel_secret_env": "TENANT_TERALINK_LINE_SECRET"
     }
   },
   "guanyu_office": {
@@ -5762,6 +5867,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": true,
+      "channel_access_token_env": "TENANT_GUANYU_OFFICE_LINE_TOKEN",
+      "channel_secret_env": "TENANT_GUANYU_OFFICE_LINE_SECRET"
     }
   },
   "hong_shun_car": {
@@ -7402,6 +7512,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_YE_SHENG_LINE_TOKEN",
+      "channel_secret_env": "TENANT_YE_SHENG_LINE_SECRET"
     }
   },
   "plextor_tw": {
@@ -7444,6 +7559,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_PLEXTOR_TW_LINE_TOKEN",
+      "channel_secret_env": "TENANT_PLEXTOR_TW_LINE_SECRET"
     }
   },
   "chuanhsing": {
@@ -7486,6 +7606,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_CHUANHSING_LINE_TOKEN",
+      "channel_secret_env": "TENANT_CHUANHSING_LINE_SECRET"
     }
   },
   "iscesg": {
@@ -7570,6 +7695,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_CHENSHAO_LINE_TOKEN",
+      "channel_secret_env": "TENANT_CHENSHAO_LINE_SECRET"
     }
   },
   "caolytea": {
@@ -7612,6 +7742,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_CAOLYTEA_LINE_TOKEN",
+      "channel_secret_env": "TENANT_CAOLYTEA_LINE_SECRET"
     }
   },
   "multitech": {
@@ -7654,6 +7789,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_MULTITECH_LINE_TOKEN",
+      "channel_secret_env": "TENANT_MULTITECH_LINE_SECRET"
     }
   },
   "dafeng": {
@@ -7696,6 +7836,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_DAFENG_LINE_TOKEN",
+      "channel_secret_env": "TENANT_DAFENG_LINE_SECRET"
     }
   },
   "longnewtech": {
@@ -7738,6 +7883,11 @@
       },
       "chatIconUrl": "",
       "textColor": "white"
+    },
+    "line": {
+      "enabled": false,
+      "channel_access_token_env": "TENANT_LONGNEWTECH_LINE_TOKEN",
+      "channel_secret_env": "TENANT_LONGNEWTECH_LINE_SECRET"
     }
   },
   "kuanchengturf": {
